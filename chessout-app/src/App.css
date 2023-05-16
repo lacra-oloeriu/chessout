@@ -1,0 +1,22 @@
+.topbar  {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #64533960;
+  padding: 10px;
+}
+
+button {
+  background-color: transparent;
+  border:none;
+  cursor:poiter;
+  font-size: 18px;
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+
