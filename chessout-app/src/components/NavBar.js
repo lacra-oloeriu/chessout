@@ -14,7 +14,7 @@ const Navbar = (props) => {
       align="center"
       justify="space-between"
       wrap="wrap"
-      padding="1.5rem"
+      padding="0.3rem"
       bg="gray.900"
       color="teal.300"
       borderBottom="1px solid black"
