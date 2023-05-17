@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
+    "@chakra-ui/theme": "^3.1.1",
     "@emotion/core": "^10.3.1",
     "@emotion/styled": "^10.3.0",
     "@testing-library/jest-dom": "^5.16.5",
