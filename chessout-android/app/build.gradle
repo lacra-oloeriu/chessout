@@ -14,8 +14,8 @@ android {
         applicationId "eu.chessout.v2"
         minSdkVersion 19
         targetSdkVersion 32
-        versionCode 39 // build version that you see in google pay console
-        versionName "1.39" // specific unique build still relevant for google play console
+        versionCode 40 // build version that you see in google pay console
+        versionName "1.40" // specific unique build still relevant for google play console
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
