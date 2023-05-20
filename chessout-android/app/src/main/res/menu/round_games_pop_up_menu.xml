@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/allGames"
+            android:title="Show all games" />
+        <item
+            android:id="@+id/notDecidedGames"
+            android:title="Show only not completed games" />
+        <item
+            android:id="@+id/completedGames"
+            android:title="Show only completed games" />
+    </group>
+
+</menu>
