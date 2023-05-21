@@ -4,11 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
 import eu.chessdata.chesspairing.importexport.Swar
-import eu.chessdata.chesspairing.model.*
+import eu.chessdata.chesspairing.model.ChesspairingGame
+import eu.chessdata.chesspairing.model.ChesspairingPlayer
+import eu.chessdata.chesspairing.model.ChesspairingResult
+import eu.chessdata.chesspairing.model.ChesspairingRound
+import eu.chessdata.chesspairing.model.ChesspairingTournament
 import eu.chessout.shared.Constants
 import eu.chessout.shared.model.Game
 import eu.chessout.shared.model.Player
 import eu.chessout.shared.model.Post
+import eu.chessout.shared.model.Tournament
 import eu.chessout.v2.util.MyBackendUtil
 import eu.chessout.v2.util.MyFirebaseUtils
 import kotlinx.coroutines.GlobalScope
@@ -34,8 +39,18 @@ class RoundPagerViewModel : ViewModel() {
 
         }
 
+        class MyTournamentListener(
+            val mutableTournamentName: MutableLiveData<String>
+        ) : MyFirebaseUtils.TournamentListener {
+            override fun onTournamentValue(tournament: Tournament) {
+                mutableTournamentName.value = tournament.name
+            }
+
+        }
+
     }
 
+    val mutableTournamentName = MutableLiveData<String>()
     val position = MutableLiveData<Int>()
     val visibleRoundsCount = MutableLiveData(1)
     val myFirebaseUtils = MyFirebaseUtils()
@@ -66,6 +81,7 @@ class RoundPagerViewModel : ViewModel() {
             roundGamesMap[i] = listOf();
             initiateRoundHasGamesListener(i, hasGamesMap)
             initiateRoundGamesListener(i, roundGamesMap)
+            initiateTournamentListener()
         }
 
         class MyListener : MyFirebaseUtils.LongListener {
@@ -103,6 +119,16 @@ class RoundPagerViewModel : ViewModel() {
             tournamentId,
             roundId,
             listener
+        )
+    }
+
+    fun initiateTournamentListener() {
+        val tournamentListener = MyTournamentListener(mutableTournamentName)
+        myFirebaseUtils.registerTournamentListener(
+            false,
+            clubId,
+            tournamentId,
+            tournamentListener
         )
     }
 

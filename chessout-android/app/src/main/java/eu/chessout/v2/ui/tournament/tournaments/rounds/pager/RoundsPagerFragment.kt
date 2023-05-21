@@ -6,7 +6,12 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -22,13 +27,13 @@ import eu.chessout.v2.R
 import eu.chessout.v2.ui.tournament.tournaments.rounds.players.RoundAddAbsentPlayersDialog
 import eu.chessout.v2.ui.tournament.tournaments.rounds.players.RoundDeleteGamesDialog
 import eu.chessout.v2.ui.tournament.tournaments.rounds.state.RoundStateFragment
-import kotlinx.android.synthetic.main.rounds_pager_fragment.*
+import kotlinx.android.synthetic.main.rounds_pager_fragment.roundsPager
 import java.io.BufferedReader
+import java.io.File
 import java.io.FileInputStream
-import java.io.*
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.HashMap
+import java.util.Date
 
 
 const val ROUNDS_PAGER_OPEN_FILE = 1007
@@ -181,16 +186,19 @@ class RoundsPagerFragment : Fragment() {
 
     private fun exportRoundResultsToSwar() {
 
-        val gameList = viewModel.roundGamesMap[viewModel.position.value]
+        val roundValue = 1 + viewModel.position.value!!
+
+        val gameList = viewModel.roundGamesMap[roundValue]
 
         val sb = java.lang.StringBuilder()
-        val rondVal = 1 + viewModel.position.value!!
-        sb.append("Ronde, $rondVal\n")
+        sb.append("[RESULTATS]\n[RONDE] $roundValue\n\n")
 
         val date = Date();
         val dateFormatter = SimpleDateFormat("dd/MM/YYYY")
         val formattedDate = dateFormatter.format(date);
-        sb.append("Date, $formattedDate\n[Resultats]\n")
+        val tournamentName = viewModel.mutableTournamentName.value;
+        sb.append("//Tournament: $tournamentName\n")
+        sb.append("//Date: $formattedDate\n\n")
 
         gameList?.forEach { game ->
             run {
@@ -205,7 +213,7 @@ class RoundsPagerFragment : Fragment() {
         val exportBytes = sb.toString();
         val downloads =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val fileName = "ChessoutToSwarExport.txt";
+        val fileName = "ChessoutToSwarExport$tournamentName-Round-$roundValue.csv";
         File(downloads, fileName).writeText(exportBytes);
         Toast.makeText(
             requireContext(),
@@ -286,13 +294,13 @@ class RoundsPagerFragment : Fragment() {
          */
         when (game.result) {
             // 0 -> return "" //not decided
-            1 -> return "1-0" //white player wins
-            2 -> return "0-1" //black player wins
-            3 -> return "5-5" //draw game
+            1 -> return "1;0" //white player wins
+            2 -> return "0;1" //black player wins
+            3 -> return "5;5" //draw game
             4 -> return null //bye and swar does not support by
-            5 -> return "1ff-0" // white wins by forfeit
-            6 -> return "0-1ff" // black wins by forfeit
-            7 -> return "0ff-0ff" // double forfeit
+            5 -> return "1ff;0" // white wins by forfeit
+            6 -> return "0;1ff" // black wins by forfeit
+            7 -> return "5ff;5ff" // double forfeit
         }
         throw java.lang.IllegalStateException("Not supported result ${game.result}")
     }
