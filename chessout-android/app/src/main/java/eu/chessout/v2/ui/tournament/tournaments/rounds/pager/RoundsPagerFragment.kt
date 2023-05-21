@@ -205,7 +205,7 @@ class RoundsPagerFragment : Fragment() {
                 if (game.result != 0 || game.result != 4) {
                     val swarResult = convertGameResultToSwarCsvResult(game)
                     swarResult?.let {
-                        sb.append("${game.actualNumber}, $swarResult\n")
+                        sb.append("${game.actualNumber};$swarResult\n")
                     }
                 }
             }
