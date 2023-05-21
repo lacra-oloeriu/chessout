@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/exportPlayersToSwarCsv"
+        android:title="Export players list to Swar csv" />
+    <item
+        android:id="@+id/importPlayersFromSwarJson"
+        android:title="Import players from Swar json" />
+</menu>

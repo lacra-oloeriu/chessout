@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.club.clubdashboard.ClubDashboardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBackground"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/red_gradient_01"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-30dp">
+
+        <ImageView
+            android:id="@+id/clubPicture"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_user_alt_solid_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/playerRing"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/avatar_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/clubPicture"
+            app:layout_constraintEnd_toEndOf="@+id/clubPicture"
+            app:layout_constraintStart_toStartOf="@+id/clubPicture"
+            app:layout_constraintTop_toTopOf="@+id/clubPicture" />
+
+
+        <TextView
+            android:id="@+id/clubName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="Club name"
+            android:textColor="@color/ic_launcher_background"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/clubPicture"
+            app:layout_constraintTop_toTopOf="@+id/clubPicture" />
+
+        <TextView
+            android:id="@+id/clubShortName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="Short name"
+            android:textColor="@color/ic_launcher_background"
+            app:layout_constraintStart_toEndOf="@+id/clubPicture"
+            app:layout_constraintTop_toBottomOf="@+id/clubName" />
+
+        <TextView
+            android:id="@+id/clubCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="No country"
+            android:textColor="@color/ic_launcher_background"
+            app:layout_constraintStart_toEndOf="@+id/clubPicture"
+            app:layout_constraintTop_toBottomOf="@+id/clubShortName" />
+
+        <TextView
+            android:id="@+id/clubCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="No city"
+            android:textColor="@color/ic_launcher_background"
+            app:layout_constraintStart_toEndOf="@+id/clubPicture"
+            app:layout_constraintTop_toBottomOf="@+id/clubCountry" />
+
+        <TextView
+            android:id="@+id/clubEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="No email"
+            android:textColor="@color/ic_launcher_background"
+            app:layout_constraintStart_toEndOf="@+id/clubPicture"
+            app:layout_constraintTop_toBottomOf="@+id/clubCity" />
+
+        <TextView
+            android:id="@+id/clubDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="12dp"
+            android:text="No description"
+            android:textColor="@color/ic_launcher_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clubPicture"
+            app:layout_constraintTop_toBottomOf="@+id/clubEmail" />
+
+        <RelativeLayout
+            android:id="@+id/defaultClubHeaderCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/playerRing"
+            app:layout_constraintStart_toStartOf="@id/playerRing"
+            app:layout_constraintTop_toBottomOf="@+id/playerRing">
+
+            <ImageView
+                android:id="@+id/defaultClubHeaderImage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_check_solid"
+                android:tint="@color/ic_launcher_background" />
+
+            <TextView
+                android:id="@+id/defaultClubHeaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="4dp"
+                android:layout_toEndOf="@+id/defaultClubHeaderImage"
+                android:text="default club"
+                android:textColor="@color/ic_launcher_background" />
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/updateClubPicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/topBackground">
+
+                <ImageView
+                    android:id="@+id/clubImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    app:srcCompat="@drawable/chess_king_and_rook_v1" />
+
+
+                <TextView
+                    android:id="@+id/profileText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/clubImage"
+                    android:text="Update club picture"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/updateInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/updateClubPicture">
+
+                <ImageView
+                    android:id="@+id/infoImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_info_circle_solid" />
+
+                <TextView
+                    android:id="@+id/infoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/infoImage"
+                    android:text="Update club info"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/followersCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/followersImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    app:srcCompat="@drawable/ic_user_friends_solid" />
+
+                <TextView
+                    android:id="@+id/followersText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/followersImage"
+                    android:text="Club followers"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/qrCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/updateInfo">
+
+                <ImageView
+                    android:id="@+id/qrImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_qrcode_solid" />
+
+                <TextView
+                    android:id="@+id/qrText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/qrImage"
+                    android:text="Show qr code"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/makeDefaultCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/qrCard">
+
+                <ImageView
+                    android:id="@+id/makeDefaultImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_check_solid" />
+
+                <TextView
+                    android:id="@+id/makeDefaultText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/makeDefaultImage"
+                    android:text="Set as default club"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="409dp"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/makeDefaultCard" />
+
+            <TextView
+                android:id="@+id/settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+            <RelativeLayout
+                android:id="@+id/showPosts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/settings_item_background"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/settings">
+
+                <TextView
+                    android:id="@+id/showPostsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Show posts"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/showPostsDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/showPostsTitle"
+                    android:layout_alignStart="@+id/showPostsTitle"
+
+                    android:text="Show new posts created by this club in the home screen"
+                    android:textSize="10sp" />
+
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="1dp"
+                    android:layout_height="10dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Switch
+                    android:id="@+id/showPostsSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/showPostsDescription"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.playerdashboard.PlayerDashboardFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBackground"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/red_gradient_01"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-30dp">
+
+        <ImageView
+            android:id="@+id/playerProfilePicture"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/ic_user_alt_solid_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/playerRing"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/avatar_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/playerProfilePicture"
+            app:layout_constraintEnd_toEndOf="@+id/playerProfilePicture"
+            app:layout_constraintStart_toStartOf="@+id/playerProfilePicture"
+            app:layout_constraintTop_toTopOf="@+id/playerProfilePicture" />
+
+        <TextView
+            android:id="@+id/activeState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Archived"
+            android:textColor="@color/ic_launcher_background"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/playerProfilePicture"
+            app:layout_constraintStart_toStartOf="@+id/playerProfilePicture"
+            app:layout_constraintTop_toBottomOf="@+id/playerProfilePicture" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="Player full name"
+            android:textColor="@color/ic_launcher_background"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/playerRing"
+            app:layout_constraintTop_toTopOf="@+id/playerProfilePicture" />
+
+        <TextView
+            android:id="@+id/elo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="(elo)"
+            android:textColor="@color/ic_launcher_background"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/playerRing"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/updateProfilePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBackground">
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_user_circle_solid" />
+
+
+        <TextView
+            android:id="@+id/profileText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/profileImage"
+            android:text="Update profile picture"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/updateInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updateProfilePicture">
+
+        <ImageView
+            android:id="@+id/infoImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_info_circle_solid" />
+
+        <TextView
+            android:id="@+id/infoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/infoImage"
+            android:text="Update member info"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/archivePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updateInfo">
+
+        <ImageView
+            android:id="@+id/archiveImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_archive_solid" />
+
+        <TextView
+            android:id="@+id/archiveText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/archiveImage"
+            android:text="Archive member"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/activatePlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/archivePlayer">
+
+        <ImageView
+            android:id="@+id/activateImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_arrow_alt_circle_up_solid" />
+
+        <TextView
+            android:id="@+id/activateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/activateImage"
+            android:text="Activate member"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="409dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activatePlayer" />
+
+    <TextView
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.50"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+    <RelativeLayout
+        android:id="@+id/sendNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings"
+        android:background="@drawable/settings_item_background">
+
+        <TextView
+            android:id="@+id/sendNotificationsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send notifications"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/sendNotificationsDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sendNotificationsTitle"
+            android:layout_alignStart="@+id/sendNotificationsTitle"
+
+            android:text="You wil receive notifications for this specific player"
+            android:textSize="10sp" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="?android:attr/listDivider" />
+
+        <Switch
+            android:id="@+id/sendNotificationsSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/sendNotificationsDescription"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

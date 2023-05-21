@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.tournament.tournaments.standings.state.StandingStateFragment">
+
+
+    <TextView
+        android:id="@+id/roundNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/ranking"
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="Rk"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundNumber" />
+
+    <TextView
+        android:id="@+id/startingNumber"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="SNo"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/ranking"
+        app:layout_constraintTop_toBottomOf="@+id/roundNumber" />
+
+
+    <TextView
+        android:id="@+id/playerName"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="Player "
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/elo"
+        app:layout_constraintStart_toEndOf="@+id/startingNumber"
+        app:layout_constraintTop_toBottomOf="@+id/roundNumber" />
+
+    <TextView
+        android:id="@+id/elo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="Raiting"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/tournamentPoints"
+        app:layout_constraintTop_toBottomOf="@+id/roundNumber" />
+
+    <TextView
+        android:id="@+id/tournamentPoints"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="Points"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/buchholzPoints"
+        app:layout_constraintTop_toBottomOf="@+id/roundNumber" />
+
+    <TextView
+        android:id="@+id/buchholzPoints"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="Buchholz points"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundNumber" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ranking" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

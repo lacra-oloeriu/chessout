@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addAbsentPlayers"
+        android:title="Add absent players" />
+    <item
+        android:id="@+id/importRoundGamesFromSwar"
+        android:title="Import round games from Swar" />
+    <item
+        android:id="@+id/deleteGames"
+        android:title="Remove all games" />
+    <item
+        android:id="@+id/exportRoundResultsToSwar"
+        android:title="Export round results to Swar"/>
+</menu>

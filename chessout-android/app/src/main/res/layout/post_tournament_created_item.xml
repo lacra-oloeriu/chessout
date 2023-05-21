@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+
+    <ImageView
+        android:id="@+id/avatarImage"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_user_circle_regular_themed" />
+
+    <ImageView
+        android:id="@+id/avatarCircle"
+
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/avatarImage"
+
+        app:layout_constraintEnd_toEndOf="@+id/avatarImage"
+        app:layout_constraintStart_toStartOf="@+id/avatarImage"
+
+        app:layout_constraintTop_toTopOf="@+id/avatarImage"
+        app:srcCompat="@drawable/post_avatar_circle" />
+
+    <TextView
+        android:id="@+id/avatarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jhon Chess"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarCircle"
+        app:layout_constraintStart_toEndOf="@+id/avatarCircle"
+        app:layout_constraintTop_toTopOf="@+id/avatarCircle" />
+
+    <ImageView
+        android:id="@+id/optionsImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/avatarText"
+        app:srcCompat="@drawable/ic_more_vert_24px" />
+
+    <TextView
+        android:id="@+id/postTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New tournament created"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/avatarImage"
+        app:layout_constraintTop_toBottomOf="@+id/avatarImage" />
+
+
+    <ImageView
+        android:id="@+id/likesImage"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sectionName"
+        app:srcCompat="@drawable/ic_heart_regular" />
+
+    <TextView
+        android:id="@+id/likesText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/likesImage"
+        app:layout_constraintStart_toStartOf="@+id/likesImage"
+        app:layout_constraintTop_toBottomOf="@+id/likesImage" />
+
+    <ImageView
+        android:id="@+id/commentsImage"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/likesImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/likesImage"
+        app:srcCompat="@drawable/ic_comment_dots_regular" />
+
+    <TextView
+        android:id="@+id/commentsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentsImage" />
+
+    <View
+        android:id="@+id/dividerEndOfPost"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="?android:attr/listDivider"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/likesText"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:visibility="visible" />
+
+
+    <View
+        android:id="@+id/divider_a"
+        android:layout_width="1dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:background="?android:attr/listDivider"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/sectionName"
+        app:layout_constraintStart_toEndOf="@+id/sectionName"
+        app:layout_constraintTop_toTopOf="@+id/sectionName"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/divider_b"
+        android:layout_width="1dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:background="?android:attr/listDivider"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/sectionName"
+        app:layout_constraintStart_toEndOf="@+id/sectionLocation"
+        app:layout_constraintTop_toTopOf="@+id/sectionName"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sectionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postTitle">
+
+        <TextView
+            android:id="@+id/labelName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tournamentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Tournament name"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/labelName"
+            app:layout_constraintTop_toBottomOf="@id/labelName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sectionLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/divider_a"
+        app:layout_constraintTop_toTopOf="@+id/sectionName">
+
+        <TextView
+            android:id="@+id/labelLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tournamentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Iasi"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/labelLocation"
+            app:layout_constraintTop_toBottomOf="@id/labelLocation" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/playersSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/divider_b"
+        app:layout_constraintTop_toTopOf="@+id/sectionName">
+
+        <TextView
+            android:id="@+id/labelPlayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registered players"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/playersCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Iasi"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/labelPlayers"
+            app:layout_constraintTop_toBottomOf="@id/labelPlayers" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

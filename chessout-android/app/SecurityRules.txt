@@ -1,0 +1,102 @@
+{
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    "clubManagers":{
+      ".read": true,
+      ".write": true
+    },
+    "clubPlayers":{
+      ".read": true,
+      "$clubId":{
+          // only club managers can edit data
+        ".write":"root.child('clubManagers/'+ $clubId +'/'+auth.uid).exists()"
+      }
+    },
+    "clubs":{
+      ".read": true,
+      ".write": true
+    },
+     "globalFollowers":{
+      ".read": true,
+      ".write": true
+    },
+     "media":{
+      ".read": true,
+      ".write": true
+    },
+     "tournamentInitialOrder":{
+      ".read": true,
+      ".write": true
+    },
+     "tournamentPlayers":{
+      ".read": true,
+      ".write": true
+    } ,
+       "tournamentRounds":{
+      ".read": true,
+      ".write": true
+    },
+     "tournaments":{
+      ".read": true,
+      ".write": true
+    },
+      "userSettings":{
+      ".read": true,
+      ".write": true
+    },
+      "users":{
+      ".read": true,
+      ".write": true
+    },
+      "clubPosts":{
+        "$clubId":{
+          "postItems":{
+            ".read":true,
+            "$postId":{
+               ".read":true,
+              //only allow posts to be crated end deleted only by ouwner
+              ".write": "(data.exists()&& !newData.exists() && data.child('userId').val() === auth.uid) || (!data.exists() && newData.child('userId').val() === auth.uid ) ",
+                // allow to update specific reverse order
+              "reversedDateCreated":{
+                ".write":true
+              },
+                // allow to update specific picture
+                "pictures":{
+                  ".write":true
+                }
+          		}
+            },
+
+          "postLikes":{
+              "$postId":{
+                ".read":true,
+                "$userId":{
+                  ".write":"$userId === auth.uid"
+               }
+             }
+          }
+      	}
+      },
+    "clubPostPictures":{
+      ".read": true,
+      ".write": true
+    },
+      "userPublicInfo":{
+        "$userId":{
+          // public read
+          ".read": true,
+          // grants write access to the owner of this user account
+        	// whose uid must exactly match the key ($user_id)
+          ".write":"$userId === auth.uid"
+        }
+      },
+      "clubUsersSettings":{
+        "$clubId":{
+          "$userId":{
+          ".read":"$userId === auth.uid",
+          ".write":"$userId === auth.uid"
+        	}
+        }
+      }
+  }
+}
