@@ -1,18 +1,18 @@
 import { Fragment } from "react";
-import chessImage from "../assets/chess-out.JPG";
+import LogoImage from "../assets/ImageLogo.png";
 import classes from "./Header.module.css";
 
 const Header = (props) => {
   return (
     <Fragment>
       <header className={classes.header}>
-        <button>Home</button>
-        <button>About</button>
+        <button>Chessout</button>
+        <div className={classes["main-image"]}>
+          <img src={LogoImage} />
+        </div>
+        <button>Team</button>
+        <button>Login</button>
       </header>
-      <h1>Lets play chess out!</h1>
-      <div className={classes["main-image"]}>
-        <img src={chessImage} alt="Chess out" />
-      </div>
     </Fragment>
   );
 };

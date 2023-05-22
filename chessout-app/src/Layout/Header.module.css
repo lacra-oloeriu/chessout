@@ -1,29 +1,48 @@
 .header {
-    position: fixed;
-    top: 0;
-    left: 2;
-    width: 85%;
-    height: 2rem;
-    background-color: #dd5b34;
-    color: #424441;
-    display: flex;
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    right: 0;
+    width: 1440px;
+    height: 84px;
+    background: rgba(217, 217, 217, 0.f9);
+    background-color: #d9d9d9;
     justify-content: space-between;
+    display: flex;
     align-items: center;
-    padding: 0 10%;
+    padding: 0 ;
+    margin: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     z-index: 10;
+    
   }
+
+  .button {
+    width: 1440px;
+    left: px;
+    height: 84px;
+
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+ 
+
+  
   
   .main-image {
-    width: 110%;
-    height: 55rem;
-    z-index: 0;
-    overflow: hidden;
+    position:absolute;
+    width: 75px;
+    height: 64px;
+    left:188px;
+    top:10px;
+    background-color: transparent;
+    
+   
   }
-  
-  .main-image img {
-    width: 110%;
-    height: 200%;
-    object-fit: cover;
-    transform: rotateZ(-5deg) translateY(-4rem) translateX(-1rem);
-  }
+ 

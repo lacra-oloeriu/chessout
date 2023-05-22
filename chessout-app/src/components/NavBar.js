@@ -39,9 +39,9 @@ const Navbar = (props) => {
         flexGrow={1}
         color={colorMode === "light" ? "teal.300" : "white"}
       >
-        <MenuItems>Home</MenuItems>
-        <MenuItems>About</MenuItems>
-        <MenuItems>Contact</MenuItems>
+        
+        <MenuItems>Team</MenuItems>
+        <MenuItems>Login</MenuItems>
       </Box>
       <Box  
                 display="block"  
@@ -52,7 +52,8 @@ const Navbar = (props) => {
                     aria-label="toggle color mode"  
                     icon={colorMode === "light" ? "moon" : "sun"}  
                     onClick={toggleColorMode}  
-                    color="white"  
+                    color="white"
+                 
                 />  
             </Box>  
     </Flex>
