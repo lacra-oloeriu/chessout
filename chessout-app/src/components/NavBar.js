@@ -6,7 +6,7 @@ import {
   Link,
   useColorMode,
   IconButton,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 //import { Image } from "@chakra-ui/react";
 
 const MenuItems = ({ children }) => (
