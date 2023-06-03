@@ -1,5 +1,6 @@
 import { Fragment } from "react";
-import LogoImage from "../assets/ImageLogo.png";
+//import ImageLogo from './assets/ImageLogo'
+
 import classes from "./Header.module.css";
 
 const Header = (props) => {
@@ -8,7 +9,7 @@ const Header = (props) => {
       <header className={classes.header}>
         <button>Chessout</button>
         <div className={classes["main-image"]}>
-          <img src={LogoImage} />
+         
         </div>
         <button>Team</button>
         <button>Login</button>
