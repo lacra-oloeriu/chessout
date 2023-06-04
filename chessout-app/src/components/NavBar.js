@@ -40,9 +40,22 @@ const Navbar = (props) => {
           <IconButton
             colorScheme="#343438"
             aria-label="Call Segun"
-            size="lg"
-            background="#343438"
-            icon={<img src={ImageLogo} />}
+            size="md"
+            background="#chakra-placeholder-color._dark"
+            
+            icon={
+              <img
+                src={ImageLogo}
+                 width="75px"
+                height="64px"
+                position="absolute"
+                left="0%"
+                right="70.24%"
+                top="0%"
+                bottom="0%"
+                
+              />
+            }
           />
           Chessout
         </Heading>
