@@ -2,18 +2,9 @@
     position:absolute;
     top: 0px;
     left: 0px;
-    right: 0;
-    width: 1440px;
-    height: 84px;
-    background: rgba(217, 217, 217, 0.f9);
-    background-color: #d9d9d9;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-    padding: 0 ;
-    margin: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-    z-index: 10;
+    right: 70.24%;
+    bottom:0%;
+    
     
   }
 

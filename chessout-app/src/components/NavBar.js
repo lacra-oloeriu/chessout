@@ -8,6 +8,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 //import { Image } from "@chakra-ui/react";
+import ImageLogo from "../assets/ImageLogo.png";
 
 const MenuItems = ({ children }) => (
   <Link mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -26,7 +27,8 @@ const Navbar = (props) => {
       justify="space-between"
       wrap="wrap"
       padding="0.3rem"
-      bg={ //{...props} //borderBottom="1px solid black" //color="teal.300"
+      bg={
+        //{...props} //borderBottom="1px solid black" //color="teal.300"
         colorMode === "light" ? "gray.900" : "teal.500"
       }
       color={colorMode === "light" ? "teal.300" : "white"}
@@ -35,6 +37,13 @@ const Navbar = (props) => {
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
+          <IconButton
+            colorScheme="#343438"
+            aria-label="Call Segun"
+            size="lg"
+            background="#343438"
+            icon={<img src={ImageLogo} />}
+          />
           Chessout
         </Heading>
       </Flex>
