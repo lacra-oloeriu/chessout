@@ -46,7 +46,7 @@ const Navbar = (props) => {
             icon={
               <img
                 src={ImageLogo}
-                 width="75px"
+                width="75px"
                 height="64px"
                 position="absolute"
                 left="0%"
