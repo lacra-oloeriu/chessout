@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import ImageLogo from "../assets/ImageLogo.png";
+//import ImageLogo from "../assets/ImageLogo.png";
 
 import classes from "./Header.module.css";
 
@@ -11,7 +11,7 @@ const Header = (props) => {
           <button>Chessout</button>
         </div>
         <div>
-          <img src={ImageLogo} />
+        
         </div>
         <div>
           <button className={classes.button}>Team</button>
