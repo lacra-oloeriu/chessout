@@ -7,25 +7,7 @@
     
     
   }
-
-  .button {
-    width: 1440px;
-    left: px;
-    height: 84px;
-
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-  }
  
-
-  
-  
   .main-image {
     position:absolute;
     width: 75px;
@@ -36,4 +18,13 @@
     
    
   }
+
+  .button {
+    top: 10px;
+    width: 336%;
+    background: rgb(255, 115, 0); /* Green */
+    display: inline-block;
+    text-align: right;
+  }
+ 
  
