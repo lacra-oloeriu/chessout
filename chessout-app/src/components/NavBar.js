@@ -8,12 +8,13 @@ import {
   useColorMode,
   IconButton,
 } from "@chakra-ui/react";
+//import { useColorModeColorMode } from "@chakra-ui/core";
 //import ImageLogo from "../assets/ImageLogo.png";
 
 const Navbar = (props) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = { light: "gray.200", dark: "gray.700" };
-  const textColor = { light: "gray.800", dark: "gray.700" };
+  //const textColor = { light: "gray.800", dark: "gray.700" };
   return (
     <Flex
       minWidth="max-content"
@@ -31,12 +32,13 @@ const Navbar = (props) => {
       </ButtonGroup>
 
       <IconButton
-        //bg="transparent"
-        //aria-label="toggle color mode"
+        bg="transparent"
+        aria-label="toggle color mode"
         onClick={toggleColorMode}
         icon={colorMode === "light" ? "moon" : "sun"}
-        color={textColor[colorMode]}
-        bg={bgColor[colorMode]}
+        //color={textColor[colorMode]}
+        //bg={bgColor[colorMode]}
+        color='white'
       />
     </Flex>
   );

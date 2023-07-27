@@ -1,14 +1,14 @@
 import React from "react";
-import { Fragment } from "react";
-//import Header from "./Layout/Header";
+//import { Fragment } from "react";
+
 import NavBar from "./components/NavBar";
-//import Header from "./Layout/Header";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   return (
-    <Fragment>
-     <NavBar />
-    </Fragment>
+    <ChakraProvider>
+      <NavBar />
+    </ChakraProvider>
   );
 }
 
