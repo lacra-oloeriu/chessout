@@ -35,7 +35,7 @@ const Navbar = (props) => {
         bg="transparent"
         aria-label="toggle color mode"
         onClick={toggleColorMode}
-        icon={colorMode === "light" ? "moon" : "sun"}
+        
         //color={textColor[colorMode]}
         //bg={bgColor[colorMode]}
         color='white'
