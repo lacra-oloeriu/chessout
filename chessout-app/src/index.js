@@ -24,7 +24,7 @@ import ReactDOM from 'react-dom';
 import './index.css';  
 import App from './App';  
 //import * as serviceWorker from './serviceWorker';  
-import { theme, ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/core";  
+import { theme, ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/react";  
   
   
 ReactDOM.render(  
