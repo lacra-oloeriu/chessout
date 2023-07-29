@@ -7,7 +7,9 @@ import {
   Spacer,
   useColorMode,
   IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 //import { useColorModeColorMode } from "@chakra-ui/core";
 //import ImageLogo from "../assets/ImageLogo.png";
 
@@ -30,16 +32,9 @@ const Navbar = (props) => {
         <Button bg={bgColor[colorMode]}>Team </Button>
         <Button bg={bgColor[colorMode]}>Login</Button>
       </ButtonGroup>
-
-      <IconButton
-        bg="transparent"
-        aria-label="toggle color mode"
-        onClick={toggleColorMode}
-        
-        //color={textColor[colorMode]}
-        //bg={bgColor[colorMode]}
-        color='white'
-      />
+      <Tooltip label='Toggle Dark Mode'>
+        <IconButton aria-label='Toggle light dark mode' onClick={toggleColorMode} icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}/>
+      </Tooltip>
     </Flex>
   );
 };
