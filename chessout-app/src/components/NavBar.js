@@ -8,10 +8,11 @@ import {
   useColorMode,
   IconButton,
   Tooltip,
+  Image,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 //import { useColorModeColorMode } from "@chakra-ui/core";
-//import ImageLogo from "../assets/ImageLogo.png";
+import ImageLogo from "../assets/ImageLogo.png";
 
 const Navbar = (props) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -24,6 +25,9 @@ const Navbar = (props) => {
       gap="2"
       bg={bgColor[colorMode]}
     >
+      <Box boxSize='55px'>
+        <Image src={ImageLogo} alt="Logo" />
+      </Box>
       <Box p="2">
         <Button bg={bgColor[colorMode]}>ChessOut</Button>
       </Box>
