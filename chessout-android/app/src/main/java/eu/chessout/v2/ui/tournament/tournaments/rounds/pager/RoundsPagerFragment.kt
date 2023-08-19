@@ -191,7 +191,7 @@ class RoundsPagerFragment : Fragment() {
         val gameList = viewModel.roundGamesMap[roundValue]
 
         val sb = java.lang.StringBuilder()
-        sb.append("[RESULTATS]\n[RONDE] $roundValue\n\n")
+        sb.append("[RESULTATS]\n[ROUND] $roundValue\n\n")
 
         val date = Date();
         val dateFormatter = SimpleDateFormat("dd/MM/YYYY")
