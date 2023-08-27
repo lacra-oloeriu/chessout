@@ -213,7 +213,8 @@ class RoundsPagerFragment : Fragment() {
         val exportBytes = sb.toString();
         val downloads =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val fileName = "ChessoutToSwarExport$tournamentName-Round-$roundValue.csv";
+
+        val fileName = "Results-$tournamentName-Round-$roundValue.csv";
         File(downloads, fileName).writeText(exportBytes);
         Toast.makeText(
             requireContext(),
@@ -300,7 +301,8 @@ class RoundsPagerFragment : Fragment() {
             4 -> return null //bye and swar does not support by
             5 -> return "1ff;0" // white wins by forfeit
             6 -> return "0;1ff" // black wins by forfeit
-            7 -> return "5ff;5ff" // double forfeit
+            7 -> return "0ff;0ff" // double forfeit
+            8 -> return "5ff;5ff" // draw decided by referee
         }
         throw java.lang.IllegalStateException("Not supported result ${game.result}")
     }

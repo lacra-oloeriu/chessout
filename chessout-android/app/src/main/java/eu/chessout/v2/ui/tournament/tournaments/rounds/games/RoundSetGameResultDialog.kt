@@ -43,6 +43,7 @@ class RoundSetGameResultDialog(
         // please see also MyFirebaseUtils convertChesspairingResultToIntGameResult
         // it works together with convertResult
         // and for display RoundGamesAdapter format result
+        // also important to be used by RoundsPagerFragemnt.convertGameResultToSwarCsvResult(game)
         /**
          * NOT_DECIDED -> 0
          * WHITE_WINS -> 1
