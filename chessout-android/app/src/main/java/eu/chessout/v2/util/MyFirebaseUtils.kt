@@ -1315,6 +1315,7 @@ class MyFirebaseUtils {
             5 -> return ChesspairingResult.WHITE_WINS_BY_FORFEIT
             6 -> return ChesspairingResult.BLACK_WINS_BY_FORFEIT
             7 -> return ChesspairingResult.DOUBLE_FORFEIT
+            8 -> return ChesspairingResult.DRAW_REFEREE_DECISION
         }
         throw IllegalStateException("New result type. please convert: $result")
     }
@@ -1407,6 +1408,7 @@ class MyFirebaseUtils {
             ChesspairingResult.WHITE_WINS_BY_FORFEIT -> 5
             ChesspairingResult.BLACK_WINS_BY_FORFEIT -> 6
             ChesspairingResult.DOUBLE_FORFEIT -> 7
+            ChesspairingResult.DRAW_REFEREE_DECISION -> 8
         }
     }
 

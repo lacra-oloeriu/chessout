@@ -164,9 +164,10 @@ class RoundGamesAdapter(val gameList: MutableList<Game>) :
             2 -> format = "0-1"
             3 -> format = "1/2-1/2"
             4 -> format = "1(Bye)"
-            5 -> format = "1k-0"
-            6 -> format = "0-1k"
-            7 -> format = "0k-0k"
+            5 -> format = "1ff-0"
+            6 -> format = "0-1ff"
+            7 -> format = "0ff-0ff"
+            8 -> format = "1/2ff-1/2ff"
         }
         return format
     }
