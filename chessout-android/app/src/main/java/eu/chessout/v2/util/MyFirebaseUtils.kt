@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -1335,6 +1336,8 @@ class MyFirebaseUtils {
 
         var tournament: ChesspairingTournament =
             buildChessPairingTournament(clubKey, tournamentKey)
+        var om = ObjectMapper();
+        var tString = om.writeValueAsString(tournament);
         val algorithm: Algorithm = JavafoWrapp()
 
         // generate next round
