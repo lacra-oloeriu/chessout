@@ -1338,6 +1338,7 @@ class MyFirebaseUtils {
         val algorithm: Algorithm = JavafoWrapp()
 
         // generate next round
+        // we should catch an error and build a report that can be debugged
         tournament = algorithm.generateNextRound(tournament)
         val rounds = tournament.rounds
         val round = rounds[rounds.size - 1]
