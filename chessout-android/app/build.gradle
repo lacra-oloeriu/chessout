@@ -14,8 +14,8 @@ android {
         applicationId "eu.chessout.v2"
         minSdkVersion 19
         targetSdkVersion 32
-        versionCode 41 // build version that you see in google pay console
-        versionName "1.41" // specific unique build still relevant for google play console
+        versionCode 42 // build version that you see in google pay console
+        versionName "1.42" // specific unique build still relevant for google play console
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -40,7 +40,7 @@ dependencies {
     implementation 'eu.chessout:shared:0.0.01'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'eu.chesdata:chess-pairing:1.3-SNAPSHOT'
+    implementation 'eu.chesdata:chess-pairing:1.5-SNAPSHOT'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'com.google.android.material:material:1.2.0'

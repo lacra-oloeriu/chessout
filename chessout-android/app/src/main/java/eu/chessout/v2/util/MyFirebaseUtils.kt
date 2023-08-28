@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -1315,6 +1316,7 @@ class MyFirebaseUtils {
             5 -> return ChesspairingResult.WHITE_WINS_BY_FORFEIT
             6 -> return ChesspairingResult.BLACK_WINS_BY_FORFEIT
             7 -> return ChesspairingResult.DOUBLE_FORFEIT
+            8 -> return ChesspairingResult.DRAW_REFEREE_DECISION
         }
         throw IllegalStateException("New result type. please convert: $result")
     }
@@ -1334,9 +1336,12 @@ class MyFirebaseUtils {
 
         var tournament: ChesspairingTournament =
             buildChessPairingTournament(clubKey, tournamentKey)
+        var om = ObjectMapper();
+        var tString = om.writeValueAsString(tournament);
         val algorithm: Algorithm = JavafoWrapp()
 
         // generate next round
+        // we should catch an error and build a report that can be debugged
         tournament = algorithm.generateNextRound(tournament)
         val rounds = tournament.rounds
         val round = rounds[rounds.size - 1]
@@ -1407,6 +1412,7 @@ class MyFirebaseUtils {
             ChesspairingResult.WHITE_WINS_BY_FORFEIT -> 5
             ChesspairingResult.BLACK_WINS_BY_FORFEIT -> 6
             ChesspairingResult.DOUBLE_FORFEIT -> 7
+            ChesspairingResult.DRAW_REFEREE_DECISION -> 8
         }
     }
 

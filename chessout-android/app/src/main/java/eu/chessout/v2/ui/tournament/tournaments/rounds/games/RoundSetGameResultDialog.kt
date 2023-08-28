@@ -25,12 +25,13 @@ class RoundSetGameResultDialog(
 ) : DialogFragment() {
 
     private val mWhitePlayer = "1 - 0 : ${game.whitePlayer.name} wins"
-    private val mWhiteWinsByForfeit = "1k - 0 : ${game.whitePlayer.name} wins by forfeit"
+    private val mWhiteWinsByForfeit = "1ff - 0 : ${game.whitePlayer.name} wins by forfeit"
     private val mBlackPlayer = "0 - 1 : ${game.blackPlayer.name} wins"
-    private val mBlackWinsByForfeit = "0 - 1k : ${game.blackPlayer.name} wins by forfeit"
+    private val mBlackWinsByForfeit = "0 - 1ff : ${game.blackPlayer.name} wins by forfeit"
     val mNoPartner = hasNoPartner(game)
     private val mDrawGame = "1/2 - 1/2"
-    private val mDoubleForfeit = "0k - 0k : Double forfeit"
+    private val mDoubleForfeit = "0ff - 0ff : Double forfeit"
+    private val mDrawDecidedByReferee = "1/2ff-1/2ff : Referee decision"
     private val mNotDecided = "Still playing"
 
 
@@ -39,14 +40,30 @@ class RoundSetGameResultDialog(
         builder.setTitle("Set result for table ${game.tableNumber}")
 
         builder.setNegativeButton("Cancel") { _, _ -> dismiss() }
+        // please see also MyFirebaseUtils convertChesspairingResultToIntGameResult
+        // it works together with convertResult
+        // and for display RoundGamesAdapter format result
+        // also important to be used by RoundsPagerFragemnt.convertGameResultToSwarCsvResult(game)
+        /**
+         * NOT_DECIDED -> 0
+         * WHITE_WINS -> 1
+         * BLACK_WINS -> 2
+         * DRAW_GAME -> 3
+         * BYE -> 4
+         * WHITE_WINS_BY_FORFEIT -> 5
+         * BLACK_WINS_BY_FORFEIT -> 6
+         * DOUBLE_FORFEIT -> 7
+         * DRAW_REFEREE_DECISION -> 8
+         */
         val items = arrayOf(
-            mWhitePlayer,
-            mDrawGame,
-            mBlackPlayer,
-            mWhiteWinsByForfeit,
-            mBlackWinsByForfeit,
-            mDoubleForfeit,
-            mNotDecided
+            mWhitePlayer,           // 0 -> 1
+            mDrawGame,              // 1 -> 3
+            mBlackPlayer,           // 2 -> 2
+            mWhiteWinsByForfeit,    // 3 -> 5
+            mBlackWinsByForfeit,    // 4 -> 6
+            mDrawDecidedByReferee,  // 5 -> 8
+            mDoubleForfeit,         // 6 -> 7
+            mNotDecided             // 7 -> 0
         )
         builder.setItems(items) { _, witch ->
             PersistResult(clubId, tournamentId, roundId, game.tableNumber).execute(witch)
@@ -71,22 +88,21 @@ class RoundSetGameResultDialog(
             // set legacy result base on int value
             val paramsVal = params[0]!!
 
-            var result = paramsVal + 1
+            //var result = paramsVal ;
+            val result: Int?;
 
             //switch = 2 with 3
-            if (result == 2) {
-                result = 3
-            } else if (result == 3) {
-                result = 2
-            }
-            // set not decided (moved last)
-            if (paramsVal == 6) {
-                result = 0
-            }
 
-            // set the rest of the results
-            if (paramsVal in 3..5) {
-                result = paramsVal + 2
+            result = when (paramsVal) {
+                0 -> 1
+                1 -> 3
+                2 -> 2
+                3 -> 5
+                4 -> 6
+                5 -> 8
+                6 -> 7
+                7 -> 0
+                else -> 0
             }
 
             val resultLoc = Constants.LOCATION_GAME_RESULT
