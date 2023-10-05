@@ -24,6 +24,9 @@ import ReactDOM from 'react-dom/client'
 import './index.css';  
 import App from './App';
 import { theme, ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/react";
+import dotenv from 'dotenv';
+
+dotenv.config(); // Load environment variables
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
