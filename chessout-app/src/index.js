@@ -25,6 +25,9 @@ import './index.css';
 import App from './App';
 import { theme, ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/react";
 
+// Importing the Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>  
