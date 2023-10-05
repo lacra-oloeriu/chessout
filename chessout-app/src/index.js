@@ -19,15 +19,14 @@
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 //reportWebVitals();
 
-import React from 'react';  
-import ReactDOM from 'react-dom';  
+import React from 'react';
+import ReactDOM from 'react-dom/client'
 import './index.css';  
-import App from './App';  
-//import * as serviceWorker from './serviceWorker';  
-import { theme, ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/react";  
-  
-  
-ReactDOM.render(  
+import App from './App';
+import { theme, ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/react";
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <ThemeProvider theme={theme}>  
     <ColorModeProvider>  
       <CSSReset />  
@@ -35,8 +34,7 @@ ReactDOM.render(
         <App />  
       </React.StrictMode>  
     </ColorModeProvider>  
-  </ThemeProvider>,  
-  document.getElementById('root')  
-);  
-  
+  </ThemeProvider>
+);
+
 //serviceWorker.unregister();  
