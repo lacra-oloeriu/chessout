@@ -15,9 +15,11 @@
     "bootstrap": "^5.3.2",
     "emotion-theming": "^10.3.0",
     "firebase": "^10.4.0",
+    "framer-motion": "^10.16.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
