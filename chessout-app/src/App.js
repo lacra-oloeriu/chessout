@@ -11,29 +11,44 @@ import MyProfile from './pages/my_profile';
 import Team from './pages/team';
 import Tournaments from './pages/tournaments';
 
+import { DappProvider } from "@multiversx/sdk-dapp/wrappers/DappProvider";
+import { NotificationModal, SignTransactionsModals, TransactionsToastList } from "@multiversx/sdk-dapp/UI";
+import { networkId} from "./config/customConfig";
+import { networkConfig } from "./config/networks";
+
 const theme = extendTheme({
   // Chakra UI theme customization
 });
 
 function App() {
 
+  //Set the config network
+  const customNetConfig = networkConfig[networkId];
+
   return (
-    <ChakraProvider theme={theme}>
-      <CSSReset />
-      <Router>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/my_clubs" element={<MyClubs />} />
-          <Route path="/my_profile" element={<MyProfile />} />
-          <Route path="/club_players" element={<ClubPlayers />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/tournaments" element={<Tournaments />} />
-        </Routes>
-      </Router>
-    </ChakraProvider>
+    <DappProvider
+      environment={customNetConfig.id}
+      customNetworkConfig={customNetConfig}
+      dappConfig={{ shouldUseWebViewProvider: true }}
+      completedTransactionsDelay={200}
+    >
+      <ChakraProvider theme={theme}>
+        <CSSReset />
+        <Router>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/my_clubs" element={<MyClubs />} />
+            <Route path="/my_profile" element={<MyProfile />} />
+            <Route path="/club_players" element={<ClubPlayers />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/tournaments" element={<Tournaments />} />
+          </Routes>
+        </Router>
+      </ChakraProvider>
+    </DappProvider>
   );
 }
 
