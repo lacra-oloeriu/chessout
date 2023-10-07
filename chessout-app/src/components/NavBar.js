@@ -14,9 +14,14 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import ImageLogo from "../assets/ImageLogo.png";
 import { Link } from "react-router-dom";
 import SignInModal from "./SignInModal";
+import XSignInModal from "./XSignInModal";
+import { useGetAccountInfo } from "@multiversx/sdk-dapp/hooks/account";
+import "./../assets/css/globals.css";
+import "./../assets/css/navbar.css";
 
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { firebaseApp } from "../config/firebase";
+import {logout} from "@multiversx/sdk-dapp/utils";
 
 const Navbar = (props) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -55,6 +60,17 @@ const Navbar = (props) => {
     }
   };
 
+  // region multiversX login
+  const { address, account } = useGetAccountInfo();
+  const [isXSignInModalOpen, setIsXSignInModalOpen] = useState(false);
+  const openXSignInModal = () => {
+    setIsXSignInModalOpen(true);
+  };
+  const closeXSignInModal = () => {
+    setIsXSignInModalOpen(false);
+  };
+  // endregion
+
   return (
     <Flex
       minWidth="max-content"
@@ -90,6 +106,19 @@ const Navbar = (props) => {
             Login
           </Button>
         )}
+        {address ? (
+          <Button bg={bgColor[colorMode]} onClick={() => logout()}>
+            XLogout
+          </Button>
+        ):(
+          <Button bg={bgColor[colorMode]} onClick={() => openXSignInModal()}>
+            XLogin
+          </Button>
+        )}
+        <XSignInModal
+          isOpen={isXSignInModalOpen}
+          onClose={closeXSignInModal}
+        />
         <SignInModal
           isOpen={isSignInModalOpen}
           onClose={closeSignInModal}

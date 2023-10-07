@@ -33,6 +33,9 @@ function App() {
       completedTransactionsDelay={200}
     >
       <ChakraProvider theme={theme}>
+        <TransactionsToastList />
+        <NotificationModal />
+        <SignTransactionsModals />
         <CSSReset />
         <Router>
           <NavBar />
