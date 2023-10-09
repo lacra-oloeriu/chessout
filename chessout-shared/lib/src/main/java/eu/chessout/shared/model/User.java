@@ -16,6 +16,8 @@ public class User {
     private HashMap<String, Object> dateCreated;
     private String pictureUri;
 
+    private String multiversXAddress;
+
     public User() {
     }
 
@@ -72,5 +74,13 @@ public class User {
 
     public void setUserKey(String userKey) {
         this.userKey = userKey;
+    }
+
+    public String getMultiversXAddress() {
+        return multiversXAddress;
+    }
+
+    public void setMultiversXAddress(String multiversXAddress) {
+        this.multiversXAddress = multiversXAddress;
     }
 }

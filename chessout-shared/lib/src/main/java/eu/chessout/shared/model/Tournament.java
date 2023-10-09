@@ -3,11 +3,13 @@ package eu.chessout.shared.model;
 import java.util.HashMap;
 
 import eu.chessout.shared.Constants;
+import eu.chessout.shared.model.enums.TournamentType;
 
 /**
  * Created by Bogdan Oloeriu on 6/4/2016.
  */
 public class Tournament {
+
     private String clubId;
     private String tournamentId;
     private String name;
@@ -19,6 +21,9 @@ public class Tournament {
     private HashMap<String, Object> dateCreated;
     private HashMap<String, Object> updateStamp;
     private long reversedDateCreated;
+
+    private TournamentType tournamentType;
+    private String multiversXTournamentId;
 
 
     public Tournament() {
@@ -93,5 +98,22 @@ public class Tournament {
 
     public void setTournamentId(String tournamentId) {
         this.tournamentId = tournamentId;
+    }
+
+
+    public TournamentType getTournamentType() {
+        return tournamentType;
+    }
+
+    public void setTournamentType(TournamentType tournamentType) {
+        this.tournamentType = tournamentType;
+    }
+
+    public String getMultiversXTournamentId() {
+        return multiversXTournamentId;
+    }
+
+    public void setMultiversXTournamentId(String multiversXTournamentId) {
+        this.multiversXTournamentId = multiversXTournamentId;
     }
 }

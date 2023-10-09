@@ -1,5 +1,7 @@
 package eu.chessout.shared.model;
 
+import eu.chessout.shared.model.enums.PlayerType;
+
 import java.text.Collator;
 import java.util.Objects;
 
@@ -15,9 +17,19 @@ public class Player implements Comparable<Player> {
     private String userKey;
     private String playerKey;
     private String clubKey;
+
+    /**
+     * thirdPartyKey was introduced in order to handel unique id's from an external swar tournament import
+     */
     private String thirdPartyKey;
     private String profilePictureUri;
     private String fideId;
+
+    private String multiversXAddress;
+    private PlayerType playerType;
+    private String externalClubKey;
+    private String externalPlayerKey;
+
 
     private boolean archived;
 
@@ -140,6 +152,38 @@ public class Player implements Comparable<Player> {
     @Override
     public int hashCode() {
         return Objects.hash(playerKey, clubKey);
+    }
+
+    public String getMultiversXAddress() {
+        return multiversXAddress;
+    }
+
+    public void setMultiversXAddress(String multiversXAddress) {
+        this.multiversXAddress = multiversXAddress;
+    }
+
+    public PlayerType getPlayerType() {
+        return playerType;
+    }
+
+    public void setPlayerType(PlayerType playerType) {
+        this.playerType = playerType;
+    }
+
+    public String getExternalClubKey() {
+        return externalClubKey;
+    }
+
+    public void setExternalClubKey(String externalClubKey) {
+        this.externalClubKey = externalClubKey;
+    }
+
+    public String getExternalPlayerKey() {
+        return externalPlayerKey;
+    }
+
+    public void setExternalPlayerKey(String externalPlayerKey) {
+        this.externalPlayerKey = externalPlayerKey;
     }
 
     // </getters and setters>
