@@ -19,7 +19,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'eu.chessout'
             artifactId = 'shared'
-            version = '0.0.01'
+            version = '0.0.02'
             from components.java
         }
     }
