@@ -4,7 +4,7 @@ import eu.chessout.shared.model.enums.TournamentRegistrationState;
 
 public class TournamentRegistrationRequest {
 
-    public String requestKey;
+    public String key;
     public Player player;
     public String multiversXTransaction;
     public TournamentRegistrationState state;
