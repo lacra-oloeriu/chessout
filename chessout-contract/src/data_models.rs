@@ -1,9 +1,4 @@
-use multiversx_sc::types::{ManagedAddress, ManagedBuffer};
-use multiversx_sc::{
-    api::ManagedTypeApi,
-    types::{BigUint, EgldOrEsdtTokenIdentifier, ManagedVec},
-};
-
+multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
 
 #[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode)]

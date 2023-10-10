@@ -5,10 +5,11 @@ multiversx_sc::derive_imports!();
 
 mod data_models;
 use data_models::*;
+mod data_store;
 
-/// An empty contract. To be used as a template when starting a new contract from scratch.
+
 #[multiversx_sc::contract]
-pub trait Chessout {
+pub trait Chessout: data_store::StoreModule {
     #[init]
     fn init(&self) {
         self.last_index().set_if_empty(0)
@@ -44,14 +45,4 @@ pub trait Chessout {
             return self.last_index().get();
         }
     }
-
-    //<data>
-
-    #[storage_mapper("contractSettings")]
-    fn contract_settings(&self) -> SingleValueMapper<ContractSettings<Self::Api>>;
-
-    #[storage_mapper("lastIndex")]
-    fn last_index(&self) -> SingleValueMapper<usize>;
-
-    //</data>
 }
