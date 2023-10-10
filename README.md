@@ -1,48 +1,3 @@
-# hackathon chessout
-
-Specific notes for hackathon
-
-## how it started
-
-Chessout started as a side personal project during covid. I got laid off (economic unemployment) but still believed in the company I was working in so I had a lot of time. I invested my free time and it shaping up to be a good project. I'm a parent and my children play chess so I created this project to tackle the most painful frustrations that a parent who loves chess has
-- no notifications when your kids finish a game
-- extremely hard to organize a casual tournaments
-
-I shared this project once I had something to show with some tournament organizers and they loved it. The parents loved it too. 
-
-Now, it is used in some major tournaments in Belgium. After the hackathon, I'll show it to more club owners and chess lovers across Europe. I hope they will love it too. 
-
-## what is chessout
-Chessout is a simple service focused on user experience for all people involved and somehow involved in a chess tournament. 
-People involved in a chess tournament are
-- parents and loved ones who are rooting for some players. (These are chessout most important users. You now get push notifications and real-time updates for anything that happens during a tournament. )
-- chess players
-- tournament organizers
-- tournament arbiters
-- catering services
-- casual coffee or beer drinkers
-
-## multiversX business case
-The idea is simple. Organizing a tournament even now is extremely difficult and there are a lot of logistics that take a lot of man hours and huge responsibility. Chessout can simplify most organisational and financial logistics. 
-
-Smart contracts will handle
-- the financial transaction to pay and automatically sign up for the tournament
-- distributing the tournament prizes
-- defining what the local bare contains for each tournament event
-- pay for coffey beer and much more (It started in Belgium anyway)
-
-The smart-contract will get a small percentage fee from all mentioned transactions. 
-
-## future multiversX ideas
-
-To encourage people to play more chess outside we will implement a staking mechanism. If a certain club processes a specific amount of funds they will get the option of increased yields for a limited time period. This will encourage people to
-- get more social in the real world
-- build strong communities with a positive attitude
-- play more chess
-- be happier
-
--------------------------------------
-
 # Chessout: A Blockchain-Powered Chess Tournament Platform
 
 ## How It Started
@@ -84,4 +39,16 @@ Chessout is more than a chess tournament platform; it's a blockchain-driven solu
 - chessout-contract: the smart contract
 - chessout-android: this is the android kotlin based app. We would love fi multiversX would provide support for native aplciations to integrate with xPortal. 
 - chessout-shared: is the comon libraries used ty kotlin and backend. We plan to add also the backend here once we clean up some code. 
+
+## some other things
+
+I plan to create a 2 minutes introduction video once I get the hacathon code complete. 
+
+Some youtube related videos to chessout can be located here
+- [chessout youtube](https://www.youtube.com/@chessout3011)
+
+In case you want to se a more rudimetary version of this file
+```
+git checkout 47b524be755b69eb9625599820acf96fb29c6156
+```
 
