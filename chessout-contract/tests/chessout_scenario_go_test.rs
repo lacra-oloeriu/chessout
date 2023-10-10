@@ -15,6 +15,6 @@ fn t_001_deploy_go() {
 }
 
 #[test]
-fn t_003_set_setings_go() {
-    world().run("scenarios/t_003_set_setings.scen.json");
+fn t_002_set_setings_go() {
+    world().run("scenarios/t_002_set_setings.scen.json");
 }

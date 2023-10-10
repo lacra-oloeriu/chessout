@@ -46,6 +46,8 @@
         "gasLimit": "100,000,000",
         "gasPrice": "0",
         "arguments": [
+          "10000",
+          "str:ACOIN-a00000",
           "10000"
         ]
       },
@@ -72,9 +74,13 @@
           "storage": {
             "str:lastIndex": "0",
             "str:contractSettings":{
-              "1-token_settings_vec_len": "u32:1",
+              "1-token_settings_vec_len": "u32:2",
               "2-egld_data":{
                 "1-tonen_id": "nested:str:EGLD",
+                "2-processing_procentage": "u64:10000"
+              },
+              "3-egld_data":{
+                "1-tonen_id": "nested:str:ACOIN-a00000",
                 "2-processing_procentage": "u64:10000"
               }
             }

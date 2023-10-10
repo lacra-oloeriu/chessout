@@ -19,6 +19,6 @@ fn t_001_deploy_rs() {
 }
 
 #[test]
-fn t_003_set_setings_rs() {
-    world().run("scenarios/t_003_set_setings.scen.json");
+fn t_002_set_setings_rs() {
+    world().run("scenarios/t_002_set_setings.scen.json");
 }
