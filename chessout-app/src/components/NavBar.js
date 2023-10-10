@@ -1,139 +1,261 @@
-import React, { useState, useEffect } from "react";
-import {
-  Button,
-  ButtonGroup,
-  Box,
-  Flex,
-  Spacer,
-  useColorMode,
-  IconButton,
-  Tooltip,
-  Image,
-} from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import ImageLogo from "../assets/ImageLogo.png";
-import { Link } from "react-router-dom";
-import SignInModal from "./SignInModal";
-import XSignInModal from "./XSignInModal";
+import React, {useState} from 'react';
+import { AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { DarkMode, LightMode, ContentCopy, Check, Menu as ListIcon } from '@mui/icons-material';
+import Divider from "@mui/material/Divider";
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { Container, Row, Col } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import { Link, useLocation  } from 'react-router-dom';
+import ImageLogo from 'assets/images/ImageLogo.png';
+import "assets/css/navbar.css";
+import "assets/css/globals.css";
+import {getAuth, GoogleAuthProvider, signInWithPopup, signOut, signInWithRedirect } from "firebase/auth";
+import {firebaseApp} from "config/firebase";
+import { ExtensionLoginButton, WalletConnectLoginButton, LedgerLoginButton, WebWalletLoginButton, } from "@multiversx/sdk-dapp/UI";
 import { useGetAccountInfo } from "@multiversx/sdk-dapp/hooks/account";
-import "./../assets/css/globals.css";
-import "./../assets/css/navbar.css";
-
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { firebaseApp } from "../config/firebase";
 import {logout} from "@multiversx/sdk-dapp/utils";
 
-const Navbar = (props) => {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const bgColor = { light: "gray.200", dark: "gray.700" };
+function CustomNavbar(props) {
+  // Dark Theme constant
+  const isDarkTheme = props.theme === 'dark';
 
-  // State for the sign-in/sign-up modal
+  // Page name
+  const location = useLocation();
+  const pathnameSegments = location.pathname.split('/');
+  const activePage = pathnameSegments[pathnameSegments.length - 1];
+
+  let activePageLabel;
+  switch (activePage) {
+    case '': activePageLabel = "About Us"; break;
+    case 'about-us': activePageLabel = "About Us"; break;
+    case 'dashboard': activePageLabel = "Dashboard"; break;
+    case 'my-clubs': activePageLabel = "My Clubs"; break;
+    case 'my-profile': activePageLabel = "My Profile"; break;
+    case 'club-players': activePageLabel = "Club Players"; break;
+    case 'team': activePageLabel = "Team"; break;
+    case 'tournaments': activePageLabel = "Tournaments"; break;
+    default: activePageLabel = "Home";
+  }
+
+  // The login right drawer
+  const [isLoginDrawerOpen, setIsLoginDrawerOpen] = useState(false);
+  const toggleLoginDrawer = (open) => {
+    setIsLoginDrawerOpen(open);
+  };
+
+  // Firebase login
   const authInstance = getAuth(firebaseApp);
-  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
-
-  const openSignInModal = () => {
-    setIsSignInModalOpen(true);
+  const handleSignInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(authInstance, provider);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const closeSignInModal = () => {
-    setIsSignInModalOpen(false);
-  };
-
-  //user data
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const auth = getAuth(firebaseApp);
-
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user); // Set the user state based on the authentication status
-    });
-
-    return () => unsubscribe(); // Unsubscribe from the listener when the component unmounts
-  }, []);
-
+  // Firebase logout
   const handleSignOut = async () => {
     try {
       await signOut(authInstance);
-      // After sign-out, the `onAuthStateChanged` listener will update the `user` state, causing the login button to appear again.
     } catch (error) {
       console.error('Error signing out:', error);
     }
   };
 
-  // region multiversX login
+  // Multiversx account info
   const { address, account } = useGetAccountInfo();
-  const [isXSignInModalOpen, setIsXSignInModalOpen] = useState(false);
-  const openXSignInModal = () => {
-    setIsXSignInModalOpen(true);
-  };
-  const closeXSignInModal = () => {
-    setIsXSignInModalOpen(false);
-  };
-  // endregion
+
+  //Copy to Clipboard Utility
+  const [isCopied, setIsCopied] = React.useState(false);
+  function CopyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(r => {
+      // then branch
+    });
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1500);
+  }
 
   return (
-    <Flex
-      minWidth="max-content"
-      alignItems="center"
-      gap="2"
-      bg={bgColor[colorMode]}
-    >
-      <Box boxSize="55px">
-        <Image src={ImageLogo} alt="Logo" />
-      </Box>
-      <Box p="2">
-        <Button bg={bgColor[colorMode]}>ChessOut</Button>
-      </Box>
-      <Spacer />
-      <ButtonGroup gap="2">
-        <Link to={"/"}>
-          <Button bg={bgColor[colorMode]}>Home</Button>
-        </Link>
-        <Link to={"/about"}>
-          <Button bg={bgColor[colorMode]}>About</Button>
-        </Link>
-        <Link to={"/team"}>
-          <Button bg={bgColor[colorMode]}>Team</Button>
-        </Link>
-        {user ? (
-          // User is logged in, display account button
-          <Button bg={bgColor[colorMode]} onClick={handleSignOut}>
-            Logout
+    <>
+      <AppBar position="static" color={isDarkTheme ? 'default' : 'grey'}>
+        <Toolbar>
+          <Button
+            variant={isDarkTheme ? 'outline-light' : 'outline-dark'}
+            size="sm"
+            className="me-2 b-r-xs"
+          >
+            <ListIcon />
           </Button>
-        ) : (
-          // User is not logged in, display login button
-          <Button bg={bgColor[colorMode]} onClick={() => openSignInModal()}>
-            Login
-          </Button>
-        )}
-        {address ? (
-          <Button bg={bgColor[colorMode]} onClick={() => logout()}>
-            XLogout
-          </Button>
-        ):(
-          <Button bg={bgColor[colorMode]} onClick={() => openXSignInModal()}>
-            XLogin
-          </Button>
-        )}
-        <XSignInModal
-          isOpen={isXSignInModalOpen}
-          onClose={closeXSignInModal}
-        />
-        <SignInModal
-          isOpen={isSignInModalOpen}
-          onClose={closeSignInModal}
-          authInstance={authInstance}
-        />
-      </ButtonGroup>
-      <Tooltip label="Toggle Dark Mode">
-        <IconButton
-          aria-label="Toggle light dark mode"
-          onClick={toggleColorMode}
-          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-        />
-      </Tooltip>
-    </Flex>
-  );
-};
+          <Link to="/">
+            <img className="navbar-logo" src={ImageLogo} alt="Logo" />
+          </Link>
+          <Typography
+            variant="h6"
+            style={{
+              textDecoration: 'none',
+              color: 'inherit',
+              display: props.isMobile ? 'none' : 'flex',
+              flexGrow: 50,
+              justifyContent: 'center',
+            }}
+            className="ms-3"
+          >
+            {activePageLabel}
+          </Typography>
+          <div style={{ flexGrow: 1 }} />
 
-export default Navbar;
+          {/* Show Login / my account if the user is logged out / logged in */}
+          {props.firebaseUser ? (
+            <Button
+              variant={isDarkTheme ? 'outline-light' : 'outline-dark'}
+              size="sm"
+              className="me-2 b-r-xs"
+              onClick={() => toggleLoginDrawer(true)}
+            >
+              My Account
+            </Button>
+          ):(
+            <Button
+              variant={isDarkTheme ? 'outline-light' : 'outline-dark'}
+              size="sm"
+              className="me-2 b-r-xs"
+              onClick={() => toggleLoginDrawer(true)}
+            >
+              Login
+            </Button>
+          )}
+
+          <IconButton
+            color="inherit"
+            onClick={() => props.handleThemeChange(isDarkTheme ? 'light' : 'dark')}
+          >
+            {isDarkTheme ? <LightMode /> : <DarkMode />}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      {/* Login drawer content*/}
+      <SwipeableDrawer
+        anchor="right"
+        open={isLoginDrawerOpen}
+        onClose={() => toggleLoginDrawer(false)}
+        onOpen={() => toggleLoginDrawer(true)}
+      >
+        <div
+          role="presentation"
+          onClick={() => toggleLoginDrawer(false)}
+          onKeyDown={() => toggleLoginDrawer(false)}
+          className="px-3"
+          style={{minWidth: '300px'}}
+        >
+          {props.firebaseUser ? (
+            <>
+              <p className="text-center h5 mt-3">Platform Account:</p>
+              <p className="text-center mt-2">{props.firebaseUser.email}</p>
+              <div className="d-flex justify-content-center">
+                <Button
+                  size="sm"
+                  variant={"light"}
+                  onClick={() => handleSignOut()}
+                  className="mt-2 btn-block b-r-xs ms-3 me-3 font-size-xs"
+                >
+                  Sign out
+                </Button>
+              </div>
+            </>
+          ):(
+            <>
+              <p className="text-center h5 mt-3">Platform Login:</p>
+              <div className="d-flex justify-content-center">
+                <Button
+                  size="sm"
+                  variant={"light"}
+                  onClick={() => handleSignInWithGoogle()}
+                  className="mt-2 btn-block b-r-xs ms-3 me-3"
+                >
+                  Sign in with google
+                </Button>
+              </div>
+            </>
+          )}
+          <Divider color={"white"} style={{width: '115%', marginLeft: '-10%'}} className="mt-3"/>
+          {address ? (
+            <>
+              <p className="text-center h5 mt-3">MultiversX Account:</p>
+              <div className="d-flex justify-content-center">
+                <p className="font-size-sm font-lighter">
+                  {address.slice(0, 17)} ... {address.slice(50, 62)}
+                </p>
+                {!isCopied ? (
+                  <Button
+                    variant="link"
+                    onClick={() => CopyToClipboard(address)}
+                    className="text-white m-t-n-sm"
+                  >
+                    <ContentCopy fontSize="10px" style={{marginTop: '-10px'}}/>
+                  </Button>
+                ) : (
+                  <Button variant="link" className="text-white m-t-n-sm">
+                    <Check fontSize="10px" style={{marginTop: '-10px'}}/>
+                  </Button>
+                )}
+              </div>
+              <div className="d-flex justify-content-center">
+                <Button
+                  size="sm"
+                  variant={"light"}
+                  onClick={() => logout()}
+                  className="mb-2 btn-block b-r-xs font-size-xs"
+                >
+                  Sign out
+                </Button>
+              </div>
+            </>
+          ):(
+            <>
+              <p className="text-center h5 mt-2">MultiversX Login:</p>
+              <div className="d-flex justify-content-center mt-2">
+                <WebWalletLoginButton
+                  callbackRoute="/home"
+                  nativeAuth={true}
+                  loginButtonText="Web wallet"
+                  className="btn btn-sm btn-light b-r-xs font-size-xs btn-block"
+                />
+              </div>
+              <div className="d-flex justify-content-center w-auto">
+                <LedgerLoginButton
+                  callbackRoute="/home"
+                  loginButtonText="Ledger"
+                  nativeAuth={true}
+                  className="btn btn-sm btn-light b-r-xs font-size-xs btn-block"
+                />
+              </div>
+              <div className="d-flex justify-content-center">
+                <WalletConnectLoginButton
+                  callbackRoute="/home"
+                  nativeAuth={true}
+                  loginButtonText={"xPortal App"}
+                  isWalletConnectV2={true}
+                  className="btn btn-sm btn-light b-r-xs font-size-xs btn-block"
+                />
+              </div>
+              <div className="d-flex justify-content-center">
+                <ExtensionLoginButton
+                  callbackRoute="/home"
+                  nativeAuth={true}
+                  loginButtonText="Extension"
+                  className="btn btn-sm btn-light b-r-xs font-size-xs btn-block"
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </SwipeableDrawer>
+    </>
+  );
+}
+
+export default CustomNavbar;

@@ -1,7 +1,14 @@
+/* main logo */
+.navbar-logo{
+    width: 40px;
+}
+.gray {
+    background-color: gray;
+}
 /* Dapp login buttons */
 .dapp-primary{
-    background-color: #4318ff !important;
-    border-color: #4318ff !important;
+    background-color: #121212 !important;
+    border-color: #121212 !important;
     color: white !important;
     transition: all 150ms ease-in 0s !important;
     font-size: 13px !important;
@@ -31,18 +38,18 @@
 .dapp-core-component__dappModalStyles__dappModalContent{
     background-color: #060b28f0 !important;
     color: white !important;
-    border-color: #4318ff !important;
+    border-color: #121212 !important;
 }
 .dapp-core-component__main__card{
     background-color: #060b28f0 !important;
     color: white !important;
-    border-top: 1px solid #4318ff !important;
-    border-bottom: 1px solid #4318ff !important;
+    border-top: 1px solid #121212 !important;
+    border-bottom: 1px solid #121212 !important;
     border-radius: 0 !important;
 }
 .dapp-core-component__main__btn-primary {
-    background-color: #4318ff !important;
-    border-color: #4318ff !important;
+    background-color: #121212 !important;
+    border-color: #121212 !important;
     border-radius: 0.75rem !important;
     transition: all 150ms ease-in 0s !important;
     font-size: 13px !important;
@@ -60,7 +67,7 @@
 .modal-content{
     background-color: rgba(6, 11, 40, 1) !important;
     color: white !important;
-    border: 1px solid #4318ff !important;
+    border: 1px solid #121212 !important;
     border-radius: 25px !important;
 }
 .modal-container{
@@ -72,7 +79,7 @@
     overflow-y: auto;
     max-height: 20vh;
     -ms-overflow-style: none;  /* Internet Explorer and Edge */
-    scrollbar-color: #4318ff #282c34;
+    scrollbar-color: #121212 #282c34;
     scrollbar-width: thin;
 }
 
@@ -85,7 +92,7 @@
     border-radius: 10px;
 }
 .overflow-item::-webkit-scrollbar-thumb {
-    background: #4318ff;
+    background: #121212;
     border-radius: 10px;
 }
 .overflow-item::-webkit-scrollbar-thumb:hover,

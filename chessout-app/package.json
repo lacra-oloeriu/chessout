@@ -9,6 +9,8 @@
     "@emotion/core": "^10.3.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.0.0",
+    "@mui/icons-material": "^5.14.12",
+    "@mui/material": "^5.14.12",
     "@multiversx/sdk-core": "^12.9.0",
     "@multiversx/sdk-dapp": "^2.21.0",
     "@multiversx/sdk-network-providers": "2.0.0",

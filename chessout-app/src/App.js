@@ -1,29 +1,56 @@
-import React from 'react';
-import { ChakraProvider, CSSReset, extendTheme } from '@chakra-ui/react';
+import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import About from './pages/about';
-import ClubPlayers from './pages/club_players';
-import Dashboard from './pages/dashboard';
-import Home from './pages/home';
-import MyClubs from './pages/my_clubs';
-import MyProfile from './pages/my_profile';
-import Team from './pages/team';
-import Tournaments from './pages/tournaments';
+import { ThemeProvider, CssBaseline, useMediaQuery } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
+import CustomNavbar from 'components/Navbar';
+
+import About from 'pages/about';
+import ClubPlayers from 'pages/club_players';
+import Dashboard from 'pages/dashboard';
+import Home from 'pages/home';
+import MyClubs from 'pages/my_clubs';
+import MyProfile from 'pages/my_profile';
+import Team from 'pages/team';
+import Tournaments from 'pages/tournaments';
 
 import { DappProvider } from "@multiversx/sdk-dapp/wrappers/DappProvider";
 import { NotificationModal, SignTransactionsModals, TransactionsToastList } from "@multiversx/sdk-dapp/UI";
-import { networkId} from "./config/customConfig";
-import { networkConfig } from "./config/networks";
+import { networkId} from "config/customConfig";
+import { networkConfig } from "config/networks";
 
-const theme = extendTheme({
-  // Chakra UI theme customization
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {firebaseApp} from "./config/firebase";
+
+const lightTheme = createTheme();
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark'
+  },
 });
 
 function App() {
-
-  //Set the config network
+  // Set the config network
   const customNetConfig = networkConfig[networkId];
+
+  // Theme options
+  const [theme, setTheme] = useState('dark');
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+  };
+
+  // Check if the screen is mobile
+  const isMobile = useMediaQuery('(max-width:600px)');
+
+  //firebase user data
+  const [firebaseUser, setFirebaseUser] = useState(null);
+  useEffect(() => {
+    const auth = getAuth(firebaseApp);
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setFirebaseUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <DappProvider
@@ -32,25 +59,26 @@ function App() {
       dappConfig={{ shouldUseWebViewProvider: true }}
       completedTransactionsDelay={200}
     >
-      <ChakraProvider theme={theme}>
+      <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+        <CssBaseline />
         <TransactionsToastList />
         <NotificationModal />
         <SignTransactionsModals />
-        <CSSReset />
         <Router>
-          <NavBar />
+          <CustomNavbar theme={theme} handleThemeChange={handleThemeChange} isMobile={isMobile} firebaseUser={firebaseUser}/>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/" element={<About />} />
+            <Route path="/about-us" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/my_clubs" element={<MyClubs />} />
-            <Route path="/my_profile" element={<MyProfile />} />
-            <Route path="/club_players" element={<ClubPlayers />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/my-clubs" element={<MyClubs />} />
+            <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/club-players" element={<ClubPlayers />} />
             <Route path="/team" element={<Team />} />
             <Route path="/tournaments" element={<Tournaments />} />
           </Routes>
         </Router>
-      </ChakraProvider>
+      </ThemeProvider>
     </DappProvider>
   );
 }
