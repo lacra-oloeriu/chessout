@@ -8,6 +8,8 @@ import About from 'pages/about';
 import ClubPlayers from 'pages/club_players';
 import Dashboard from 'pages/dashboard';
 import Home from 'pages/home';
+import FollowedPlayers from 'pages/followed_players';
+import MyClub from 'pages/my_club';
 import MyClubs from 'pages/my_clubs';
 import MyProfile from 'pages/my_profile';
 import Team from 'pages/team';
@@ -71,6 +73,8 @@ function App() {
             <Route path="/about-us" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/followed-players" element={<FollowedPlayers />} />
+            <Route path="/my-club" element={<MyClub />} />
             <Route path="/my-clubs" element={<MyClubs />} />
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/club-players" element={<ClubPlayers />} />
