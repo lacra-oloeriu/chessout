@@ -23,6 +23,8 @@ import { useGetAccountInfo } from "@multiversx/sdk-dapp/hooks/account";
 import {logout} from "@multiversx/sdk-dapp/utils";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 function CustomNavbar(props) {
   // Dark Theme constant
@@ -90,6 +92,16 @@ function CustomNavbar(props) {
       // then branch
     });
     setIsCopied(true);
+    toast.success(
+      "Address Copied",
+      {
+        position: 'top-right',
+        duration: 1500,
+        style: {
+          border: '1px solid green'
+        }
+      }
+    );
     setTimeout(() => {
       setIsCopied(false);
     }, 1500);
@@ -342,6 +354,7 @@ function CustomNavbar(props) {
           <Divider color={"white"} style={{width: '115%', marginLeft: '-9%'}} className="mt-3"/>
         </div>
       </SwipeableDrawer>
+      <Toaster/>
     </>
   );
 }
