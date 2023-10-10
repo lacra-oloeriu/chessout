@@ -20,9 +20,15 @@ pub trait TournamentEndpoints: data_store::StoreModule{
 
         let id :u64 = self.increment_and_get_last_index();
         let tournament_token = EgldOrEsdtTokenIdentifier::esdt(token_id);
+
+        let manager = self.blockchain().get_caller();
+        let mut manager_list = ManagedVec::new();
+        manager_list.push(manager);
+
         let tournament = Tournament{
             id: id,
             token_id: tournament_token,
+            manager_list: manager_list,
         };
 
         self.tournament_data(id).set(tournament);
