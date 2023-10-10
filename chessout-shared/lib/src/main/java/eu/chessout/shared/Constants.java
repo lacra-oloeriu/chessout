@@ -38,6 +38,8 @@ public class Constants {
     public static final String DEFAULT_CLUB = "defaultClub";
     public static final String TOURNAMENTS = "tournaments";
     public static final String TOURNAMENT_KEY = "$tournamentKey";
+    public static final String TOURNAMENT_REGISTRATION_REQUEST = "tournamentRegistrationRequests";
+    public static final String TOURNAMENT_REGISTRATION_REQUEST_KEY = "$tournamentRegistrationRequestKey";
 
     public static final String CLUB_PLAYERS = "clubPlayers";
     public static final String PLAYER_KEY = "$playerKey";
@@ -294,4 +296,12 @@ public class Constants {
     public static final String LOCATION_FIDE_ID_FOLLOWER = FIDE_ID_FOLLOWERS + "/" +
             FIDE_ID + "/" +
             USER_KEY;
+
+    //tournamentRegistrationRequests/$clubKey/$tournamentKey
+    public static final String LOCATION_TOURNAMENT_REGISTRATION_REQUEST = TOURNAMENT_REGISTRATION_REQUEST + "/"
+            + CLUB_KEY + "/"
+            + TOURNAMENT_KEY;
+
+
+
 }

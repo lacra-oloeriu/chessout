@@ -19,7 +19,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'eu.chessout'
             artifactId = 'shared'
-            version = '0.0.01'
+            version = '0.0.02'
             from components.java
         }
     }
@@ -32,7 +32,7 @@ repositories {
 
 dependencies {
     implementation 'com.google.guava:guava:30.1.1-jre'
-    implementation 'eu.chesdata:chess-pairing:1.4-SNAPSHOT'
+    implementation 'eu.chesdata:chess-pairing:1.5-SNAPSHOT'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
     api 'org.apache.commons:commons-math3:3.6.1'
