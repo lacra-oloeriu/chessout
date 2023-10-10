@@ -1,0 +1,63 @@
+{
+  "name": "empty",
+  "steps": [
+    {
+      "step": "externalSteps",
+      "path": "t_002_set_setings.scen.json"
+    },
+
+    {
+      "step": "scCall",
+      "txId": "call-createTournament",
+      "tx": {
+        "from": "address:owner",
+        "to": "sc:chessout",
+        "function": "createTournament",
+        "value": "0",
+        "gasLimit": "100,000,000",
+        "gasPrice": "0",
+        "arguments": [
+          "str:ACOIN-a00000"
+        ]
+      },
+      "expect": {
+        "out": [],
+        "status": "0",
+        "message": "",
+        "gas": "*",
+        "refund": "*"
+      }
+    },
+    
+    {
+      "step": "checkState",
+      "accounts": {
+        "address:owner": {
+          "nonce": "*",
+          "balance": "0",
+          "storage": {},
+          "code": ""
+        },
+        "sc:chessout": {
+          "nonce": "*",
+          "balance": "0",
+          "storage": {
+            "str:lastIndex": "0",
+            "str:contractSettings":{
+              "1-token_settings_vec_len": "u32:2",
+              "2-egld_data":{
+                "1-tonen_id": "nested:str:EGLD",
+                "2-processing_procentage": "u64:10000"
+              },
+              "3-egld_data":{
+                "1-tonen_id": "nested:str:ACOIN-a00000",
+                "2-processing_procentage": "u64:10000"
+              }
+            }
+          },
+          "code": "file:../output/chessout.wasm"
+        }
+      }
+    }
+  ]
+}

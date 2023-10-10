@@ -22,3 +22,8 @@ fn t_001_deploy_rs() {
 fn t_002_set_setings_rs() {
     world().run("scenarios/t_002_set_setings.scen.json");
 }
+
+#[test]
+fn t_003_create_tournament_rs() {
+    world().run("scenarios/t_003_create_tournament.scen.json");
+}

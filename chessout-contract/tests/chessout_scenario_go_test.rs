@@ -18,3 +18,8 @@ fn t_001_deploy_go() {
 fn t_002_set_setings_go() {
     world().run("scenarios/t_002_set_setings.scen.json");
 }
+
+#[test]
+fn t_003_create_tournament_go() {
+    world().run("scenarios/t_003_create_tournament.scen.json");
+}

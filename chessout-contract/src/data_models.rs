@@ -12,3 +12,9 @@ pub struct TokenSettings<M: ManagedTypeApi> {
     pub token_id: EgldOrEsdtTokenIdentifier<M>,
     pub processing_procentage: u64,
 }
+
+#[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode, Clone)]
+pub struct Tournament<M: ManagedTypeApi> {
+    pub id: u64,
+    pub token_id: EgldOrEsdtTokenIdentifier<M>,
+}
