@@ -22,8 +22,8 @@ multiversx_sc_wasm_adapter::endpoints! {
     chessout
     (
         init => init
-        setContractSettings => set_contract_settings
         incrementLastIndex => increment_last_index
+        setContractSettings => set_contract_settings
     )
 }
 
