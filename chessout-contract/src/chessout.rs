@@ -16,13 +16,6 @@ pub trait Chessout: data_store::StoreModule
         self.last_index().set_if_empty(0)
     }
 
-    #[only_owner]
-    #[endpoint(incrementLastIndex)]
-    fn increment_last_index(&self) {
-        let mut id = self.last_index().get();
-        id += 1;
-        self.last_index().set(id)
-    }
 
     fn get_last_index(&self) -> usize {
         if self.last_index().is_empty() {
