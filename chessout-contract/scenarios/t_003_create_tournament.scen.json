@@ -14,7 +14,6 @@
         }
       }
     },
-
     {
       "step": "scCall",
       "txId": "call-createTournament",
@@ -37,7 +36,6 @@
         "refund": "*"
       }
     },
-    
     {
       "step": "checkState",
       "accounts": {
@@ -58,18 +56,18 @@
           "balance": "0",
           "storage": {
             "str:lastIndex": "1",
-            "str:contractSettings":{
+            "str:contractSettings": {
               "1-token_settings_vec_len": "u32:2",
-              "2-egld_data":{
+              "2-egld_data": {
                 "1-tonen_id": "nested:str:EGLD",
                 "2-processing_procentage": "u64:10000"
               },
-              "3-egld_data":{
+              "3-egld_data": {
                 "1-tonen_id": "nested:str:ACOIN-a00000",
                 "2-processing_procentage": "u64:10000"
               }
             },
-            "str:tournamentData|u64:1":{
+            "str:tournamentData|u64:1": {
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
               "3-manager_list_vec_len": "u32:1",
