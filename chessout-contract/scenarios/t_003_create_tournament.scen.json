@@ -71,7 +71,7 @@
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
               "3-manager_list_vec_len": "u32:1",
-              "3-manager_item": {
+              "4-manager_item": {
                 "1-address": "address:manager"
               }
             }
