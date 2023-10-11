@@ -4,6 +4,8 @@ import {readMyClubs, readMyDefaultClub, getImage} from "utils/firebaseTools";
 import {Container, Row, Col} from "react-bootstrap";
 import { Typography, Paper, Grid, Box } from '@mui/material';
 import {firebaseApp} from "config/firebase";
+import ClubImage from 'assets/images/default_chess_club.jpg';
+import Divider from "@mui/material/Divider";
 
 function MyClubs(props) {
 	const storage = getStorage(firebaseApp);
@@ -22,7 +24,16 @@ function MyClubs(props) {
 			}
 		}));
 
-		setClubs(clubsWithImgSrc);
+		const sortedClubs = clubsWithImgSrc.slice().sort((a, b) => {
+			if (a.isDefaultClub) {
+				return -1; // a should come before b
+			} else if (b.isDefaultClub) {
+				return 1; // b should come before a
+			}
+			return 0; // no change in order
+		});
+
+		setClubs(sortedClubs);
 	};
 
 	useEffect(() => {
@@ -32,58 +43,58 @@ function MyClubs(props) {
 	}, [props.firebaseUser]);
 
 	return (
-		<Container>
+		<Container className="mt-3 mb-5">
 			<Row>
 				{clubs?.map((club) => (
-					<Col xs={12} lg={4} key={club.clubId}>
-						<Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }} key={club.clubId}>
-							{club.img_src ? (
-								<img src={club.img_src} alt="Club Image" style={{ maxWidth: '100%', maxHeight: 'auto' }} />
-							):(
-								<img src={club.img_src} alt="Club Image" style={{ maxWidth: '100%', maxHeight: 'auto' }} />
-							)}
+					<Col xs={12} lg={3} key={club.clubId}>
+						<Paper elevation={3} className={club.isDefaultClub ? 'selected-club': ''} style={{ padding: '20px', marginTop: '20px', minHeight: '530px' }} key={club.clubId}>
+							<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '220px' }}>
+								{club.img_src ? (
+									<img src={club.img_src} className="b-r-sm" alt="Club Image" style={{ height: '100%', width: '100%' }} />
+								) : (
+									<img src={ClubImage} className="b-r-sm" alt="Club Image" style={{ height: '100%', width: '100%'}} />
+								)}
+							</div>
 							<Grid container spacing={2}>
 								<Grid item xs={12}>
-									<Typography variant="h4" gutterBottom>
+									<Typography variant="h4" gutterBottom className="text-center mt-2">
 										{club.name}
 									</Typography>
+									<Divider color={"white"} />
 								</Grid>
-								<Grid item xs={12} sm={6}>
-									<Typography variant="subtitle1">
-										Club ID: {club.clubId}
-									</Typography>
-									<Typography variant="subtitle1">
-										Country: {club.country}
-									</Typography>
-									<Typography variant="subtitle1">
-										City: {club.city}
-									</Typography>
-									<Typography variant="subtitle1">
-										Description: {club.description}
-									</Typography>
+								<Grid item xs={12}>
+									<div className="d-flex justify-content-between">
+										<Typography variant="body2">
+											City
+										</Typography>
+										<Typography variant="body2">
+											{club.city}
+										</Typography>
+									</div>
+									<div className="d-flex justify-content-between">
+										<Typography variant="body2">
+											Country
+										</Typography>
+										<Typography variant="body2">
+											{club.country}
+										</Typography>
+									</div>
+									<div className="d-flex justify-content-between">
+										<Typography variant="body2">
+											Created
+										</Typography>
+										<Typography variant="body2">
+											{new Date(club.dateCreated.timestamp).toLocaleDateString()}
+										</Typography>
+									</div>
+									<Divider color={"white"} className="mt-3" />
 								</Grid>
-								<Grid item xs={12} sm={6}>
-									<Typography variant="subtitle1">
-										Email: {club.email}
-									</Typography>
-									<Typography variant="subtitle1">
-										Short Name: {club.shortName}
-									</Typography>
-									<Typography variant="subtitle1">
-										Home Page: {club.homePage}
-									</Typography>
-									<Typography variant="subtitle1">
-										Created: {new Date(club.dateCreated.timestamp).toLocaleString()}
+								<Grid item xs={12}>
+									<Typography variant="body2" className="text-justified">
+										{club.description}
 									</Typography>
 								</Grid>
 							</Grid>
-							{club.isDefaultClub && (
-								<Box mt={2}>
-									<Typography variant="subtitle1" color="primary">
-										Default Club
-									</Typography>
-								</Box>
-							)}
 						</Paper>
 					</Col>
 				))}

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CssBaseline, useMediaQuery } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import CustomNavbar from 'components/Navbar';
+import "assets/css/globals.css";
 
 import About from 'pages/about';
 import ClubPlayers from 'pages/club_players';
