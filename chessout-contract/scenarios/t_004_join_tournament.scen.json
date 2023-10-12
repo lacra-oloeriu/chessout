@@ -1,0 +1,71 @@
+{
+  "name": "empty",
+  "steps": [
+    {
+      "step": "externalSteps",
+      "path": "t_003_create_tournament.scen.json"
+    },
+    {
+      "step": "setState",
+      "accounts": {
+        "address:manager": {
+          "nonce": "0",
+          "balance": "0"
+        }
+      }
+    },
+    
+    {
+      "step": "checkState",
+      "accounts": {
+        "address:owner": {
+          "nonce": "*",
+          "balance": "0",
+          "storage": {},
+          "code": ""
+        },
+        "address:manager": {
+          "nonce": "*",
+          "balance": "0",
+          "storage": {},
+          "code": ""
+        },
+        "sc:chessout": {
+          "nonce": "*",
+          "balance": "0",
+          "storage": {
+            "str:lastIndex": "1",
+            "str:contractSettings": {
+              "1-token_settings_vec_len": "u32:2",
+              "2-egld_data": {
+                "1-tonen_id": "nested:str:EGLD",
+                "2-processing_procentage": "u64:10000"
+              },
+              "3-egld_data": {
+                "1-tonen_id": "nested:str:ACOIN-a00000",
+                "2-processing_procentage": "u64:10000"
+              }
+            },
+            "str:totalFees": {
+              "1-fee_list_vec_len": "u32:0",
+              "2-fee_list": {}
+            },
+            "str:tournamentData|u64:1": {
+              "1-tournament_id": "u64:1",
+              "2-token_id": "nested:str:ACOIN-a00000",
+              "3-entry_fee": "biguint:1000",
+              "4-available_funds": "biguint:0",
+              "5-manager_list_vec_len": "u32:1",
+              "6-manager_item": {
+                "1-address": "address:manager"
+              },
+              "7-participant_list_vec_len": "u32:0",
+              "8-participant_list": {}
+            }
+          },
+          "code": "file:../output/chessout.wasm"
+        }
+      }
+    }
+  ]
+}
