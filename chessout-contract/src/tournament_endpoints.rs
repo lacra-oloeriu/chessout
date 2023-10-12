@@ -13,6 +13,7 @@ pub trait TournamentEndpoints: data_store::StoreModule{
     #[endpoint(createTournament)]
     fn create_tournament(&self, 
         token_id: TokenIdentifier,
+        entry_fee: BigUint,
         ) {
         
         let valid_token = self.is_token_valid(&token_id);
@@ -25,10 +26,16 @@ pub trait TournamentEndpoints: data_store::StoreModule{
         let mut manager_list = ManagedVec::new();
         manager_list.push(manager);
 
+        let participant_list = ManagedVec::new();
+
+        let zero_initial_fund:  BigUint = BigUint::zero();
         let tournament = Tournament{
             id: id,
             token_id: tournament_token,
+            entry_fee: entry_fee,
+            available_funds: zero_initial_fund,
             manager_list: manager_list,
+            participant_list: participant_list
         };
 
         self.tournament_data(id).set(tournament);

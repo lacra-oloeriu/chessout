@@ -17,5 +17,8 @@ pub struct TokenSettings<M: ManagedTypeApi> {
 pub struct Tournament<M: ManagedTypeApi> {
     pub id: u64,
     pub token_id: EgldOrEsdtTokenIdentifier<M>,
+    pub entry_fee: BigUint<M>,
+    pub available_funds: BigUint<M>,
     pub manager_list: ManagedVec<M, ManagedAddress<M>>,
+    pub participant_list: ManagedVec<M, ManagedAddress<M>>,
 }
