@@ -33,3 +33,10 @@ pub struct FeeItem<M: ManagedTypeApi> {
     pub token_id: EgldOrEsdtTokenIdentifier<M>,
     pub collected_value: BigUint<M>,
 }
+
+
+#[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode, Clone)]
+pub struct TournamentWiner<M: ManagedTypeApi> {
+    pub winner: ManagedAddress<M>,
+    pub prize: BigUint<M>,
+}
