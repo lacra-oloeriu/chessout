@@ -198,7 +198,8 @@
                 "1-address": "address:player-1",
                 "2-address": "address:player-2",
                 "3-address": "address:player-3"
-              }
+              },
+              "9-prizes_have_bean_distibuted": "0x00"
             }
           },
           "code": "file:../output/chessout.wasm"
