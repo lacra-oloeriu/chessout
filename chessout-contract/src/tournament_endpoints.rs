@@ -30,6 +30,7 @@ pub trait TournamentEndpoints: data_store::StoreModule {
             available_funds: zero_initial_fund,
             manager_list: manager_list,
             participant_list: participant_list,
+            prizes_have_bean_distibuted: false,
         };
 
         self.tournament_data(id).set(tournament);

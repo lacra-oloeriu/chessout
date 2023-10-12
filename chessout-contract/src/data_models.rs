@@ -21,6 +21,7 @@ pub struct Tournament<M: ManagedTypeApi> {
     pub available_funds: BigUint<M>,
     pub manager_list: ManagedVec<M, ManagedAddress<M>>,
     pub participant_list: ManagedVec<M, ManagedAddress<M>>,
+    pub prizes_have_bean_distibuted: bool,
 }
 
 #[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode, Clone)]
