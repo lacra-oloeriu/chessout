@@ -4,6 +4,7 @@ use crate::data_models::ContractSettings;
 use crate::data_models::TokenSettings;
 use crate::data_models::Tournament;
 use crate::data_store;
+use core::ops::Deref;
 
 #[multiversx_sc::module]
 pub trait TournamentEndpoints: data_store::StoreModule {
@@ -76,7 +77,7 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         let tournament = self.tournament_data(tournament_id).get();
         for participant_address in tournament.participant_list.iter() {
            
-            if participant_address == participant {
+            if participant_address.deref() == &participant {
                 return true;
             }
         }
