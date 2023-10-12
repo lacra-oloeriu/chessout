@@ -102,7 +102,7 @@
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
               "3-entry_fee": "biguint:1000",
-              "4-available_funds": "biguint:0",
+              "4-available_funds": "biguint:1000",
               "5-manager_list_vec_len": "u32:1",
               "6-manager_item": {
                 "1-address": "address:manager"

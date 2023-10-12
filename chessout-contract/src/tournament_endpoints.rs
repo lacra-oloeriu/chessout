@@ -64,20 +64,20 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         return false;
     }
 
-    fn is_tournament_entry_fee_valid(&self, tournament_id: u64, entry_fee: BigUint) -> bool {
+    fn is_tournament_entry_fee_valid(&self, tournament_id: u64, entry_fee: &BigUint) -> bool {
         let tournament = self.tournament_data(tournament_id).get();
-        if tournament.entry_fee == entry_fee {
+        if tournament.entry_fee == *entry_fee {
             return true;
         }
         return false;
     }
 
     // check is participant part of tournament
-    fn participant_can_join_tournament(&self, tournament_id: u64, participant: ManagedAddress) -> bool {
+    fn participant_can_join_tournament(&self, tournament_id: u64, participant: &ManagedAddress) -> bool {
         let tournament = self.tournament_data(tournament_id).get();
         for participant_address in tournament.participant_list.iter() {
            
-            if participant_address.deref() == &participant {
+            if participant_address.deref() == participant {
                 return false;
             }
         }
@@ -85,9 +85,10 @@ pub trait TournamentEndpoints: data_store::StoreModule {
     }
 
     // add participant to tournament
-    fn add_participant_to_tournament(&self, tournament_id: u64, participant: ManagedAddress) {
+    fn add_participant_to_tournament(&self, tournament_id: u64, participant: ManagedAddress, payment: BigUint) {
         let mut tournament = self.tournament_data(tournament_id).get();
         tournament.participant_list.push(participant);
+        tournament.available_funds += payment;
         self.tournament_data(tournament_id).set(tournament);
     }
 
@@ -102,13 +103,15 @@ pub trait TournamentEndpoints: data_store::StoreModule {
 
         // check entry fee
         let entry_fee = payment.amount;
-        let valid_entry_fee = self.is_tournament_entry_fee_valid(tournament_id, entry_fee);
+        let valid_entry_fee = self.is_tournament_entry_fee_valid(tournament_id, &entry_fee);
         require!(valid_entry_fee, "Tournament entry fee is not valid");
 
-        let can_join = self.participant_can_join_tournament(tournament_id, self.blockchain().get_caller());
+        let participant = self.blockchain().get_caller();
+        let can_join = self.participant_can_join_tournament(tournament_id, &participant);
         require!(can_join, "Participant is already part of tournament");
 
         // add participant to tournament
-        self.add_participant_to_tournament(tournament_id, self.blockchain().get_caller());
+        self.add_participant_to_tournament(tournament_id, 
+            self.blockchain().get_caller(), entry_fee);
     }
 }
