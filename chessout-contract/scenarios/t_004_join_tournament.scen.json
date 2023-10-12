@@ -19,7 +19,22 @@
             "str:ACOIN-a00000": "2000",
             "str:BCOIN-a00000": "2000"
           }
+        },
+        "address:player-2": {
+          "nonce": "0",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "2000"
+          }
+        },
+        "address:player-3": {
+          "nonce": "0",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "2000"
+          }
         }
+
       }
     },
     
@@ -73,6 +88,20 @@
           "esdt": {
             "str:ACOIN-a00000": "1000",
             "str:BCOIN-a00000": "2000"
+          }
+        },
+        "address:player-2": {
+          "nonce": "0",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "2000"
+          }
+        },
+        "address:player-3": {
+          "nonce": "0",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "2000"
           }
         },
         "sc:chessout": {
