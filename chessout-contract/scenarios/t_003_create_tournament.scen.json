@@ -68,6 +68,10 @@
                 "2-processing_procentage": "u64:10000"
               }
             },
+            "str:totalFees": {
+              "1-fee_list_vec_len": "u32:0",
+              "2-fee_list": {}
+            },
             "str:tournamentData|u64:1": {
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
@@ -77,8 +81,8 @@
               "6-manager_item": {
                 "1-address": "address:manager"
               },
-              "7-participant_list_vec_len":"u32:0",
-              "8-participant_list":{}
+              "7-participant_list_vec_len": "u32:0",
+              "8-participant_list": {}
             }
           },
           "code": "file:../output/chessout.wasm"
