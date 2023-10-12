@@ -22,3 +22,15 @@ pub struct Tournament<M: ManagedTypeApi> {
     pub manager_list: ManagedVec<M, ManagedAddress<M>>,
     pub participant_list: ManagedVec<M, ManagedAddress<M>>,
 }
+
+
+#[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode, Clone)]
+pub struct TotalFees<M: ManagedTypeApi> {
+    pub fee_list: ManagedVec<M, FeeItem<M>>,
+}
+
+#[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode, Clone)]
+pub struct FeeItem <M: ManagedTypeApi> {
+    token_id: EgldOrEsdtTokenIdentifier<M>,
+    collected_value: BigUint<M>,
+}
