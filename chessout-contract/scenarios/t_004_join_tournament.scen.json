@@ -96,6 +96,35 @@
     },
 
     {
+      "step": "scCall",
+      "txId": "call-joinTournament",
+      "tx": {
+        "from": "address:player-3",
+        "to": "sc:chessout",
+        "function": "joinTournament",
+        "value": "0",
+        "gasLimit": "100,000,000",
+        "gasPrice": "0",
+        "esdtValue": [
+          {
+            "tokenIdentifier": "str:ACOIN-a00000",
+            "value": "1000"
+          }
+        ],
+        "arguments": [
+          "1"
+        ]
+      },
+      "expect": {
+        "out": [],
+        "status": "0",
+        "message": "",
+        "gas": "*",
+        "refund": "*"
+      }
+    },
+
+    {
       "step": "checkState",
       "accounts": {
         "address:owner": {
@@ -129,14 +158,14 @@
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "2000"
+            "str:ACOIN-a00000": "1000"
           }
         },
         "sc:chessout": {
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "2000"
+            "str:ACOIN-a00000": "3000"
           },
           "storage": {
             "str:lastIndex": "1",
@@ -159,15 +188,16 @@
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
               "3-entry_fee": "biguint:1000",
-              "4-available_funds": "biguint:2000",
+              "4-available_funds": "biguint:3000",
               "5-manager_list_vec_len": "u32:1",
               "6-manager_item": {
                 "1-address": "address:manager"
               },
-              "7-participant_list_vec_len": "u32:2",
+              "7-participant_list_vec_len": "u32:3",
               "8-participant_list": {
                 "1-address": "address:player-1",
-                "2-address": "address:player-2"
+                "2-address": "address:player-2",
+                "3-address": "address:player-3"
               }
             }
           },
