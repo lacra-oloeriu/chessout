@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CssBaseline, useMediaQuery } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import CustomNavbar from 'components/Navbar';
+import "assets/css/globals.css";
 
 import About from 'pages/about';
 import ClubPlayers from 'pages/club_players';
@@ -67,7 +68,7 @@ function App() {
         <NotificationModal />
         <SignTransactionsModals />
         <Router>
-          <CustomNavbar theme={theme} handleThemeChange={handleThemeChange} isMobile={isMobile} firebaseUser={firebaseUser}/>
+          <CustomNavbar theme={theme} handleThemeChange={handleThemeChange} isMobile={isMobile} firebaseUser={firebaseUser ? firebaseUser: null}/>
           <Routes>
             <Route path="/" element={<About />} />
             <Route path="/about-us" element={<About />} />
@@ -75,7 +76,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/followed-players" element={<FollowedPlayers />} />
             <Route path="/my-club" element={<MyClub />} />
-            <Route path="/my-clubs" element={<MyClubs />} />
+            <Route path="/my-clubs" element={<MyClubs firebaseUser={firebaseUser} />} />
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/club-players" element={<ClubPlayers />} />
             <Route path="/team" element={<Team />} />

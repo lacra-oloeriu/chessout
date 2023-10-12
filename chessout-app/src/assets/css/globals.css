@@ -2229,3 +2229,10 @@ h6 {
     color: #0075ff;
     transform: scale(1.25);
 }
+
+.text-justified{
+    text-align: justify;
+}
+.selected-club{
+    border: 2px solid #01b574;
+}
