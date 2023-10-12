@@ -73,10 +73,13 @@ pub trait TournamentEndpoints: data_store::StoreModule {
     }
 
     // check is participant part of tournament
-    fn participant_can_join_tournament(&self, tournament_id: u64, participant: &ManagedAddress) -> bool {
+    fn participant_can_join_tournament(
+        &self,
+        tournament_id: u64,
+        participant: &ManagedAddress,
+    ) -> bool {
         let tournament = self.tournament_data(tournament_id).get();
         for participant_address in tournament.participant_list.iter() {
-           
             if participant_address.deref() == participant {
                 return false;
             }
@@ -85,7 +88,12 @@ pub trait TournamentEndpoints: data_store::StoreModule {
     }
 
     // add participant to tournament
-    fn add_participant_to_tournament(&self, tournament_id: u64, participant: &ManagedAddress, payment: &BigUint) {
+    fn add_participant_to_tournament(
+        &self,
+        tournament_id: u64,
+        participant: &ManagedAddress,
+        payment: &BigUint,
+    ) {
         let mut tournament = self.tournament_data(tournament_id).get();
         tournament.participant_list.push(participant.clone()); // You might need to clone the participant if it's not Copy.
         tournament.available_funds += payment.clone(); // You might need to clone the payment if it's not Copy.
@@ -111,7 +119,6 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         require!(can_join, "Participant is already part of tournament");
 
         // add participant to tournament
-        self.add_participant_to_tournament(tournament_id, 
-            self.blockchain().get_caller(), entry_fee);
+        self.add_participant_to_tournament(tournament_id, &participant, &entry_fee);
     }
 }
