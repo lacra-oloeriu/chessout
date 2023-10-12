@@ -51,7 +51,11 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         return last_index;
     }
 
-    fn is_tournament_token_valid(&self, tournament_id: u64, token: EgldOrEsdtTokenIdentifier) -> bool {
+    fn is_tournament_token_valid(
+        &self,
+        tournament_id: u64,
+        token: EgldOrEsdtTokenIdentifier,
+    ) -> bool {
         let tournament = self.tournament_data(tournament_id).get();
         if tournament.token_id == token {
             return true;
@@ -59,12 +63,38 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         return false;
     }
 
+    fn is_tournament_entry_fee_valid(&self, tournament_id: u64, entry_fee: BigUint) -> bool {
+        let tournament = self.tournament_data(tournament_id).get();
+        if tournament.entry_fee == entry_fee {
+            return true;
+        }
+        return false;
+    }
+
+    // check is participant part of tournament
+    fn is_participant(&self, tournament_id: u64, participant: ManagedAddress) -> bool {
+        let tournament = self.tournament_data(tournament_id).get();
+        for participant_address in tournament.participant_list.iter() {
+           
+            if participant_address == participant {
+                return true;
+            }
+        }
+        false
+    }
+
     #[payable("*")]
     #[endpoint(joinTournament)]
     fn join_tournament(&self, tournament_id: u64) {
+        // check token
         let payment = self.call_value().egld_or_single_esdt();
         let join_token = payment.token_identifier;
         let valid_token = self.is_tournament_token_valid(tournament_id, join_token);
         require!(valid_token, "Tournament token is not valid");
+
+        // check entry fee
+        let entry_fee = payment.amount;
+        let valid_entry_fee = self.is_tournament_entry_fee_valid(tournament_id, entry_fee);
+        require!(valid_entry_fee, "Tournament entry fee is not valid");
     }
 }
