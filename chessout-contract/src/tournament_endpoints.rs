@@ -85,10 +85,10 @@ pub trait TournamentEndpoints: data_store::StoreModule {
     }
 
     // add participant to tournament
-    fn add_participant_to_tournament(&self, tournament_id: u64, participant: ManagedAddress, payment: BigUint) {
+    fn add_participant_to_tournament(&self, tournament_id: u64, participant: &ManagedAddress, payment: &BigUint) {
         let mut tournament = self.tournament_data(tournament_id).get();
-        tournament.participant_list.push(participant);
-        tournament.available_funds += payment;
+        tournament.participant_list.push(participant.clone()); // You might need to clone the participant if it's not Copy.
+        tournament.available_funds += payment.clone(); // You might need to clone the payment if it's not Copy.
         self.tournament_data(tournament_id).set(tournament);
     }
 
