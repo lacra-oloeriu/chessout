@@ -73,15 +73,22 @@ pub trait TournamentEndpoints: data_store::StoreModule {
     }
 
     // check is participant part of tournament
-    fn is_participant(&self, tournament_id: u64, participant: ManagedAddress) -> bool {
+    fn participant_can_join_tournament(&self, tournament_id: u64, participant: ManagedAddress) -> bool {
         let tournament = self.tournament_data(tournament_id).get();
         for participant_address in tournament.participant_list.iter() {
            
             if participant_address.deref() == &participant {
-                return true;
+                return false;
             }
         }
-        false
+        true
+    }
+
+    // add participant to tournament
+    fn add_participant_to_tournament(&self, tournament_id: u64, participant: ManagedAddress) {
+        let mut tournament = self.tournament_data(tournament_id).get();
+        tournament.participant_list.push(participant);
+        self.tournament_data(tournament_id).set(tournament);
     }
 
     #[payable("*")]
@@ -97,5 +104,11 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         let entry_fee = payment.amount;
         let valid_entry_fee = self.is_tournament_entry_fee_valid(tournament_id, entry_fee);
         require!(valid_entry_fee, "Tournament entry fee is not valid");
+
+        let can_join = self.participant_can_join_tournament(tournament_id, self.blockchain().get_caller());
+        require!(can_join, "Participant is already part of tournament");
+
+        // add participant to tournament
+        self.add_participant_to_tournament(tournament_id, self.blockchain().get_caller());
     }
 }

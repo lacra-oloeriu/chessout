@@ -107,8 +107,10 @@
               "6-manager_item": {
                 "1-address": "address:manager"
               },
-              "7-participant_list_vec_len": "u32:0",
-              "8-participant_list": {}
+              "7-participant_list_vec_len": "u32:1",
+              "8-participant_list": {
+                "1-address": "address:player-1"
+              }
             }
           },
           "code": "file:../output/chessout.wasm"
