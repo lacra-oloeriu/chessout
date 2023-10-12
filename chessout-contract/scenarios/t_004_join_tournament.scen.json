@@ -11,10 +11,47 @@
         "address:manager": {
           "nonce": "0",
           "balance": "0"
+        },
+        "address:player-1": {
+          "nonce": "0",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "2000",
+            "str:BCOIN-a00000": "2000"
+          }
         }
       }
     },
     
+    {
+      "step": "scCall",
+      "txId": "call-joinTournament",
+      "tx": {
+        "from": "address:player-1",
+        "to": "sc:chessout",
+        "function": "joinTournament",
+        "value": "0",
+        "gasLimit": "100,000,000",
+        "gasPrice": "0",
+        "esdtValue": [
+          {
+            "tokenIdentifier": "str:ACOIN-a00000",
+            "value": "1000"
+          }
+        ],
+        "arguments": [
+          "1"
+        ]
+      },
+      "expect": {
+        "out": [],
+        "status": "0",
+        "message": "",
+        "gas": "*",
+        "refund": "*"
+      }
+    },
+
     {
       "step": "checkState",
       "accounts": {
@@ -30,9 +67,20 @@
           "storage": {},
           "code": ""
         },
+        "address:player-1": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "1000",
+            "str:BCOIN-a00000": "2000"
+          }
+        },
         "sc:chessout": {
           "nonce": "*",
           "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "1000"
+          },
           "storage": {
             "str:lastIndex": "1",
             "str:contractSettings": {
