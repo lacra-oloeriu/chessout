@@ -176,7 +176,7 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         let is_part_of_tournament = self.participant_is_part_of_tournament(tournament_id, &winner);
         require!(is_part_of_tournament, "Winner is not part of tournament");
 
-        //self.add_winner_to_tournament(tournament_id, &winner, &prize);
+        self.add_winner_to_tournament(tournament_id, &winner, &prize);
 
         
     }
