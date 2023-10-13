@@ -5,9 +5,30 @@
       "step": "externalSteps",
       "path": "t_004_join_tournament.scen.json"
     },
-
-    
-
+    {
+      "step": "scCall",
+      "txId": "call-addTounamentWinner",
+      "tx": {
+        "from": "address:manager",
+        "to": "sc:chessout",
+        "function": "addTounamentWinner",
+        "value": "0",
+        "gasLimit": "100,000,000",
+        "gasPrice": "0",
+        "arguments": [
+          "1",
+          "address:player-1",
+          "500"
+        ]
+      },
+      "expect": {
+        "out": [],
+        "status": "0",
+        "message": "",
+        "gas": "*",
+        "refund": "*"
+      }
+    },
     {
       "step": "checkState",
       "accounts": {
