@@ -3,6 +3,7 @@ multiversx_sc::imports!();
 use crate::data_models::ContractSettings;
 use crate::data_models::TokenSettings;
 use crate::data_models::Tournament;
+use crate::data_models::TournamentWiner;
 use crate::data_store;
 use core::ops::Deref;
 
@@ -117,6 +118,20 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         self.tournament_data(tournament_id).set(tournament);
     }
 
+    fn add_winner_to_tournament(
+        &self,
+        tournament_id: u64,
+        winner: &ManagedAddress,
+        prize: &BigUint,
+    ) {
+        let mut tournament = self.tournament_data(tournament_id).get();
+        tournament.winner_list.push(TournamentWiner {
+            winner: winner.clone(),
+            prize: prize.clone(),
+        }); // You might need to clone the participant if it's not Copy.
+        self.tournament_data(tournament_id).set(tournament);
+    }
+
     #[payable("*")]
     #[endpoint(joinTournament)]
     fn join_tournament(&self, tournament_id: u64) {
@@ -161,7 +176,7 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         let is_part_of_tournament = self.participant_is_part_of_tournament(tournament_id, &winner);
         require!(is_part_of_tournament, "Winner is not part of tournament");
 
-        let mut tournament = self.tournament_data(tournament_id).get();
+        //self.add_winner_to_tournament(tournament_id, &winner, &prize);
 
         
     }

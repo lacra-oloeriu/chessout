@@ -21,7 +21,7 @@ pub struct Tournament<M: ManagedTypeApi> {
     pub available_funds: BigUint<M>,
     pub manager_list: ManagedVec<M, ManagedAddress<M>>,
     pub participant_list: ManagedVec<M, ManagedAddress<M>>,
-    pub winner_list: ManagedVec<M, ManagedAddress<M>>,
+    pub winner_list: ManagedVec<M, TournamentWiner<M>>,
     pub prizes_have_bean_distibuted: bool,
 }
 
