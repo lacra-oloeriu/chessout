@@ -45,4 +45,48 @@ updateContract() {
     --proxy=${PROXY} --chain=${CHAINID}
 }
 
+setContractSettings(){
+  MY_LOGS="${ENV_LOGS}-setContractSettings.json"
+  mxpy --verbose contract call ${ADDRESS} --recall-nonce \
+    --pem=${PEM_FILE} \
+    --gas-limit=8000000 \
+    --proxy=${PROXY} --chain=${CHAINID} \
+    --function="setContractSettings" \
+    --arguments ${EGLD_PROCENTAGE} "0x${TOKEN_ID_HEX}" ${TOKEN_PROCENTAGE}  \
+    --send \
+    --outfile="${MY_LOGS}"
+}
+
+createTournament(){
+  MY_LOGS="${ENV_LOGS}-createTournament.json"
+  ENTRY_FEE="1${MY_DECIMALS}"
+  mxpy --verbose contract call ${ADDRESS} --recall-nonce \
+    --pem=${PEM_FILE} \
+    --gas-limit=8000000 \
+    --proxy=${PROXY} --chain=${CHAINID} \
+    --function="createTournament" \
+    --arguments "0x${TOKEN_ID_HEX}" ${ENTRY_FEE}  \
+    --send \
+    --outfile="${MY_LOGS}"
+}
+
+joinTournament() {
+  MY_LOGS="${ENV_LOGS}-joinTournament.json"
+  method_name="0x$(echo -n 'joinTournament' | xxd -p -u | tr -d '\n')"
+  token_id="0x$(echo -n ${TOKEN_ID} | xxd -p -u | tr -d '\n')"
+  amount="1${MY_DECIMALS}"
+  tournament_id="1"
+  mxpy --verbose contract call ${ADDRESS} --recall-nonce \
+    --pem=${PEM_FILE} \
+    --gas-limit=8000000 \
+    --proxy=${PROXY} --chain=${CHAINID} \
+    --function="ESDTTransfer" \
+    --arguments $token_id $amount $method_name $tournament_id \
+    --send \
+    --outfile="${MY_LOGS}"
+}
+
+
+
+
 
