@@ -88,6 +88,20 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         true
     }
 
+    fn participant_is_part_of_tournament(
+        &self,
+        tournament_id: u64,
+        participant: &ManagedAddress,
+    ) -> bool {
+        let tournament = self.tournament_data(tournament_id).get();
+        for participant_address in tournament.participant_list.iter() {
+            if participant_address.deref() == participant {
+                return true;
+            }
+        }
+        false
+    }
+
     // add participant to tournament
     fn add_participant_to_tournament(
         &self,
@@ -142,7 +156,11 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         let is_manager = self.is_tourament_manager(tournament_id, &manager);
         require!(is_manager, "Caller is not manager of tournament");
 
+        let is_part_of_tournament = self.participant_is_part_of_tournament(tournament_id, &winner);
+        require!(is_part_of_tournament, "Winner is not part of tournament");
+
         let mut tournament = self.tournament_data(tournament_id).get();
+
         
     }
 }
