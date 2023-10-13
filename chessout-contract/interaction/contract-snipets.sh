@@ -94,12 +94,13 @@ addTounamentWinner(){
   decode_val_x=0xddef36c7865378ec14eaab6f9fdf236ca2860a6fae46d728bf3e083a08e90f7c
   MY_LOGS="${ENV_LOGS}-addTounamentWinner.json"
   tournament_id="1"
+  prize="1${MY_DECIMALS}"
   mxpy --verbose contract call ${ADDRESS} --recall-nonce \
     --pem=${PEM_FILE} \
     --gas-limit=8000000 \
     --proxy=${PROXY} --chain=${CHAINID} \
     --function="addTounamentWinner" \
-    --arguments "${tournament_id}" 0xddef36c7865378ec14eaab6f9fdf236ca2860a6fae46d728bf3e083a08e90f7c  \
+    --arguments "${tournament_id}" "${decode_val_x}" "${prize}"  \
     --send \
     --outfile="${MY_LOGS}"
 }
