@@ -86,6 +86,24 @@ joinTournament() {
     --outfile="${MY_LOGS}"
 }
 
+addTounamentWinner(){
+  # devnet
+  # erd1mhhnd3ux2duwc9824dhelherdj3gvzn04erdw29l8cyr5z8fpa7quda68z
+  # mxpy wallet bech32 --decode erd1mhhnd3ux2duwc9824dhelherdj3gvzn04erdw29l8cyr5z8fpa7quda68z
+  decode_val="ddef36c7865378ec14eaab6f9fdf236ca2860a6fae46d728bf3e083a08e90f7c"
+  decode_val_x=0xddef36c7865378ec14eaab6f9fdf236ca2860a6fae46d728bf3e083a08e90f7c
+  MY_LOGS="${ENV_LOGS}-addTounamentWinner.json"
+  tournament_id="1"
+  mxpy --verbose contract call ${ADDRESS} --recall-nonce \
+    --pem=${PEM_FILE} \
+    --gas-limit=8000000 \
+    --proxy=${PROXY} --chain=${CHAINID} \
+    --function="addTounamentWinner" \
+    --arguments "${tournament_id}" 0xddef36c7865378ec14eaab6f9fdf236ca2860a6fae46d728bf3e083a08e90f7c  \
+    --send \
+    --outfile="${MY_LOGS}"
+}
+
 
 
 
