@@ -126,11 +126,11 @@
                 "3-address": "address:player-3"
               },
               "a-winner_list_list_vec_len": "u32:1",
-              "a-winner_list_list": {
-                "1-winner-a":{
+              "a-winner_list_list|str:.item|u32:1": {
+               
                   "1-address": "address:player-1",
                   "2-prize": "biguint:500"
-                }
+                
               },
               "b-prizes_have_bean_distibuted": "0x00"
             }
