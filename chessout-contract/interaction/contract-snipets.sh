@@ -2,14 +2,14 @@ PROJECT="${PWD}"
 
 CORE_LOGS="interaction/logs"
 MY_DECIMALS="000000000000000000"
-MY_BYTECODE="output/xlauncher-simple.wasm"
+MY_BYTECODE="output/chessout.wasm"
 
 setEnvDevnet() {
   CURRENT_ENV="devnet"
   ENV_LOGS="${CORE_LOGS}/${CURRENT_ENV}"
 
   cp -f mxpy.data-storage-devnet.json mxpy.data-storage.json
-  PEM_FILE="${PROJECT}/../../../wallets/devnet_owner_wallet.pem"
+  PEM_FILE="${PROJECT}/../../wallets/devnet_owner_wallet.pem"
   ADDRESS=$(mxpy data load --key=address-devnet)
   PROXY=https://devnet-gateway.multiversx.com
   CHAINID=D
@@ -22,9 +22,9 @@ setEnvDevnet() {
 
 }
 
-deploy() {
+deployContract() {
   MY_LOGS="${ENV_LOGS}-deploy.json"
-  mxpy --verbose contract deploy --project=${PROJECT} --recall-nonce --pem=${PEM_FILE} \
+  mxpy --verbose contract deploy --bytecode ${MY_BYTECODE} --recall-nonce --pem=${PEM_FILE} \
     --gas-limit=100000000 --send --outfile="${MY_LOGS}" \
     --proxy=${PROXY} --chain=${CHAINID} || return
 
