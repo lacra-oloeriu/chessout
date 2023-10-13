@@ -21,6 +21,7 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         manager_list.push(manager);
 
         let participant_list = ManagedVec::new();
+        let winner_list = ManagedVec::new();
 
         let zero_initial_fund: BigUint = BigUint::zero();
         let tournament = Tournament {
@@ -30,6 +31,7 @@ pub trait TournamentEndpoints: data_store::StoreModule {
             available_funds: zero_initial_fund,
             manager_list: manager_list,
             participant_list: participant_list,
+            winner_list: winner_list,
             prizes_have_bean_distibuted: false,
         };
 
