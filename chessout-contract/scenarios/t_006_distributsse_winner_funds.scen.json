@@ -21,6 +21,29 @@
     },
     
     {
+      "step": "scCall",
+      "txId": "call-addTounamentWinner",
+      "tx": {
+        "from": "address:manager",
+        "to": "sc:chessout",
+        "function": "distribureTournamentRewords",
+        "value": "0",
+        "gasLimit": "100,000,000",
+        "gasPrice": "0",
+        "arguments": [
+          "1"
+        ]
+      },
+      "expect": {
+        "out": [],
+        "status": "0",
+        "message": "",
+        "gas": "*",
+        "refund": "*"
+      }
+    },
+
+    {
       "step": "checkState",
       "accounts": {
         "address:owner": {
