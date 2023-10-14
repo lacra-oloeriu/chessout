@@ -164,10 +164,8 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         false
     }
 
-    
     #[endpoint(addTounamentWinner)]
-    fn addTounamentWinner  (&self, tournament_id: u64, winner: ManagedAddress, prize: BigUint) {
-
+    fn addTounamentWinner(&self, tournament_id: u64, winner: ManagedAddress, prize: BigUint) {
         // check if caller is manager
         let manager = self.blockchain().get_caller();
         let is_manager = self.is_tourament_manager(tournament_id, &manager);
@@ -177,7 +175,10 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         require!(is_part_of_tournament, "Winner is not part of tournament");
 
         self.add_winner_to_tournament(tournament_id, &winner, &prize);
+    }
 
-        
+    #[endpoint(distribureTournamentRewords)]
+    fn distribute_tournament_rewords(&self, tournament_id: u64) {
+        // check if caller is manager
     }
 }
