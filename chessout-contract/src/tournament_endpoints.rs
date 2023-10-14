@@ -179,6 +179,10 @@ pub trait TournamentEndpoints: data_store::StoreModule {
 
     #[endpoint(distribureTournamentRewords)]
     fn distribute_tournament_rewords(&self, tournament_id: u64) {
-        // check if caller is manager
+         // check if caller is manager
+         let manager = self.blockchain().get_caller();
+         let is_manager = self.is_tourament_manager(tournament_id, &manager);
+         require!(is_manager, "Caller is not manager of tournament");
+ 
     }
 }
