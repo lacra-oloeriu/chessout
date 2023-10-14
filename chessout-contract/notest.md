@@ -4,3 +4,4 @@
 # generate cargo tests
 sc-meta test-gen
 ```
+
