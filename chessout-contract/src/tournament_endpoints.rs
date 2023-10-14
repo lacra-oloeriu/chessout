@@ -179,10 +179,22 @@ pub trait TournamentEndpoints: data_store::StoreModule {
 
     #[endpoint(distribureTournamentRewords)]
     fn distribute_tournament_rewords(&self, tournament_id: u64) {
+        
          // check if caller is manager
          let manager = self.blockchain().get_caller();
          let is_manager = self.is_tourament_manager(tournament_id, &manager);
          require!(is_manager, "Caller is not manager of tournament");
  
+        let tournament = self.tournament_data(tournament_id).get();
+        let mut total_rewords = BigUint::zero();
+        for t_winner in tournament.winner_list.iter(){
+            total_rewords += &t_winner.prize;
+            self.send().direct(&t_winner.winner, &tournament.token_id, 0, &t_winner.prize);
+        }
+
+        sc_print!("tota rewords = {}", total_rewords);
+
+       // for winer in 
+
     }
 }

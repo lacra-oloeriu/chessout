@@ -62,7 +62,7 @@
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "1000",
+            "str:ACOIN-a00000": "1500",
             "str:BCOIN-a00000": "2000"
           }
         },
@@ -91,7 +91,7 @@
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "3000"
+            "str:ACOIN-a00000": "2500"
           },
           "storage": {
             "str:lastIndex": "1",
