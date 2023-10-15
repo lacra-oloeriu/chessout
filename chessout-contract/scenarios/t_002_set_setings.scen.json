@@ -85,9 +85,13 @@
               }
             },
             "str:totalFees": {
-              "1-fee_list_vec_len": "u32:1",
+              "1-fee_list_vec_len": "u32:2",
               "2-fee_item": {
                 "1-token_id": "nested:str:EGLD",
+                "2-amount":  "biguint:0"
+              },
+              "3-fee_item": {
+                "1-token_id": "nested:str:ACOIN-a00000",
                 "2-amount":  "biguint:0"
               }
             }

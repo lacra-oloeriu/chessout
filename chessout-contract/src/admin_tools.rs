@@ -31,7 +31,7 @@ pub trait AdminTools: data_store::StoreModule{
 
 
         let xch_settings = TokenSettings{
-            token_id: EgldOrEsdtTokenIdentifier::esdt(xch_token),
+            token_id: EgldOrEsdtTokenIdentifier::esdt(xch_token.clone()),
             processing_procentage: xch_processing_procentage,
         };
         
@@ -64,6 +64,22 @@ pub trait AdminTools: data_store::StoreModule{
                 collected_value: BigUint::zero(),
             };
             total_fees.fee_list.push(egld_fee_item);
+        }
+
+        // if fees list does not contain EgldOrEsdtTokenIdentifier::esdt(xch_token), add it with 0 value
+        let mut xch_found = false;
+        for fee_item in total_fees.fee_list.iter() {
+            if fee_item.token_id == EgldOrEsdtTokenIdentifier::esdt(xch_token.clone()) {
+                xch_found = true;
+            }
+        }
+
+        if !xch_found {
+            let xch_fee_item = FeeItem {
+                token_id: EgldOrEsdtTokenIdentifier::esdt(xch_token),
+                collected_value: BigUint::zero(),
+            };
+            total_fees.fee_list.push(xch_fee_item);
         }
 
         self.total_fees().set(total_fees);
