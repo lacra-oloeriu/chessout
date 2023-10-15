@@ -47,7 +47,12 @@ function CustomNavbar(props) {
     case 'club-players': activePageLabel = "Club Players"; break;
     case 'team': activePageLabel = "Team"; break;
     case 'tournaments': activePageLabel = "Tournaments"; break;
-    default: activePageLabel = "Home";
+    default:
+      if (pathnameSegments[1] === 'tournament') {
+        activePageLabel = "Tournament Details";
+      } else {
+        activePageLabel = "Home";
+      }
   }
 
   // The login right drawer

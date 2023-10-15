@@ -168,7 +168,7 @@ function Home(props) {
 		postsWithDetails.sort((a, b) => b.dateCreated.timestamp - a.dateCreated.timestamp);
 		setPosts(postsWithDetails);
 
-		console.log(JSON.stringify(postsWithDetails, null, 2))
+		console.log(JSON.stringify(postsWithDetails, null, 2));
 	};
 
 	useEffect(() => {
@@ -248,7 +248,7 @@ function Home(props) {
 							))}
 						</Row>
 					) : (
-						<div className="text-center align-content-center b-r-sm" style={{backgroundColor: "#2f2f2f", paddingTop: '25px', paddingBottom: '10px'}}><p>No posts available.</p></div>
+						<div className="text-center align-content-center b-r-sm mt-5" style={{backgroundColor: "#2f2f2f", paddingTop: '25px', paddingBottom: '10px'}}><p>No posts available.</p></div>
 					)}
 				</Col>
 			</Row>

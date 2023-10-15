@@ -14,6 +14,7 @@ import MyClub from 'pages/my_club';
 import MyClubs from 'pages/my_clubs';
 import MyProfile from 'pages/my_profile';
 import Team from 'pages/team';
+import Tournament from 'pages/tournament';
 import Tournaments from 'pages/tournaments';
 
 import { DappProvider } from "@multiversx/sdk-dapp/wrappers/DappProvider";
@@ -23,6 +24,7 @@ import { networkConfig } from "config/networks";
 
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {firebaseApp} from "./config/firebase";
+import {readMyDefaultClub} from "utils/firebaseTools";
 
 const lightTheme = createTheme();
 const darkTheme = createTheme({
@@ -55,6 +57,11 @@ function App() {
     return () => unsubscribe();
   }, []);
 
+  // get the default user club
+  const getMyDefaultClub = async () => {
+    return await readMyDefaultClub(firebaseUser.uid);
+  };
+
   return (
     <DappProvider
       environment={customNetConfig.id}
@@ -80,7 +87,8 @@ function App() {
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/club-players" element={<ClubPlayers />} />
             <Route path="/team" element={<Team />} />
-            <Route path="/tournaments" element={<Tournaments />} />
+            <Route path="/tournament/:tournamentId" element={<Tournament firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
+            <Route path="/tournaments" element={<Tournaments isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
           </Routes>
         </Router>
       </ThemeProvider>
