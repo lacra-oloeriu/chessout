@@ -7,6 +7,10 @@ Chessout began as a personal project during the COVID-19 pandemic. After being l
 
 I shared this project with tournament organizers, and the response was overwhelming. Parents and tournament organizers loved it. Today, it's used in major tournaments in Belgium, and I plan to expand its reach across Europe after the hackathon.
 
+## Usage and Technical Documentation
+
+To uncover the technical documentation, put on your adventure hat and scroll all the way down to the end of this document. It's the hidden treasure chest of knowledge, just waiting for your discovery! 🗺️🔍💎
+
 ## What Is Chessout
 Chessout is a blockchain-powered platform designed for everyone involved in chess tournaments:
 - Parents and supporters receive real-time updates and push notifications.
