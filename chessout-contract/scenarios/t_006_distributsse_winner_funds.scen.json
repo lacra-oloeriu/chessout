@@ -97,14 +97,14 @@
               },
               "3-fee_item": {
                 "1-token_id": "nested:str:ACOIN-a00000",
-                "2-amount": "biguint:0"
+                "2-amount": "biguint:5000"
               }
             },
             "str:tournamentData|u64:1": {
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
               "3-entry_fee": "biguint:1000000",
-              "4-available_funds": "biguint:3000000",
+              "4-available_funds": "biguint:2495000",
               "5-manager_list_vec_len": "u32:1",
               "6-manager_item": {
                 "1-address": "address:manager"

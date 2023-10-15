@@ -208,14 +208,35 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         }
 
         sc_print!("tota rewords = {}", total_rewords);
-
+        let t_funds =  self.tournament_data(tournament_id).get().available_funds.clone();
         let tournament_fee = self.calculate_fees_for_total(tournament.token_id, total_rewords.clone());
-        if ((total_rewords.clone() + tournament_fee.clone()) > tournament.available_funds) {
+
+        if ((total_rewords.clone() + tournament_fee.clone()) > t_funds.clone()) {
             sc_panic!("Not enough funds to distribute");
         }
-
         
+        // locate total fees by tournament token
+        let t_token =  self.tournament_data(tournament_id).get().token_id.clone();
+        let mut total_fees = self.total_fees().get();
+        let mut id = 0_usize;
+        for i in 1..total_fees.fee_list.len() {
+            let mut fee_item = total_fees.fee_list.get(i);
+            if fee_item.token_id == t_token {
+                id = i;
+                fee_item.collected_value += tournament_fee.clone();
+                sc_print!("fee_item.collected_value = {}", fee_item.collected_value);
+                break;
+            }
+        }
+        self.total_fees().set(total_fees);
 
-        // for winer in
+        // remove total_rewords + tournament_fee from tournament funds
+        let mut tournament = self.tournament_data(tournament_id).get();
+        tournament.available_funds -= (total_rewords + tournament_fee);
+        sc_print!("tournament.available_funds = {}", tournament.available_funds);
+        self.tournament_data(tournament_id).set(tournament);
+
+
+
     }
 }
