@@ -26,7 +26,7 @@
         "gasPrice": "0",
         "arguments": [
           "str:ACOIN-a00000",
-          "1000"
+          "1000000"
         ]
       },
       "expect": {
@@ -84,7 +84,7 @@
             "str:tournamentData|u64:1": {
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
-              "3-entry_fee": "biguint:1000",
+              "3-entry_fee": "biguint:1000000",
               "4-available_funds": "biguint:0",
               "5-manager_list_vec_len": "u32:1",
               "6-manager_item": {
