@@ -12,7 +12,7 @@
           "nonce": "0",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "2000"
+            "str:ACOIN-a00000": "2000000"
           }
         }
       }
@@ -30,7 +30,7 @@
         "arguments": [
           "1",
           "address:player-1",
-          "500"
+          "500000"
         ]
       },
       "expect": {
@@ -60,36 +60,35 @@
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "1000",
-            "str:BCOIN-a00000": "2000"
+            "str:ACOIN-a00000": "1000000"
           }
         },
         "address:player-2": {
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "1000"
+            "str:ACOIN-a00000": "1000000"
           }
         },
         "address:player-3": {
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "1000"
+            "str:ACOIN-a00000": "1000000"
           }
         },
         "address:player-4": {
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "2000"
+            "str:ACOIN-a00000": "2000000"
           }
         },
         "sc:chessout": {
           "nonce": "*",
           "balance": "0",
           "esdt": {
-            "str:ACOIN-a00000": "3000"
+            "str:ACOIN-a00000": "3000000"
           },
           "storage": {
             "str:lastIndex": "1",
@@ -118,8 +117,8 @@
             "str:tournamentData|u64:1": {
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
-              "3-entry_fee": "biguint:1000",
-              "4-available_funds": "biguint:3000",
+              "3-entry_fee": "biguint:1000000",
+              "4-available_funds": "biguint:3000000",
               "5-manager_list_vec_len": "u32:1",
               "6-manager_item": {
                 "1-address": "address:manager"
@@ -133,7 +132,7 @@
               "a-winner_list_list_vec_len": "u32:1",
               "a-winner_list_list|str:.item|u32:1": {
                 "1-address": "address:player-1",
-                "2-prize": "biguint:500"
+                "2-prize": "biguint:500000"
               },
               "b-prizes_have_bean_distibuted": "0x00"
             }
