@@ -52,3 +52,15 @@ In case you want to se a more rudimetary version of this file
 git checkout 47b524be755b69eb9625599820acf96fb29c6156
 ```
 
+## techical documentation
+- chessout relies on reatime database to store most of the data. (clubs, players, managers, rounds, games etc.)
+- You can convert a normal tournament into a multiversX tournament. 
+- there are tests that cover all contract functionality and use cases. 
+- you can run unlimited tournaments at the same time and the contract keeps track of all the funds, participants, winners, and prizes separate. 
+- datamodel used to manage all that is quite elegand and is inspired by lotery template but improved. 
+
+## multiversX chessout contract usage
+- call: createTournament to create a new tournament. This also makrs the current wallet as manager wallet on that rounament
+- call: joinTournament to join as a participant in a tournament. You will have to pay the specified join price and the contract updates the tournament available funds and add the participant to the tournaent
+- call: addTounamentWinner This can only be called by the tournament manager and is use in order to set the winners and the desired prize ammount. 
+- call: distribureTournamentRewords This can also be called only by tournament manager and it sends the specified rewords at the previous step to all the winners. It also takes a fee from the specified ammounts and if the entire transferd funds are higher then availe tournament funds the it will fail
