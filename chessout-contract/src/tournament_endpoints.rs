@@ -37,6 +37,11 @@ pub trait TournamentEndpoints: data_store::StoreModule {
         };
 
         self.tournament_data(id).set(tournament);
+
+        //set my last created id
+        let caller = self.blockchain().get_caller();
+        sc_print!("id = {}", id);
+        self.my_last_created_id(&caller).set(id);
     }
 
     fn is_token_valid(&self, token_id: &TokenIdentifier) -> bool {
