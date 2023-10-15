@@ -73,7 +73,7 @@ function App() {
             <Route path="/" element={<About />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<Home firebaseUser={firebaseUser} />} />
             <Route path="/followed-players" element={<FollowedPlayers />} />
             <Route path="/my-club" element={<MyClub />} />
             <Route path="/my-clubs" element={<MyClubs firebaseUser={firebaseUser} />} />
