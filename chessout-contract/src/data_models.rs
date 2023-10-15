@@ -17,5 +17,28 @@ pub struct TokenSettings<M: ManagedTypeApi> {
 pub struct Tournament<M: ManagedTypeApi> {
     pub id: u64,
     pub token_id: EgldOrEsdtTokenIdentifier<M>,
+    pub entry_fee: BigUint<M>,
+    pub available_funds: BigUint<M>,
     pub manager_list: ManagedVec<M, ManagedAddress<M>>,
+    pub participant_list: ManagedVec<M, ManagedAddress<M>>,
+    pub winner_list: ManagedVec<M, TournamentWiner<M>>,
+    pub prizes_have_bean_distibuted: bool,
+}
+
+#[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode, Clone)]
+pub struct TotalFees<M: ManagedTypeApi> {
+    pub fee_list: ManagedVec<M, FeeItem<M>>,
+}
+
+#[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode, Clone)]
+pub struct FeeItem<M: ManagedTypeApi> {
+    pub token_id: EgldOrEsdtTokenIdentifier<M>,
+    pub collected_value: BigUint<M>,
+}
+
+
+#[derive(TypeAbi, TopEncode, TopDecode, ManagedVecItem, NestedEncode, NestedDecode, Clone)]
+pub struct TournamentWiner<M: ManagedTypeApi> {
+    pub winner: ManagedAddress<M>,
+    pub prize: BigUint<M>,
 }

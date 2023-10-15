@@ -73,16 +73,20 @@
           "balance": "0",
           "storage": {
             "str:lastIndex": "0",
-            "str:contractSettings":{
+            "str:contractSettings": {
               "1-token_settings_vec_len": "u32:2",
-              "2-egld_data":{
+              "2-egld_data": {
                 "1-tonen_id": "nested:str:EGLD",
                 "2-processing_procentage": "u64:10000"
               },
-              "3-egld_data":{
+              "3-egld_data": {
                 "1-tonen_id": "nested:str:ACOIN-a00000",
                 "2-processing_procentage": "u64:10000"
               }
+            },
+            "str:totalFees": {
+              "1-fee_list_vec_len": "u32:0",
+              "2-fee_list": {}
             }
           },
           "code": "file:../output/chessout.wasm"

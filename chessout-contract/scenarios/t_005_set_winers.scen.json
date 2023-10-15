@@ -3,30 +3,36 @@
   "steps": [
     {
       "step": "externalSteps",
-      "path": "t_002_set_setings.scen.json"
+      "path": "t_004_join_tournament.scen.json"
     },
     {
       "step": "setState",
       "accounts": {
-        "address:manager": {
+        
+        "address:player-4": {
           "nonce": "0",
-          "balance": "0"
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "2000"
+          }
         }
+
       }
     },
     {
       "step": "scCall",
-      "txId": "call-createTournament",
+      "txId": "call-addTounamentWinner",
       "tx": {
         "from": "address:manager",
         "to": "sc:chessout",
-        "function": "createTournament",
+        "function": "addTounamentWinner",
         "value": "0",
         "gasLimit": "100,000,000",
         "gasPrice": "0",
         "arguments": [
-          "str:ACOIN-a00000",
-          "1000"
+          "1",
+          "address:player-1",
+          "500"
         ]
       },
       "expect": {
@@ -52,9 +58,41 @@
           "storage": {},
           "code": ""
         },
+        "address:player-1": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "1000",
+            "str:BCOIN-a00000": "2000"
+          }
+        },
+        "address:player-2": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "1000"
+          }
+        },
+        "address:player-3": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "1000"
+          }
+        },
+        "address:player-4": {
+          "nonce": "*",
+          "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "2000"
+          }
+        },
         "sc:chessout": {
           "nonce": "*",
           "balance": "0",
+          "esdt": {
+            "str:ACOIN-a00000": "3000"
+          },
           "storage": {
             "str:lastIndex": "1",
             "str:contractSettings": {
@@ -76,15 +114,24 @@
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
               "3-entry_fee": "biguint:1000",
-              "4-available_funds": "biguint:0",
+              "4-available_funds": "biguint:3000",
               "5-manager_list_vec_len": "u32:1",
               "6-manager_item": {
                 "1-address": "address:manager"
               },
-              "8-participant_list_vec_len": "u32:0",
-              "8-participant_list": {},
-              "a-winner_list_list_vec_len": "u32:0",
-              "a-winner_list_list": {},
+              "7-participant_list_vec_len": "u32:3",
+              "8-participant_list": {
+                "1-address": "address:player-1",
+                "2-address": "address:player-2",
+                "3-address": "address:player-3"
+              },
+              "a-winner_list_list_vec_len": "u32:1",
+              "a-winner_list_list|str:.item|u32:1": {
+               
+                  "1-address": "address:player-1",
+                  "2-prize": "biguint:500"
+                
+              },
               "b-prizes_have_bean_distibuted": "0x00"
             }
           },
