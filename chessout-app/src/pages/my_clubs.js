@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import {readMyClubs, readMyDefaultClub, getImage} from "utils/firebaseTools";
+import {readMyClubs} from "utils/firebaseTools";
 import {Container, Row, Col} from "react-bootstrap";
 import { Typography, Paper, Grid, Box } from '@mui/material';
 import {firebaseApp} from "config/firebase";
