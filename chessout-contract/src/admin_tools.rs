@@ -50,19 +50,23 @@ pub trait AdminTools: data_store::StoreModule{
         
 
         // if fees list does not contain EgldOrEsdtTokenIdentifier::egld(), add it with 0 value
-        // let mut egld_found = false;
-        // for fee_item in total_fees.fee_list.iter() {
-        //     if fee_item.token_id == EgldOrEsdtTokenIdentifier::egld() {
-        //         egld_found = true;
-        //     }
-        // }
-        // if !egld_found {
-        //     let egld_fee_item = FeeItem {
-        //         token_id: EgldOrEsdtTokenIdentifier::egld(),
-        //         collected_value: BigUint::zero(),
-        //     };
-        //     total_fees.fee_list.push(egld_fee_item);
-        // }
+        let mut total_fees = self.total_fees().get();
+        let mut egld_found = false;
+        for fee_item in total_fees.fee_list.iter() {
+            if fee_item.token_id == EgldOrEsdtTokenIdentifier::egld() {
+                egld_found = true;
+            }
+        }
+
+        if !egld_found {
+            let egld_fee_item = FeeItem {
+                token_id: EgldOrEsdtTokenIdentifier::egld(),
+                collected_value: BigUint::zero(),
+            };
+            total_fees.fee_list.push(egld_fee_item);
+        }
+
+        self.total_fees().set(total_fees);
         // if fees list does not contain EgldOrEsdtTokenIdentifier::esdt(xch_token), add it with 0 value
         
         

@@ -85,8 +85,11 @@
               }
             },
             "str:totalFees": {
-              "1-fee_list_vec_len": "u32:0",
-              "2-fee_list": {}
+              "1-fee_list_vec_len": "u32:1",
+              "2-fee_item": {
+                "1-token_id": "nested:str:EGLD",
+                "2-amount":  "biguint:0"
+              }
             }
           },
           "code": "file:../output/chessout.wasm"
