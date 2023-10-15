@@ -190,6 +190,7 @@
                 "2-amount":  "biguint:0"
               }
             },
+            "str:myLastCreatedId|address:manager": "1",
             "str:tournamentData|u64:1": {
               "1-tournament_id": "u64:1",
               "2-token_id": "nested:str:ACOIN-a00000",
