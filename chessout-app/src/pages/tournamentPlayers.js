@@ -37,7 +37,7 @@ function TournamentPlayers(props) {
 
 		//sort players based on elo
 		tournamentPlayersDetails.sort((a, b) => b.elo - a.elo);
-		myTournamentData.players = tournamentPlayersDetails;
+		myTournamentData.players = tournamentPlayersDetails ? tournamentPlayersDetails: null;
 		myTournamentData.playersCount = tournamentPlayersCount;
 
 		setTournament(myTournamentData);

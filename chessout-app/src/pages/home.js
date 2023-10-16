@@ -6,6 +6,7 @@ import TournamentPost from "components/tournamentPost";
 import {firebaseApp} from "config/firebase";
 import {getDownloadURL, getStorage, ref} from "@firebase/storage";
 import ClubImage from 'assets/images/default_chess_club.jpg';
+import MenuItem from "@mui/material/MenuItem";
 
 function Home(props) {
 	const storage = getStorage(firebaseApp);
@@ -45,7 +46,6 @@ function Home(props) {
 			if(comments){
 				for (const comment of comments) {
 					comment.userImage = await getUserProfilePicture(comment.userId);
-					console.log(comment.userId);
 					if(comment.userImage.uploadComplete){
 						comment.userImage.img_src = await getDownloadURL(ref(storage, comment.userImage.stringUri));
 					}else {
@@ -218,6 +218,9 @@ function Home(props) {
 												tLocation={post.tournamentCreation.location}
 												tPlayersCount={post.tournamentCreation.playersCount}
 												isPairingsType={false}
+												tournamentId={post.tournamentId}
+												goToLabel="View Tournament"
+												goToLink={`/tournament-players/${post.tournamentId}`}
 											/>
 										</Col>
 									)}
@@ -240,6 +243,9 @@ function Home(props) {
 												isPairingsType={true}
 												completedGames={post.tournamentPairings?.completedGames}
 												totalGames={post.tournamentPairings?.totalGames}
+												roundId={post.roundId}
+												goToLabel="View Pairings"
+												goToLink={`/tournament-rounds/${post.tournamentId}/${post.roundId - 1}`}
 											/>
 										</Col>
 									)}
