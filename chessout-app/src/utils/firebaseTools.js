@@ -21,6 +21,8 @@ const TOURNAMENTS = 'tournaments';
 const TOURNAMENT_PLAYERS = 'tournamentPlayers';
 const TOURNAMENT_ROUNDS = 'tournamentRounds';
 const GAMES = 'games';
+const STANDINGS = "standings";
+const CATEGORY_DEFAULT = "defaultCategory";
 
 export async function readMyDefaultClub(userId) {
 	const LOCATION_DEFAULT_CLUB = `${USER_SETTINGS}/${userId}/${DEFAULT_CLUB}`;
@@ -228,6 +230,17 @@ export async function getClubProfilePicture(clubId) {
 
 	if (profilePictureData.exists()) {
 		return profilePictureData.val();
+	} else {
+		return null;
+	}
+}
+
+export async function getTournamentStandings(clubId, tournamentId, roundId, standingId) {
+	const LOCATION_TOURNAMENT_STANDINGS = `${TOURNAMENT_ROUNDS}/${clubId}/${tournamentId}/${roundId}/${STANDINGS}/${CATEGORY_DEFAULT}/${standingId}`;
+	const tournamentStandingsData = await get(ref(getDatabase(firebaseApp), LOCATION_TOURNAMENT_STANDINGS));
+
+	if (tournamentStandingsData.exists()) {
+		return tournamentStandingsData.val();
 	} else {
 		return null;
 	}

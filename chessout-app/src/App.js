@@ -14,7 +14,9 @@ import MyClub from 'pages/my_club';
 import MyClubs from 'pages/my_clubs';
 import MyProfile from 'pages/my_profile';
 import Team from 'pages/team';
-import Tournament from 'pages/tournament';
+import TournamentPlayers from 'pages/tournamentPlayers';
+import TournamentRounds from 'pages/tournamentRounds';
+import TournamentStandings from 'pages/tournamentStandings';
 import Tournaments from 'pages/tournaments';
 
 import { DappProvider } from "@multiversx/sdk-dapp/wrappers/DappProvider";
@@ -87,7 +89,9 @@ function App() {
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/club-players" element={<ClubPlayers />} />
             <Route path="/team" element={<Team />} />
-            <Route path="/tournament/:tournamentId" element={<Tournament isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
+            <Route path="/tournament-players/:tournamentId" element={<TournamentPlayers isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
+            <Route path="/tournament-rounds/:tournamentId/:activeRoundId" element={<TournamentRounds isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
+            <Route path="/tournament-standings/:tournamentId" element={<TournamentStandings isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
             <Route path="/tournaments" element={<Tournaments isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
           </Routes>
         </Router>
