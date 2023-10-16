@@ -103,13 +103,13 @@ function Tournaments(props) {
 											<Typography>{tournament.totalRounds}</Typography>
 										</Col>
 										<Col xs={12} lg={1} className={`text-center`}>
-											<Tooltip key="details" title="View more details" arrow placement="bottom" componentsProps={componentsProps}>
-												<Link to={`/tournament-players/${tournament.tournamentId}`}>
+											<Link to={`/tournament-players/${tournament.tournamentId}`}>
+												<Tooltip key="details" title="View more details" arrow placement="bottom" componentsProps={componentsProps}>
 													<IconButton aria-label="details" size="small" className="text-light">
 														{props.isMobile ? 'More details' : ''} <DoubleArrowIcon fontSize="small" />
 													</IconButton>
-												</Link>
-											</Tooltip>
+												</Tooltip>
+											</Link>
 										</Col>
 									</Row>
 							</div>
