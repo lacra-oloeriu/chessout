@@ -37,7 +37,7 @@ function CustomNavbar(props) {
 
   let activePageLabel;
   switch (activePage) {
-    case '': activePageLabel = "About Us"; break;
+    case '': activePageLabel = "Home"; break;
     case 'about-us': activePageLabel = "About Us"; break;
     case 'dashboard': activePageLabel = "Dashboard"; break;
     case 'followed-players': activePageLabel = "Followed Players"; break;

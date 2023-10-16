@@ -79,7 +79,7 @@ function App() {
         <Router>
           <CustomNavbar theme={theme} handleThemeChange={handleThemeChange} isMobile={isMobile} firebaseUser={firebaseUser ? firebaseUser: null}/>
           <Routes>
-            <Route path="/" element={<About />} />
+            <Route path="/" element={<Home firebaseUser={firebaseUser} />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/home" element={<Home firebaseUser={firebaseUser} />} />
