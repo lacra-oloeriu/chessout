@@ -21,12 +21,18 @@ const TOURNAMENTS = 'tournaments';
 const TOURNAMENT_PLAYERS = 'tournamentPlayers';
 const TOURNAMENT_ROUNDS = 'tournamentRounds';
 const GAMES = 'games';
+const STANDINGS = "standings";
+const CATEGORY_DEFAULT = "defaultCategory";
 
-export async function readMyDefaultClub(user) {
-	const LOCATION_DEFAULT_CLUB = `${USER_SETTINGS}/${USER_KEY}/${DEFAULT_CLUB}`;
-	const locationDefaultClub = LOCATION_DEFAULT_CLUB.replace(USER_KEY, user.uid);
+export async function readMyDefaultClub(userId) {
+	const LOCATION_DEFAULT_CLUB = `${USER_SETTINGS}/${userId}/${DEFAULT_CLUB}`;
+	const defaultClubData = await get(ref(getDatabase(firebaseApp), LOCATION_DEFAULT_CLUB));
 
-	return await get(ref(getDatabase(firebaseApp), locationDefaultClub));
+	if (defaultClubData.exists()) {
+		return defaultClubData.val();
+	} else {
+		return null;
+	}
 }
 
 export async function readMyClubs(user) {
@@ -202,6 +208,39 @@ export async function getTournamentRoundGamesDecoded(clubId, tournamentId, round
 	if (roundData.exists()) {
 		const decodedGames = decodeGames(roundData.val());
 		return {completedGames: decodedGames.completedGames, totalGames: decodedGames.totalGames};
+	} else {
+		return null;
+	}
+}
+
+export async function getTournaments(clubId) {
+	const LOCATION_TOURNAMENTS = `${TOURNAMENTS}/${clubId}`;
+	const tournamentsData = await get(ref(getDatabase(firebaseApp), LOCATION_TOURNAMENTS));
+
+	if (tournamentsData.exists()) {
+		return tournamentsData.val();
+	} else {
+		return null;
+	}
+}
+
+export async function getClubProfilePicture(clubId) {
+	const LOCATION_CLUB_PROFILE_PICTURE = `${CLUBS}/${clubId}/picture`;
+	const profilePictureData = await get(ref(getDatabase(firebaseApp), LOCATION_CLUB_PROFILE_PICTURE));
+
+	if (profilePictureData.exists()) {
+		return profilePictureData.val();
+	} else {
+		return null;
+	}
+}
+
+export async function getTournamentStandings(clubId, tournamentId, roundId, standingId) {
+	const LOCATION_TOURNAMENT_STANDINGS = `${TOURNAMENT_ROUNDS}/${clubId}/${tournamentId}/${roundId}/${STANDINGS}/${CATEGORY_DEFAULT}/${standingId}`;
+	const tournamentStandingsData = await get(ref(getDatabase(firebaseApp), LOCATION_TOURNAMENT_STANDINGS));
+
+	if (tournamentStandingsData.exists()) {
+		return tournamentStandingsData.val();
 	} else {
 		return null;
 	}

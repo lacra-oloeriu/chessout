@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import { Avatar, Typography, CardHeader, CardContent, CardMedia, Card, CardActions, IconButton } from "@mui/material";
+import { Avatar, Typography, CardHeader, CardContent, Card, CardActions, IconButton } from "@mui/material";
 import {Button} from "react-bootstrap";
 import { Collapse } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
@@ -15,6 +14,7 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import GroupIcon from '@mui/icons-material/Group';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Link } from 'react-router-dom';
 
 const componentsProps={
 	tooltip: {
@@ -36,9 +36,9 @@ const componentsProps={
 		},
 	},
 	TransitionComponent: Fade,
-}
+};
 
-const TournamentPost = ({title, user, time, avatar, likesCount, likes, commentsCount, comments, isLikedByCurrentUser, tName, tLocation, tPlayersCount, isPairingsType, completedGames, totalGames}) => {
+const TournamentPost = ({title, user, time, avatar, likesCount, likes, commentsCount, comments, isLikedByCurrentUser, tName, tLocation, tPlayersCount, isPairingsType, completedGames, totalGames, goToLink, goToLabel}) => {
 	const [isCommentVisible, setIsCommentVisible] = useState(false);
 
 	const toggleCommentVisibility = () => {
@@ -83,6 +83,9 @@ const TournamentPost = ({title, user, time, avatar, likesCount, likes, commentsC
 								}}
 							>
 								<MenuItem onClick={handleMenuClose}>Delete post</MenuItem>
+								{/*<MenuItem component={Link} to={goToLink}>*/}
+								{/*	{goToLabel}*/}
+								{/*</MenuItem>*/}
 							</Menu>
 						</div>
 					</React.Fragment>

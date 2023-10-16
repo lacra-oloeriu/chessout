@@ -6,6 +6,7 @@ import TournamentPost from "components/tournamentPost";
 import {firebaseApp} from "config/firebase";
 import {getDownloadURL, getStorage, ref} from "@firebase/storage";
 import ClubImage from 'assets/images/default_chess_club.jpg';
+import MenuItem from "@mui/material/MenuItem";
 
 function Home(props) {
 	const storage = getStorage(firebaseApp);
@@ -167,8 +168,6 @@ function Home(props) {
 		// Sort the posts by dateCreated.timestamp in descending order
 		postsWithDetails.sort((a, b) => b.dateCreated.timestamp - a.dateCreated.timestamp);
 		setPosts(postsWithDetails);
-
-		console.log(JSON.stringify(postsWithDetails, null, 2))
 	};
 
 	useEffect(() => {
@@ -219,6 +218,9 @@ function Home(props) {
 												tLocation={post.tournamentCreation.location}
 												tPlayersCount={post.tournamentCreation.playersCount}
 												isPairingsType={false}
+												tournamentId={post.tournamentId}
+												goToLabel="View Tournament"
+												goToLink={`/tournament-players/${post.tournamentId}`}
 											/>
 										</Col>
 									)}
@@ -241,6 +243,9 @@ function Home(props) {
 												isPairingsType={true}
 												completedGames={post.tournamentPairings?.completedGames}
 												totalGames={post.tournamentPairings?.totalGames}
+												roundId={post.roundId}
+												goToLabel="View Pairings"
+												goToLink={`/tournament-rounds/${post.tournamentId}/${post.roundId - 1}`}
 											/>
 										</Col>
 									)}
@@ -248,7 +253,7 @@ function Home(props) {
 							))}
 						</Row>
 					) : (
-						<div className="text-center align-content-center b-r-sm" style={{backgroundColor: "#2f2f2f", paddingTop: '25px', paddingBottom: '10px'}}><p>No posts available.</p></div>
+						<div className="text-center align-content-center b-r-sm mt-5" style={{backgroundColor: "#2f2f2f", paddingTop: '25px', paddingBottom: '10px'}}><p>No posts available.</p></div>
 					)}
 				</Col>
 			</Row>

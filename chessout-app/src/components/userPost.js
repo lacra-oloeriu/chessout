@@ -4,15 +4,12 @@ import {Button} from "react-bootstrap";
 import { Collapse } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const componentsProps={
 	tooltip: {
@@ -34,7 +31,7 @@ const componentsProps={
 		},
 	},
 	TransitionComponent: Fade,
-}
+};
 
 const UserPost = ({image, title, user, time, avatar, likesCount, likes, commentsCount, comments, isLikedByCurrentUser}) => {
 	const [isCommentVisible, setIsCommentVisible] = useState(false);
