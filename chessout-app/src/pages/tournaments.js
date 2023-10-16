@@ -3,9 +3,7 @@ import {getTournaments, getClub, getClubProfilePicture} from "utils/firebaseTool
 import {Col, Container, Row} from "react-bootstrap";
 import {firebaseApp} from "config/firebase";
 import {getDownloadURL, getStorage, ref} from "@firebase/storage";
-import { Avatar, Typography, CardHeader, CardContent, CardMedia, Card, CardActions, IconButton } from "@mui/material";
-import {Button} from "react-bootstrap";
-import Divider from "@mui/material/Divider";
+import { Avatar, Typography, IconButton } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 import DefaultClubImage from 'assets/images/default_chess_club.jpg';
@@ -32,7 +30,7 @@ const componentsProps={
 		},
 	},
 	TransitionComponent: Fade,
-}
+};
 
 function Tournaments(props) {
 	const storage = getStorage(firebaseApp);
@@ -66,7 +64,6 @@ function Tournaments(props) {
 		}));
 		tournamentsWithDetails.sort((a, b) => b.dateCreated.timestamp - a.dateCreated.timestamp);
 		setTournaments(tournamentsWithDetails);
-		console.log(JSON.stringify(tournamentsWithDetails,null, 2));
 	};
 
 	useEffect(() => {

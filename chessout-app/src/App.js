@@ -87,7 +87,7 @@ function App() {
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/club-players" element={<ClubPlayers />} />
             <Route path="/team" element={<Team />} />
-            <Route path="/tournament/:tournamentId" element={<Tournament firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
+            <Route path="/tournament/:tournamentId" element={<Tournament isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
             <Route path="/tournaments" element={<Tournaments isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
           </Routes>
         </Router>

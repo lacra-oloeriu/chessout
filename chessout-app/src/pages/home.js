@@ -45,6 +45,7 @@ function Home(props) {
 			if(comments){
 				for (const comment of comments) {
 					comment.userImage = await getUserProfilePicture(comment.userId);
+					console.log(comment.userId);
 					if(comment.userImage.uploadComplete){
 						comment.userImage.img_src = await getDownloadURL(ref(storage, comment.userImage.stringUri));
 					}else {
@@ -167,8 +168,6 @@ function Home(props) {
 		// Sort the posts by dateCreated.timestamp in descending order
 		postsWithDetails.sort((a, b) => b.dateCreated.timestamp - a.dateCreated.timestamp);
 		setPosts(postsWithDetails);
-
-		console.log(JSON.stringify(postsWithDetails, null, 2));
 	};
 
 	useEffect(() => {

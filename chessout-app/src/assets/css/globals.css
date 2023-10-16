@@ -2236,3 +2236,10 @@ h6 {
 .selected-club{
     border: 2px solid #01b574;
 }
+
+.text-pink-purple{
+    color: #ce93d8;
+}
+.bg-pink-purple{
+    background-color: #ce93d8;
+}
