@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {getTournaments, getClub, getClubProfilePicture, addTournament} from "utils/firebaseTools";
+import {getTournaments, getClub, getClubProfilePicture, addTournament, getTournamentPlayers} from "utils/firebaseTools";
 import {Col, Container, Row} from "react-bootstrap";
 import {firebaseApp} from "config/firebase";
 import {getDownloadURL, getStorage, ref} from "@firebase/storage";
@@ -25,6 +25,8 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
 const componentsProps={
 	tooltip: {
@@ -84,9 +86,12 @@ function Tournaments(props) {
 		const tournamentsWithDetails = await Promise.all(myTournamentsArray.map(async (tournament) => {
 			//get club extra info
 			const clubInfo = await getClub(tournament.clubId);
+			const tournamentPlayers = await getTournamentPlayers(defaultClub?.clubKey, tournament.tournamentId);
+			const tournamentPlayersCount = tournamentPlayers ? Object.keys(tournamentPlayers).length : 0;
 
 			return {
 				...tournament,
+				playersCount: tournamentPlayersCount,
 				clubInfo: clubInfo,
 				clubImage: clubImage,
 			};
@@ -264,13 +269,26 @@ function Tournaments(props) {
 												<Typography className="text-green-400" variant="caption">Tournament Name</Typography>
 												<Typography>{tournament.name}</Typography>
 											</Col>
-											<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
+											<Col xs={12} lg={2} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 												<Typography className="text-green-400" variant="caption">Location</Typography>
 												<Typography>{tournament.location}</Typography>
 											</Col>
-											<Col xs={12} lg={2} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center border-end'}`}>
+											<Col xs={12} lg={1} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
+												<Typography className="text-green-400" variant="caption">Players</Typography>
+												<Typography>{tournament.playersCount}</Typography>
+											</Col>
+											<Col xs={12} lg={1} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 												<Typography className="text-green-400" variant="caption">Rounds</Typography>
 												<Typography>{tournament.totalRounds}</Typography>
+											</Col>
+											<Col xs={12} lg={1} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center border-end'}`}>
+												<Typography className="text-green-400" variant="caption">MultiversX</Typography>
+												<div>{tournament?.multiversXTournamentId ? (
+													<CheckIcon />
+												) : (
+													<CloseIcon />
+												)}
+												</div>
 											</Col>
 											<Col xs={12} lg={1} className={`text-center`}>
 												<Link to={`/tournament-players/${tournament.tournamentId}`}>
