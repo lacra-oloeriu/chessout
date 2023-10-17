@@ -145,7 +145,7 @@ function Home(props) {
 					commentsCount: commentsCount,
 					comments: comments,
 					clubImage: new_club_image,
-					clubName: clubInfo.name,
+					clubName: clubInfo?.name ? clubInfo.name : '',
 					tournamentCreation: tournamentCreation,
 					tournamentPairings: tournamentPairings
 				};
