@@ -16,3 +16,5 @@ export const openInSameTab = (url) => {
 	const newWindow = window.open(url, '_self', 'noopener,noreferrer')
 	if (newWindow) newWindow.opener = null;
 };
+
+export var multiplier = 1000000000000000000;

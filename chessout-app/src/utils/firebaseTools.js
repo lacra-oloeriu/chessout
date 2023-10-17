@@ -1,4 +1,4 @@
-import {get, getDatabase, ref} from "firebase/database";
+import {get, getDatabase, ref, push, set} from "firebase/database";
 import {getStorage} from "firebase/storage";
 import {firebaseApp} from "config/firebase";
 
@@ -245,3 +245,20 @@ export async function getTournamentStandings(clubId, tournamentId, roundId, stan
 		return null;
 	}
 }
+
+export async function addTournament(newTournament) {
+	const db = getDatabase();
+	const tournamentsRef = ref(db, `${TOURNAMENTS}/${newTournament.clubId}`);
+
+	// Generate a new unique key for the tournament using push
+	const newTournamentRef = push(tournamentsRef);
+
+	// Get the key of the new tournament and set it in the tournament object
+	newTournament.tournamentId = newTournamentRef.key;
+
+	// Set the new tournament data in the database
+	await set(newTournamentRef, newTournament);
+
+	return newTournament.tournamentId;
+}
+
