@@ -26,6 +26,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 
+
 function CustomNavbar(props) {
   // Dark Theme constant
   const isDarkTheme = props.theme === 'dark';
@@ -79,9 +80,12 @@ function CustomNavbar(props) {
   };
 
   // Firebase logout
+  const navigate = useNavigate();
   const handleSignOut = async () => {
     try {
       await signOut(authInstance);
+      navigate('/');
+      window.location.reload();
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -113,7 +117,6 @@ function CustomNavbar(props) {
   }
 
   // Menu drawer item function
-  const navigate = useNavigate();
   const handleHomeClick = (route) => {
     navigate(route);
     toggleMenuDrawer(false);
