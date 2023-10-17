@@ -15,14 +15,18 @@ function Home(props) {
 
 	const getMyPosts = async () => {
 		const myPosts = await getUserHomePosts(props.firebaseUser.uid);
-		let myPostsArray = Object.values(myPosts);
+		let myPostsArray = myPosts ? Object.values(myPosts) : [];
 
 		// Create a new array of clubs with extra details
 		const postsWithDetails = await Promise.all(myPostsArray.map(async (post) => {
 			// get the image of the post
 			let new_image = null;
 			if (post.pictures) {
-				new_image = await getDownloadURL(ref(storage, post.pictures[0].stringUri));
+				try {
+					new_image = await getDownloadURL(ref(storage, post.pictures[0].stringUri));
+				} catch (error) {
+					new_image = null;
+				}
 			}
 
 			//get the likes data and the likes amount of the post
@@ -47,7 +51,11 @@ function Home(props) {
 				for (const comment of comments) {
 					comment.userImage = await getUserProfilePicture(comment.userId);
 					if(comment.userImage.uploadComplete){
-						comment.userImage.img_src = await getDownloadURL(ref(storage, comment.userImage.stringUri));
+						try {
+							comment.userImage.img_src = await getDownloadURL(ref(storage, comment.userImage.stringUri));
+						} catch (error) {
+							comment.userImage.img_src = null;
+						}
 					}else {
 						comment.userImage.img_src = comment.userImage.stringUri;
 					}
@@ -85,7 +93,11 @@ function Home(props) {
 			//get the image of club
 			let new_club_image = null;
 			if (post.clubPictureUrl) {
-				new_club_image = await getDownloadURL(ref(storage, post.clubPictureUrl));
+				try {
+					new_club_image = await getDownloadURL(ref(storage, post.clubPictureUrl));
+				} catch (error) {
+					new_club_image = ClubImage;
+				}
 			}else{
 				new_club_image = ClubImage;
 			}
