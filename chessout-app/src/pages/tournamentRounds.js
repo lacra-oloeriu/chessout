@@ -14,6 +14,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Carousel from 'react-bootstrap/Carousel';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
 const componentsProps={
 	tooltip: {
@@ -136,17 +138,27 @@ function TournamentRounds(props) {
 				<Col xs={12} lg={{ offset: 1, span: 10 }}>
 					<div className="p-3 b-r-sm mt-4" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
 						<Row style={{ display: 'flex', alignItems: "center" }}>
-							<Col xs={12} lg={4} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
+							<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 								<Typography color={'#66bb6a'} variant="caption">Tournament Name</Typography>
 								<Typography>{tournament?.name}</Typography>
 							</Col>
-							<Col xs={12} lg={4} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
+							<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 								<Typography color={'#66bb6a'} variant="caption">Tournament Location</Typography>
 								<Typography>{tournament?.location}</Typography>
 							</Col>
-							<Col xs={12} lg={4} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center border-end'}`}>
+							<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 								<Typography color={'#66bb6a'} variant="caption">Tournament Rounds</Typography>
 								<Typography>{tournament?.totalRounds}</Typography>
+							</Col>
+							<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center border-end'}`}>
+								<Typography color={'#66bb6a'} variant="caption">MultiversX Tournament</Typography>
+								<div>
+									{tournament?.multiversXTournamentId ? (
+										<CheckIcon />
+									) : (
+										<CloseIcon />
+									)}
+								</div>
 							</Col>
 						</Row>
 

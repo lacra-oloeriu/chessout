@@ -283,11 +283,12 @@ function Tournaments(props) {
 											</Col>
 											<Col xs={12} lg={1} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center border-end'}`}>
 												<Typography className="text-green-400" variant="caption">MultiversX</Typography>
-												<div>{tournament?.multiversXTournamentId ? (
-													<CheckIcon />
-												) : (
-													<CloseIcon />
-												)}
+												<div>
+													{tournament?.multiversXTournamentId ? (
+														<CheckIcon />
+													) : (
+														<CloseIcon />
+													)}
 												</div>
 											</Col>
 											<Col xs={12} lg={1} className={`text-center`}>
