@@ -16,6 +16,7 @@ function Home(props) {
 	const getMyPosts = async () => {
 		const myPosts = await getUserHomePosts(props.firebaseUser.uid);
 		let myPostsArray = myPosts ? Object.values(myPosts) : [];
+		console.log(JSON.stringify())
 
 		// Create a new array of clubs with extra details
 		const postsWithDetails = await Promise.all(myPostsArray.map(async (post) => {
@@ -116,9 +117,9 @@ function Home(props) {
 						tournamentCreationPlayersCount = Object.keys(tournamentCreationPlayers).length;
 					}
 					tournamentCreation = {
-						name: tournamentCreationData.name ? tournamentCreationData.name : '',
-						location: tournamentCreationData.location ? tournamentCreationData.location : '',
-						totalRounds: tournamentCreationData.totalRounds ? tournamentCreationData.totalRounds : 0,
+						name: tournamentCreationData?.name ? tournamentCreationData.name : '',
+						location: tournamentCreationData?.location ? tournamentCreationData.location : '',
+						totalRounds: tournamentCreationData?.totalRounds ? tournamentCreationData.totalRounds : 0,
 						playersCount: tournamentCreationPlayersCount ? tournamentCreationPlayersCount : 0,
 						players: tournamentCreationPlayers ? tournamentCreationPlayers : [],
 					};
