@@ -106,9 +106,17 @@ function TournamentJoinRequests(props) {
 			}
 		}
 		const playersNotInTournamentArray = playersNotInTournament ? Object.values(playersNotInTournament) : [];
-		playersNotInTournamentArray.sort((a, b) => b.elo - a.elo);
-		setAvailablePlayers(playersNotInTournamentArray);
+		const filteredPlayers = playersNotInTournamentArray.filter(player => !player.archived);
+		const filteredPlayersDetails = await Promise.all(filteredPlayers.map(async (player) => {
+			const imageData = player.profilePictureUri ? await getDownloadURL(ref(storage, player.profilePictureUri)) : null;
+			return {
+				...player,
+				playerImage: imageData,
+			};
+		}));
+		setAvailablePlayers(filteredPlayersDetails);
 
+		console.log(JSON.stringify(filteredPlayers, null, 2))
 	};
 
 	useEffect(() => {
@@ -411,7 +419,16 @@ function TournamentJoinRequests(props) {
 								<React.Fragment>
 									{availablePlayers.map((player, index) => (
 										<div className="d-flex justify-content-between align-items-center border-bottom py-2 px-2" key={index}>
-											<p className="m-0">{index + 1}. {player.name} ({player.elo})</p>
+											<div className="d-flex align-items-center">
+												{player.playerImage ? (
+													<Avatar aria-label="player" src={player.playerImage} sx={{ width: 45, height: 45 }} />
+												) : (
+													<Avatar aria-label="player" sx={{ width: 45, height: 45, backgroundColor: 'transparent' }}>
+														<AccountCircleIcon sx={{ width: 60, height: 60, color: 'white' }} />
+													</Avatar>
+												)}
+												<p className="m-0 ms-3">{player.name} ({player.elo})</p>
+											</div>
 											<button className="btn btn-sm btn-outline-success b-r-xs" onClick={() => joinXTournament(player)}>Add Player</button>
 										</div>
 									))}
