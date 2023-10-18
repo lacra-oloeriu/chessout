@@ -213,14 +213,14 @@ function TournamentJoinRequests(props) {
 
 		update(dbRef(database), updateData)
 			.then(() => {
-				console.log("Added Player request.");
+				console.log("Accepted player: " + playerRequest.playerKey);
 			})
 			.catch((error) => {
 				console.error("Error Adding Player request:", error);
 			});
 
 		await deletePlayerRequest(playerRequest.playerKey);
-		getMyTournament();
+		await getMyTournament();
 	};
 
 	return(

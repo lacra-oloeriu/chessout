@@ -167,8 +167,9 @@ function TournamentPlayers(props) {
 						console.error("Error updating tournament:", error);
 					});
 			};
-			convertToXTournament();
-			getMyTournament();
+			convertToXTournament().then(()=>{
+				getMyTournament();
+			});
 		}
 	}, [transactionSuccess]);
 
