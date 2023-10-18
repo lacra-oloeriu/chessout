@@ -27,6 +27,7 @@ import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import {multiplier} from "../utils/generalTools";
 
 const componentsProps={
 	tooltip: {
@@ -183,7 +184,7 @@ function Tournaments(props) {
 			const transaction = contract.methodsExplicit
 				.createTournament([
 					BytesValue.fromUTF8(scToken),
-					new BigUIntValue(new BigNumber(tournamentData.entryFee)),
+					new BigUIntValue(new BigNumber(tournamentData.entryFee * multiplier)),
 				])
 				.withChainID(chainID)
 				.buildTransaction();
@@ -228,10 +229,12 @@ function Tournaments(props) {
 				const retrievedObject = JSON.parse(serializedObject);
 				const auxRounds = parseInt(retrievedObject.totalRounds);
 				const auxFirstTableNumber = parseInt(retrievedObject.firstTableNumber);
+				const auxEntryFee = parseInt(retrievedObject.entryFee) * multiplier;
 				retrievedObject.totalRounds = auxRounds;
 				retrievedObject.firstTableNumber = auxFirstTableNumber;
 				retrievedObject.clubId = defaultClubInfo?.clubKey;
 				retrievedObject.multiversXTournamentId = lastTournamentId;
+				retrievedObject.entryFee = auxEntryFee;
 				handleAddTournament(retrievedObject);
 			};
 

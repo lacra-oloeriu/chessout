@@ -19,10 +19,12 @@ const PROFILE_PICTURE = "profilePicture";
 const CLUBS = 'clubs';
 const TOURNAMENTS = 'tournaments';
 const TOURNAMENT_PLAYERS = 'tournamentPlayers';
+const TOURNAMENT_PLAYERS_REQUESTS = 'tournamentPlayersRequests';
 const TOURNAMENT_ROUNDS = 'tournamentRounds';
 const GAMES = 'games';
 const STANDINGS = "standings";
 const CATEGORY_DEFAULT = "defaultCategory";
+const CLUB_PLAYERS = "clubPlayers";
 
 export async function readMyDefaultClub(userId) {
 	const LOCATION_DEFAULT_CLUB = `${USER_SETTINGS}/${userId}/${DEFAULT_CLUB}`;
@@ -262,3 +264,50 @@ export async function addTournament(newTournament) {
 	return newTournament.tournamentId;
 }
 
+export async function getTournamentPlayersRequests(clubId, tournamentId) {
+	const LOCATION_TOURNAMENT_PLAYERS_REQUESTS = `${TOURNAMENT_PLAYERS_REQUESTS}/${clubId}/${tournamentId}`;
+	const tournamentPlayersRequestsData = await get(ref(getDatabase(firebaseApp), LOCATION_TOURNAMENT_PLAYERS_REQUESTS));
+
+	if (tournamentPlayersRequestsData.exists()) {
+		return tournamentPlayersRequestsData.val();
+	} else {
+		return null;
+	}
+}
+
+export async function addTournamentPlayerRequest(clubId, tournamentId, playerRequest) {
+	const database = getDatabase(firebaseApp);
+	const tournamentPlayersRequestsRef = ref(database, `${TOURNAMENT_PLAYERS_REQUESTS}/${clubId}/${tournamentId}`);
+
+	try {
+		const newPlayerRequestRef = await push(tournamentPlayersRequestsRef, playerRequest);
+		playerRequest.playerKey = newPlayerRequestRef.key;
+		await set(newPlayerRequestRef, playerRequest);
+		console.log("Player request added successfully!");
+		return newPlayerRequestRef;
+	} catch (error) {
+		console.error("Error adding player request:", error);
+	}
+}
+
+export async function getClubPlayers(clubId) {
+	const LOCATION_CLUB_PLAYERS = `${CLUB_PLAYERS}/${clubId}`;
+	const clubData = await get(ref(getDatabase(firebaseApp), LOCATION_CLUB_PLAYERS));
+
+	if (clubData.exists()) {
+		return clubData.val();
+	} else {
+		return null;
+	}
+}
+
+export async function getClubPlayer(clubId, playerId) {
+	const LOCATION_CLUB_PLAYER = `${CLUB_PLAYERS}/${clubId}/${playerId}`;
+	const playerData = await get(ref(getDatabase(firebaseApp), LOCATION_CLUB_PLAYER));
+
+	if (playerData.exists()) {
+		return playerData.val();
+	} else {
+		return null;
+	}
+}

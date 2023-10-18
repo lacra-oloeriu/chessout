@@ -16,7 +16,6 @@ function Home(props) {
 	const getMyPosts = async () => {
 		const myPosts = await getUserHomePosts(props.firebaseUser.uid);
 		let myPostsArray = myPosts ? Object.values(myPosts) : [];
-		console.log(JSON.stringify())
 
 		// Create a new array of clubs with extra details
 		const postsWithDetails = await Promise.all(myPostsArray.map(async (post) => {
