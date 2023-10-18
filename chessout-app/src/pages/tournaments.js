@@ -53,6 +53,7 @@ const componentsProps={
 function Tournaments(props) {
 	const storage = getStorage(firebaseApp);
 	const currentTimestamp = Date.now();
+	const reversedTimestamp = 0 - currentTimestamp;
 	const [tournaments, setTournaments] = useState(null);
 	const [defaultClubInfo, setDefaultClubInfo] = useState([]);
 
@@ -131,7 +132,7 @@ function Tournaments(props) {
 		name: '',
 		description: '',
 		location: '',
-		totalRounds: '',
+		totalRounds: 0,
 		firstTableNumber: 1,
 		dateCreated: {
 			timestamp: currentTimestamp
@@ -139,7 +140,7 @@ function Tournaments(props) {
 		updateStamp: {
 			timestamp: currentTimestamp
 		},
-		reversedDateCreated: -currentTimestamp,
+		reversedDateCreated: reversedTimestamp,
 		entryFee: 0
 	});
 
@@ -225,6 +226,10 @@ function Tournaments(props) {
 
 				const serializedObject = localStorage.getItem('localTournamentData');
 				const retrievedObject = JSON.parse(serializedObject);
+				const auxRounds = parseInt(retrievedObject.totalRounds);
+				const auxFirstTableNumber = parseInt(retrievedObject.firstTableNumber);
+				retrievedObject.totalRounds = auxRounds;
+				retrievedObject.firstTableNumber = auxFirstTableNumber;
 				retrievedObject.clubId = defaultClubInfo?.clubKey;
 				retrievedObject.multiversXTournamentId = lastTournamentId;
 				handleAddTournament(retrievedObject);
@@ -263,15 +268,15 @@ function Tournaments(props) {
 											</Col>
 											<Col xs={12} lg={2} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 												<Typography className="text-green-400" variant="caption" >Club Name</Typography>
-												<Typography>{tournament.clubInfo.name}</Typography>
+												<Typography>{tournament.clubInfo?.name}</Typography>
 											</Col>
 											<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 												<Typography className="text-green-400" variant="caption">Tournament Name</Typography>
-												<Typography>{tournament.name}</Typography>
+												<Typography>{tournament?.name}</Typography>
 											</Col>
 											<Col xs={12} lg={2} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 												<Typography className="text-green-400" variant="caption">Location</Typography>
-												<Typography>{tournament.location}</Typography>
+												<Typography>{tournament?.location}</Typography>
 											</Col>
 											<Col xs={12} lg={1} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 												<Typography className="text-green-400" variant="caption">Players</Typography>
