@@ -97,4 +97,15 @@ Chessout is the real live social chess platform of your dreams
 - Participants can pay using multivers x tranzactions and get automaticaly registered in tourhaments. 
 - Organazers can specify who are the wineers and all verious prizes and can distribute all the rewords and prizes with only one tranzaction. 
 
+6. Demo time
+- I already created a chessout tournament for this presentation and this is how chessout looks when you only use web2. 
+- This is the tournament and these are the participants to the tournamet. 
+- On multiversX as a manager you can say thi is a multiversX tournament. 
+- From this point anyone who wants to join they can just pay directly and sign players in the tournament. 
+- This way organizers they can keep doing what they do best and offer more attention to participangs and supporters present at the venue. 
+- At the end with only one transaction they can distribute prizes and rewords. 
+- This is it. Very simple and blocchain aspects are ingegratede elegantly in chessout. Web3 aspects of chessout are almost invisible and do not get in the way, they acutaly ecurage people to get get out and socialize and play more chess outside. 
+
+7. Thank you for taking the time for viewing this untill the end. I hope you understend better now what Chessout is and how elegant is it's integration with multiversX
+
 
