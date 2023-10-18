@@ -174,15 +174,6 @@ function TournamentPlayers(props) {
 
 	return(
 		<Container className="mt-2 mb-5">
-			{!tournament?.multiversXTournamentId &&
-				<Row>
-					<Col xs={12} lg={{offset: 8, span: 3}} className="mt-3">
-						<button className="btn btn-outline-success b-r-xs btn-block btn-sm" onClick={openModal}>
-							Convert Into MultiversX Tournament
-						</button>
-					</Col>
-				</Row>
-			}
 			<Row>
 				<Col xs={12} lg={{ offset: 1, span: 10 }}>
 					<div className="p-3 b-r-sm mt-4" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
@@ -289,7 +280,16 @@ function TournamentPlayers(props) {
 						</div>
 					</div>
 
-					<div className="p-3 b-r-sm mt-4" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
+					{!tournament?.multiversXTournamentId &&
+					<Row>
+						<Col xs={12} lg={{offset: 8, span: 4}} className="mt-3">
+							<button className="btn btn-outline-success b-r-xs btn-block btn-sm" onClick={openModal}>
+								Convert Into MultiversX Tournament
+							</button>
+						</Col>
+					</Row>
+					}
+					<div className="p-3 b-r-sm mt-2" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
 						<Typography variant="h6" className="text-center">Tournament Players</Typography>
 						{tournament?.players && tournament?.players.length > 0 ? (
 							<TableContainer>
