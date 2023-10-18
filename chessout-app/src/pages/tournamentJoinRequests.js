@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from 'react-router-dom';
-import {getTournament, getTournamentPlayers} from "utils/firebaseTools";
+import {getTournament, getTournamentPlayers, getClubPlayers, getTournamentPlayersRequests} from "utils/firebaseTools";
 import {Col, Container, Row} from "react-bootstrap";
 import {firebaseApp} from "config/firebase";
 import {getDownloadURL, getStorage, ref} from "firebase/storage";
-import {getDatabase, ref as dbRef, update} from 'firebase/database';
+import {getDatabase, ref as dbRef, update, remove} from 'firebase/database';
 import {Avatar, Button as MuiButton, ButtonGroup, Typography} from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -20,7 +20,15 @@ import {customConfig, networkId} from "../config/customConfig";
 import {networkConfig} from "../config/networks";
 import {ProxyNetworkProvider} from "@multiversx/sdk-network-providers/out";
 import {useGetAccountInfo, useGetActiveTransactionsStatus} from "@multiversx/sdk-dapp/hooks";
-import {AbiRegistry, Address, AddressValue, BigUIntValue, BytesValue, SmartContract} from "@multiversx/sdk-core/out";
+import {
+	AbiRegistry,
+	Address,
+	AddressValue,
+	BigUIntValue,
+	BytesValue,
+	SmartContract, TokenTransfer,
+	U64Value
+} from "@multiversx/sdk-core/out";
 import {BigNumber} from "bignumber.js";
 import {refreshAccount} from "@multiversx/sdk-dapp/__commonjs/utils";
 import {sendTransactions} from "@multiversx/sdk-dapp/services";
@@ -33,10 +41,12 @@ import TextField from "@mui/material/TextField/TextField";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 
-function TournamentPlayers(props) {
+function TournamentJoinRequests(props) {
 	const { tournamentId } = useParams();
 	const storage = getStorage(firebaseApp);
 	const [tournament, setTournament] = useState(null);
+	const [availablePlayers, setAvailablePlayers] = useState(null);
+	const [playersRequests, setPlayersRequests] = useState(null);
 	const [defaultClubInfo, setDefaultClubInfo] = useState([]);
 
 	//MultiversX config
@@ -57,23 +67,48 @@ function TournamentPlayers(props) {
 		const myTournamentData = await getTournament(defaultClub?.clubKey, tournamentId);
 
 		// tournament players
+		const clubPlayers = await getClubPlayers(defaultClub?.clubKey);
 		const tournamentPlayers = await getTournamentPlayers(defaultClub?.clubKey, tournamentId);
 		const tournamentPlayersArray = tournamentPlayers ? Object.values(tournamentPlayers) : [];
-		const tournamentPlayersCount = tournamentPlayers ? Object.keys(tournamentPlayers).length : 0;
-		const tournamentPlayersDetails = await Promise.all(tournamentPlayersArray.map(async (player) => {
+
+		// get the tournament players requests
+		const tournamentPlayersRequests = await getTournamentPlayersRequests(defaultClub?.clubKey, tournamentId);
+		const tournamentPlayersRequestsArray = tournamentPlayersRequests ? Object.values(tournamentPlayersRequests) : [];
+
+		const requestPlayersDetails = await Promise.all(tournamentPlayersRequestsArray.map(async (player) => {
 			const imageData = player.profilePictureUri ? await getDownloadURL(ref(storage, player.profilePictureUri)) : null;
 			return {
 				...player,
 				playerImage: imageData,
 			};
 		}));
+		requestPlayersDetails.sort((a, b) => b.elo - a.elo);
+		setPlayersRequests(requestPlayersDetails);
 
-		//sort players based on elo
-		tournamentPlayersDetails.sort((a, b) => b.elo - a.elo);
-		myTournamentData.players = tournamentPlayersDetails ? tournamentPlayersDetails: null;
-		myTournamentData.playersCount = tournamentPlayersCount;
-
+		myTournamentData.players = tournamentPlayersArray ? tournamentPlayersArray: null;
 		setTournament(myTournamentData);
+
+		// get the available players to join
+		const playersNotInTournament = {};
+		if (tournamentPlayers && Object.keys(tournamentPlayers).length > 0) {
+			for (const playerKey in clubPlayers) {
+				if (!tournamentPlayers[playerKey]) {
+					if (!tournamentPlayersRequests || !tournamentPlayersRequests[playerKey]) {
+						playersNotInTournament[playerKey] = clubPlayers[playerKey];
+					}
+				}
+			}
+		} else {
+			for (const playerKey in clubPlayers) {
+				if (!tournamentPlayersRequests || !tournamentPlayersRequests[playerKey]) {
+					playersNotInTournament[playerKey] = clubPlayers[playerKey];
+				}
+			}
+		}
+		const playersNotInTournamentArray = playersNotInTournament ? Object.values(playersNotInTournament) : [];
+		playersNotInTournamentArray.sort((a, b) => b.elo - a.elo);
+		setAvailablePlayers(playersNotInTournamentArray);
+
 	};
 
 	useEffect(() => {
@@ -87,16 +122,9 @@ function TournamentPlayers(props) {
 	const openModal = () => {setOpen(true);	};
 	const closeModal = () => {setOpen(false);	};
 
-	// convert tournament function
-	const [tournamentFee, setTournamentFee] = useState(0);
-	const handleChangeFee = (e) => {
-		setTournamentFee(e.target.value);
-		console.log(e.target.value);
-	};
-
-	const createXTournament = async () => {
-		localStorage.setItem('entryFee', tournamentFee.toString());
-		closeModal();
+	const joinXTournament = async (player) => {
+		const serializedObject = JSON.stringify(player);
+		localStorage.setItem('localPlayer', serializedObject);
 		try {
 			let abiRegistry = AbiRegistry.create(chessoutAbi);
 			let contract = new SmartContract({
@@ -105,11 +133,11 @@ function TournamentPlayers(props) {
 			});
 
 			const transaction = contract.methodsExplicit
-				.createTournament([
-					BytesValue.fromUTF8(scToken),
-					new BigUIntValue(new BigNumber(tournamentFee * multiplier)),
-				])
+				.joinTournament([new U64Value(tournament.multiversXTournamentId)])
 				.withChainID(chainID)
+				.withSingleESDTTransfer(
+					TokenTransfer.fungibleFromAmount(scToken, tournament.entryFee, 18)
+				)
 				.buildTransaction();
 			const createTournamentTransaction = {
 				value: 0,
@@ -122,9 +150,9 @@ function TournamentPlayers(props) {
 			const { sessionId } = await sendTransactions({
 				transactions: createTournamentTransaction,
 				transactionsDisplayInfo: {
-					processingMessage: 'Processing Convert Tournament transaction',
-					errorMessage: 'An error has occurred during Convert Tournament transaction',
-					successMessage: 'Convert Tournament transaction successful'
+					processingMessage: 'Processing Join Tournament transaction',
+					errorMessage: 'An error has occurred during Join Tournament transaction',
+					successMessage: 'Join Tournament transaction successful'
 				},
 				redirectAfterSign: false
 			});
@@ -140,49 +168,62 @@ function TournamentPlayers(props) {
 
 	useEffect(() => {
 		if(transactionSuccess) {
-			const convertToXTournament = async () => {
-				const newConfiguration = await contractQuery(
-					networkProvider,
-					chessoutAbi,
-					scAddress,
-					scName,
-					"getMyLastCreatedId",
-					[new AddressValue(new Address(address))]
-				);
-				const lastTournamentId = newConfiguration?.valueOf();
-				const storedEntryFee = localStorage.getItem('entryFee');
-				const entryFee = parseInt(storedEntryFee);
+			const joinTheTournament = async () => {
+				const serializedObject = localStorage.getItem('localPlayer');
+				const localPlayer = JSON.parse(serializedObject);
+				localPlayer.multiversXAddress = address;
 
 				const database = getDatabase(firebaseApp);
 				const updateData = {
-					[`tournaments/${defaultClubInfo.clubKey}/${tournament?.tournamentId}/entryFee`]: entryFee,
-					[`tournaments/${defaultClubInfo.clubKey}/${tournament?.tournamentId}/multiversXTournamentId`]: lastTournamentId
+					[`tournamentPlayersRequests/${defaultClubInfo.clubKey}/${tournament?.tournamentId}/${localPlayer.playerKey}`]: localPlayer,
 				};
 
 				update(dbRef(database), updateData)
 					.then(() => {
-						console.log("Updated successfully.");
+						console.log("Added Player request.");
 					})
 					.catch((error) => {
-						console.error("Error updating tournament:", error);
+						console.error("Error Adding Player request:", error);
 					});
 			};
-			convertToXTournament();
+			joinTheTournament();
 			getMyTournament();
 		}
 	}, [transactionSuccess]);
 
+	const deletePlayerRequest = async (playerKey) => {
+		const database = getDatabase(firebaseApp);
+		const playerRequestRef = dbRef(database, `tournamentPlayersRequests/${defaultClubInfo.clubKey}/${tournament.tournamentId}/${playerKey}`);
+
+		try {
+			await remove(playerRequestRef);
+			console.log("Player request deleted successfully.");
+		} catch (error) {
+			console.error("Error deleting Player request:", error);
+		}
+	};
+
+
+	const acceptPlayer = async (playerRequest) => {
+		const database = getDatabase(firebaseApp);
+		const updateData = {
+			[`tournamentPlayers/${defaultClubInfo.clubKey}/${tournament.tournamentId}/${playerRequest.playerKey}`]: playerRequest,
+		};
+
+		update(dbRef(database), updateData)
+			.then(() => {
+				console.log("Added Player request.");
+			})
+			.catch((error) => {
+				console.error("Error Adding Player request:", error);
+			});
+
+		await deletePlayerRequest(playerRequest.playerKey);
+		getMyTournament();
+	};
+
 	return(
 		<Container className="mt-2 mb-5">
-			{!tournament?.multiversXTournamentId &&
-				<Row>
-					<Col xs={12} lg={{offset: 8, span: 3}} className="mt-3">
-						<button className="btn btn-outline-success b-r-xs btn-block btn-sm" onClick={openModal}>
-							Convert Into MultiversX Tournament
-						</button>
-					</Col>
-				</Row>
-			}
 			<Row>
 				<Col xs={12} lg={{ offset: 1, span: 10 }}>
 					<div className="p-3 b-r-sm mt-4" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
@@ -218,14 +259,15 @@ function TournamentPlayers(props) {
 								className="mt-5"
 							>
 								<MuiButton
-									color={'success'}
+									component={Link}
+									to={`/tournament-players/${tournamentId}`}
 									variant="text"
 									className="me-2"
 									style={{
-										borderBottom: ' 1px solid #66bb6a',
 										borderRadius: 0,
-										borderRight: 'none',
-										backgroundColor: 'transparent'
+										border: 'none',
+										backgroundColor: 'transparent',
+										color: 'white'
 									}}
 								>
 									Players
@@ -258,15 +300,13 @@ function TournamentPlayers(props) {
 									Standings
 								</MuiButton>
 								<MuiButton
-									component={Link}
-									to={`/tournament-join-requests/${tournamentId}`}
 									variant="text"
+									color={'success'}
 									className="ms-2"
 									style={{
 										borderRadius: 0,
-										border: 'none',
-										backgroundColor: 'transparent',
-										color: 'white'
+										borderBottom: ' 1px solid #66bb6a',
+										backgroundColor: 'transparent'
 									}}
 								>
 									Join Requests
@@ -275,9 +315,16 @@ function TournamentPlayers(props) {
 						</div>
 					</div>
 
+					<Row>
+						<Col xs={12} lg={{offset: 9, span: 3}} className="mt-3">
+							<button className="btn btn-outline-success b-r-xs btn-block btn-sm" onClick={openModal}>
+								Join Player
+							</button>
+						</Col>
+					</Row>
 					<div className="p-3 b-r-sm mt-4" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
-						<Typography variant="h6" className="text-center">Tournament Players</Typography>
-						{tournament?.players && tournament?.players.length > 0 ? (
+						<Typography variant="h6" className="text-center">Tournament Join Requests</Typography>
+						{playersRequests && playersRequests.length > 0 ? (
 							<TableContainer>
 								<Table sx={{ minWidth: 650 }} aria-label="simple table">
 									<TableHead>
@@ -286,10 +333,11 @@ function TournamentPlayers(props) {
 											<TableCell style={{color: '#66bb6a'}}>Avatar</TableCell>
 											<TableCell style={{color: '#66bb6a'}}>Name</TableCell>
 											<TableCell style={{color: '#66bb6a'}}>Elo</TableCell>
+											<TableCell style={{color: '#66bb6a'}}>Actions</TableCell>
 										</TableRow>
 									</TableHead>
 									<TableBody>
-										{tournament.players.map((player, index) => (
+										{playersRequests.map((player, index) => (
 											<TableRow
 												key={index}
 												sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -310,6 +358,7 @@ function TournamentPlayers(props) {
 													{player.name}
 												</TableCell>
 												<TableCell>{player.elo}</TableCell>
+												<TableCell><button className="btn btn-sm btn-success b-r-xs" onClick={() => acceptPlayer(player)}>Add Player</button></TableCell>
 											</TableRow>
 										))}
 									</TableBody>
@@ -328,7 +377,7 @@ function TournamentPlayers(props) {
 					<Box
 						sx={{
 							position: 'absolute',
-							width: 500,
+							width: '40%',
 							backgroundColor: '#121212',
 							top: '50%',
 							left: '50%',
@@ -339,23 +388,24 @@ function TournamentPlayers(props) {
 							textAlign: 'center'
 						}}
 					>
-						<h3 className="mb-4">Convert into XTournament</h3>
-						<div className="mt-3">
-							<div className="mt-3">
-								<TextField
-									name="entryFee"
-									label="Entry Fee"
-									type="number"
-									value={tournamentFee}
-									onChange={handleChangeFee}
-									size="small"
-									style={{minWidth: '85%'}}
-								/>
-							</div>
+						<h3 className="mb-1">Select player to add</h3>
+						<p className="mb-3 text-light-success">Entry fee: {tournament?.entryFee}</p>
+						<div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+							{availablePlayers ? (
+								<React.Fragment>
+									{availablePlayers.map((player, index) => (
+										<div className="d-flex justify-content-between align-items-center border-bottom py-2 px-2" key={index}>
+											<p className="m-0">{index + 1}. {player.name} ({player.elo})</p>
+											<button className="btn btn-sm btn-outline-success b-r-xs" onClick={() => joinXTournament(player)}>Add Player</button>
+										</div>
+									))}
+								</React.Fragment>
+							) : (
+								<div className="text-center align-content-center b-r-sm mt-5" style={{ backgroundColor: "#2f2f2f", paddingTop: '20px', paddingBottom: '5px' }}>
+									<p>No players.</p>
+								</div>
+							)}
 						</div>
-						<Button variant="contained" color="primary" className="mt-4 text-center btn btn-success b-r-xs" onClick={() => createXTournament()}>
-								Convert Tournament
-						</Button>
 					</Box>
 				</Fade>
 			</Modal>
@@ -363,4 +413,4 @@ function TournamentPlayers(props) {
 	);
 }
 
-export default TournamentPlayers;
+export default TournamentJoinRequests;

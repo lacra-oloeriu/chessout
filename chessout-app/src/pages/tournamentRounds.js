@@ -100,9 +100,9 @@ function TournamentRounds(props) {
 					if (result) {
 						roundsGamesResults.push({
 							result: result.result,
-							whitePlayerName: result.whitePlayer.name,
+							whitePlayerName: result.whitePlayer?.name,
 							whitePlayerImage: result.whitePlayer?.profilePictureUri ? await getDownloadURL(ref(storage, result.whitePlayer.profilePictureUri)) : null,
-							blackPlayerName: result.blackPlayer.name,
+							blackPlayerName: result.blackPlayer?.name,
 							blackPlayerImage: result.blackPlayer?.profilePictureUri ? await getDownloadURL(ref(storage, result.blackPlayer.profilePictureUri)) : null,
 						})
 					}
