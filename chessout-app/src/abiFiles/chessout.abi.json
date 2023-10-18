@@ -1,0 +1,263 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.71.0-nightly",
+            "commitHash": "a2b1646c597329d0a25efa3889b66650f65de1de",
+            "commitDate": "2023-05-25",
+            "channel": "Nightly",
+            "short": "rustc 1.71.0-nightly (a2b1646c5 2023-05-25)"
+        },
+        "contractCrate": {
+            "name": "chessout",
+            "version": "0.0.0"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.43.4"
+        }
+    },
+    "name": "Chessout",
+    "constructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "getContractSettings",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "ContractSettings"
+                }
+            ]
+        },
+        {
+            "name": "getTotalFees",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TotalFees"
+                }
+            ]
+        },
+        {
+            "name": "getLastIndex",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getTournamentData",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "Tournament"
+                }
+            ]
+        },
+        {
+            "name": "getMyLastCreatedId",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "client_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "setContractSettings",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "egld_processing_procentage",
+                    "type": "u64"
+                },
+                {
+                    "name": "xch_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "xch_processing_procentage",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "createTournament",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "entry_fee",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "joinTournament",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "tournament_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "addTounamentWinner",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "tournament_id",
+                    "type": "u64"
+                },
+                {
+                    "name": "winner",
+                    "type": "Address"
+                },
+                {
+                    "name": "prize",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "distribureTournamentRewords",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "tournament_id",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        }
+    ],
+    "events": [],
+    "hasCallback": false,
+    "types": {
+        "ContractSettings": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "token_settings",
+                    "type": "List<TokenSettings>"
+                }
+            ]
+        },
+        "FeeItem": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "token_id",
+                    "type": "EgldOrEsdtTokenIdentifier"
+                },
+                {
+                    "name": "collected_value",
+                    "type": "BigUint"
+                }
+            ]
+        },
+        "TokenSettings": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "token_id",
+                    "type": "EgldOrEsdtTokenIdentifier"
+                },
+                {
+                    "name": "processing_procentage",
+                    "type": "u64"
+                }
+            ]
+        },
+        "TotalFees": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "fee_list",
+                    "type": "List<FeeItem>"
+                }
+            ]
+        },
+        "Tournament": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "u64"
+                },
+                {
+                    "name": "token_id",
+                    "type": "EgldOrEsdtTokenIdentifier"
+                },
+                {
+                    "name": "entry_fee",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "available_funds",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "manager_list",
+                    "type": "List<Address>"
+                },
+                {
+                    "name": "participant_list",
+                    "type": "List<Address>"
+                },
+                {
+                    "name": "winner_list",
+                    "type": "List<TournamentWiner>"
+                },
+                {
+                    "name": "prizes_have_bean_distibuted",
+                    "type": "bool"
+                }
+            ]
+        },
+        "TournamentWiner": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "winner",
+                    "type": "Address"
+                },
+                {
+                    "name": "prize",
+                    "type": "BigUint"
+                }
+            ]
+        }
+    }
+}

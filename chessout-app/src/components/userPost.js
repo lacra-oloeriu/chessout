@@ -90,18 +90,20 @@ const UserPost = ({image, title, user, time, avatar, likesCount, likes, comments
 				</Typography>
 			</CardContent>
 			<Divider color={"#2f2f2f"} />
-			<div className="d-flex justify-content-center" style={{backgroundColor: '#2f2f2f'}}>
-				<CardMedia
-					component="img"
-					alt="Post Image"
-					image={image}
-					title="Post Image"
-					style={{
-						maxHeight: '600px',
-						width: 'auto'
-					}}
-				/>
-			</div>
+			{image &&
+				<div className="d-flex justify-content-center" style={{backgroundColor: '#2f2f2f'}}>
+					<CardMedia
+						component="img"
+						alt="Post Image"
+						image={image}
+						title="Post Image"
+						style={{
+							maxHeight: '600px',
+							width: 'auto'
+						}}
+					/>
+				</div>
+			}
 			<Divider color={"#2f2f2f"} />
 			<CardActions className="d-flex justify-content-between">
 				<div>

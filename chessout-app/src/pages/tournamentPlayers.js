@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Link, useParams } from 'react-router-dom';
-import {getTournament, getTournamentPlayers} from "utils/firebaseTools";
+import {getTournament, getTournamentPlayers, addTournamentPlayerRequest, getClubPlayers} from "utils/firebaseTools";
 import {Col, Container, Row} from "react-bootstrap";
 import {firebaseApp} from "config/firebase";
 import {getDownloadURL, getStorage, ref} from "@firebase/storage";
@@ -12,15 +12,43 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import chessoutAbi from 'abiFiles/chessout.abi.json';
+import {customConfig, networkId} from "../config/customConfig";
+import {networkConfig} from "../config/networks";
+import {ProxyNetworkProvider} from "@multiversx/sdk-network-providers/out";
+import {useGetAccountInfo, useGetActiveTransactionsStatus} from "@multiversx/sdk-dapp/hooks";
+import {AbiRegistry, Address, AddressValue, BigUIntValue, BytesValue, SmartContract, TokenTransfer} from "@multiversx/sdk-core/out";
+import {BigNumber} from "bignumber.js";
+import {refreshAccount} from "@multiversx/sdk-dapp/__commonjs/utils";
+import {sendTransactions} from "@multiversx/sdk-dapp/services";
+import {contractQuery} from "../utils/multiversxTools";
+import { useGetPendingTransactions } from "@multiversx/sdk-dapp/hooks/transactions";
+import {U64Value} from "@multiversx/sdk-core/out";
+import {multiplier} from "../utils/generalTools";
 
 function TournamentPlayers(props) {
 	const { tournamentId } = useParams();
 	const storage = getStorage(firebaseApp);
 	const [tournament, setTournament] = useState(null);
+	const [defaultClubInfo, setDefaultClubInfo] = useState([]);
+
+	//MultiversX config
+	const {address} = useGetAccountInfo();
+	const isLoggedIn = address.startsWith("erd");
+	const config = customConfig[networkId];
+	const networkProvider = new ProxyNetworkProvider(config.provider);
+	const scAddress = config.scAddress;
+	const scToken = config.scToken;
+	const scName = "Chessout";
+	const chainID = networkConfig[networkId].shortId;
+	const tokensAPI = config.apiLink + address + "/tokens?size=2000";
 
 	//Get tournament
 	const getMyTournament = async () => {
 		const defaultClub = await props.getMyDefaultClub();
+		setDefaultClubInfo(defaultClub);
 		const myTournamentData = await getTournament(defaultClub?.clubKey, tournamentId);
 
 		// tournament players
@@ -49,23 +77,97 @@ function TournamentPlayers(props) {
 		}
 	}, [props.firebaseUser]);
 
+	// join tournament function
+	const loadingTransactions = useGetPendingTransactions().hasPendingTransactions;
+	const transactionSuccess = useGetActiveTransactionsStatus().success;
+
+	const joinXTournament = async () => {
+		try {
+			let abiRegistry = AbiRegistry.create(chessoutAbi);
+			let contract = new SmartContract({
+				address: new Address(scAddress),
+				abi: abiRegistry
+			});
+
+			const transaction = contract.methodsExplicit
+				.joinTournament([new U64Value(tournament.multiversXTournamentId)])
+				.withChainID(chainID)
+				.withSingleESDTTransfer(
+					TokenTransfer.fungibleFromAmount(scToken, tournament.entryFee / multiplier, 18)
+				)
+				.buildTransaction();
+			const createTournamentTransaction = {
+				value: 0,
+				data: Buffer.from(transaction.getData().valueOf()),
+				receiver: scAddress,
+				gasLimit: '15000000'
+			};
+			await refreshAccount();
+
+			const { sessionId } = await sendTransactions({
+				transactions: createTournamentTransaction,
+				transactionsDisplayInfo: {
+					processingMessage: 'Processing Create Tournament transaction',
+					errorMessage: 'An error has occurred during Create Tournament transaction',
+					successMessage: 'Create Tournament transaction successful'
+				},
+				redirectAfterSign: false
+			});
+
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		if(transactionSuccess) {
+			const newPlayer = {
+				archived: false,
+				clubElo: 0,
+				clubKey: defaultClubInfo?.clubKey,
+				elo: 1056,
+				email: props.firebaseUser.email,
+				name: props.firebaseUser.displayName,
+				multiversXAddress: address
+			};
+			addTournamentPlayerRequest(defaultClubInfo?.clubKey, tournament.tournamentId, newPlayer);
+		}
+	}, [transactionSuccess]);
+
 	return(
 		<Container className="mt-2 mb-5">
+			<Row>
+				<Col xs={6} lg={{offset: 9, span: 2}} className="mt-3">
+					<button className="btn btn-outline-success b-r-xs btn-block btn-sm" onClick={()=> joinXTournament()}>
+						Join Tournament
+					</button>
+				</Col>
+			</Row>
 			<Row>
 				<Col xs={12} lg={{ offset: 1, span: 10 }}>
 					<div className="p-3 b-r-sm mt-4" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
 						<Row style={{ display: 'flex', alignItems: "center" }}>
-							<Col xs={12} lg={4} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
+							<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 								<Typography color={'#66bb6a'} variant="caption">Tournament Name</Typography>
 								<Typography>{tournament?.name}</Typography>
 							</Col>
-							<Col xs={12} lg={4} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
+							<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 								<Typography color={'#66bb6a'} variant="caption">Tournament Location</Typography>
 								<Typography>{tournament?.location}</Typography>
 							</Col>
-							<Col xs={12} lg={4} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center border-end'}`}>
+							<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center'}`}>
 								<Typography color={'#66bb6a'} variant="caption">Tournament Rounds</Typography>
 								<Typography>{tournament?.totalRounds}</Typography>
+							</Col>
+							<Col xs={12} lg={3} className={`border-start ${props.isMobile ? 'mt-3' : 'text-center border-end'}`}>
+								<Typography color={'#66bb6a'} variant="caption">MultiversX Tournament</Typography>
+								<div>
+									{tournament?.multiversXTournamentId ? (
+										<CheckIcon />
+									) : (
+										<CloseIcon />
+									)}
+								</div>
 							</Col>
 						</Row>
 
