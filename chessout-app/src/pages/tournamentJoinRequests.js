@@ -393,7 +393,7 @@ function TournamentJoinRequests(props) {
 					<Box
 						sx={{
 							position: 'absolute',
-							width: '40%',
+							width: '70%',
 							backgroundColor: '#121212',
 							top: '50%',
 							left: '50%',
