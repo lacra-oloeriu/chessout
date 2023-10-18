@@ -80,6 +80,7 @@ Staking Mechanism: Chessout's future plan to implement a staking mechanism furth
 Chessout is a disruptive force in the chess tournament market, offering a comprehensive solution to long-standing challenges and a roadmap for continuous improvement. It aims to revolutionize how chess tournaments are organized and enjoyed, making it an invaluable addition to the chess community.
 
 ------
+tournaments_pages
 
 # First draft presentation
 
