@@ -171,7 +171,8 @@ function TournamentJoinRequests(props) {
 			const joinTheTournament = async () => {
 				const serializedObject = localStorage.getItem('localPlayer');
 				const localPlayer = JSON.parse(serializedObject);
-				localPlayer?.multiversXAddress = address;
+				if(localPlayer) localPlayer.multiversXAddress = address;
+
 
 				const database = getDatabase(firebaseApp);
 				const updateData = {
