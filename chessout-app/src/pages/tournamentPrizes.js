@@ -33,7 +33,7 @@ import TextField from "@mui/material/TextField/TextField";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 
-function TournamentPlayers(props) {
+function TournamentPrizes(props) {
 	const { tournamentId } = useParams();
 	const storage = getStorage(firebaseApp);
 	const [tournament, setTournament] = useState(null);
@@ -174,15 +174,6 @@ function TournamentPlayers(props) {
 
 	return(
 		<Container className="mt-2 mb-5">
-			{!tournament?.multiversXTournamentId &&
-				<Row>
-					<Col xs={12} lg={{offset: 8, span: 3}} className="mt-3">
-						<button className="btn btn-outline-success b-r-xs btn-block btn-sm" onClick={openModal}>
-							Convert Into MultiversX Tournament
-						</button>
-					</Col>
-				</Row>
-			}
 			<Row>
 				<Col xs={12} lg={{ offset: 1, span: 10 }}>
 					<div className="p-3 b-r-sm mt-4" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
@@ -218,14 +209,15 @@ function TournamentPlayers(props) {
 								className="mt-5"
 							>
 								<MuiButton
-									color={'success'}
+									component={Link}
+									to={`/tournament-players/${tournamentId}`}
 									variant="text"
 									className="me-2"
 									style={{
-										borderBottom: ' 1px solid #66bb6a',
 										borderRadius: 0,
-										borderRight: 'none',
-										backgroundColor: 'transparent'
+										border: 'none',
+										backgroundColor: 'transparent',
+										color: 'white'
 									}}
 								>
 									Players
@@ -248,7 +240,6 @@ function TournamentPlayers(props) {
 									component={Link}
 									to={`/tournament-standings/${tournamentId}`}
 									variant="text"
-									className="me-2"
 									style={{
 										borderRadius: 0,
 										border: 'none',
@@ -262,6 +253,7 @@ function TournamentPlayers(props) {
 									component={Link}
 									to={`/tournament-join-requests/${tournamentId}`}
 									variant="text"
+									className="ms-2"
 									style={{
 										borderRadius: 0,
 										border: 'none',
@@ -272,15 +264,13 @@ function TournamentPlayers(props) {
 									Join Requests
 								</MuiButton>
 								<MuiButton
-									component={Link}
-									to={`/tournament-prizes/${tournamentId}`}
 									variant="text"
+									color="success"
 									className="ms-2"
 									style={{
+										borderBottom: '1px solid #66bb6a',
 										borderRadius: 0,
-										border: 'none',
 										backgroundColor: 'transparent',
-										color: 'white'
 									}}
 								>
 									Prizes
@@ -377,4 +367,4 @@ function TournamentPlayers(props) {
 	);
 }
 
-export default TournamentPlayers;
+export default TournamentPrizes;

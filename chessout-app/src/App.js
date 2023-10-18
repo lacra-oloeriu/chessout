@@ -18,6 +18,7 @@ import TournamentPlayers from 'pages/tournamentPlayers';
 import TournamentRounds from 'pages/tournamentRounds';
 import TournamentStandings from 'pages/tournamentStandings';
 import TournamentJoinRequests from 'pages/tournamentJoinRequests';
+import TournamentPrizes from 'pages/tournamentPrizes';
 import Tournaments from 'pages/tournaments';
 
 import { DappProvider } from "@multiversx/sdk-dapp/wrappers/DappProvider";
@@ -94,6 +95,7 @@ function App() {
             <Route path="/tournament-rounds/:tournamentId/:activeRoundId" element={<TournamentRounds isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
             <Route path="/tournament-standings/:tournamentId" element={<TournamentStandings isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
             <Route path="/tournament-join-requests/:tournamentId" element={<TournamentJoinRequests isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
+            <Route path="/tournament-prizes/:tournamentId" element={<TournamentPrizes isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
             <Route path="/tournaments" element={<Tournaments isMobile={isMobile} firebaseUser={firebaseUser} getMyDefaultClub={getMyDefaultClub}/>} />
           </Routes>
         </Router>

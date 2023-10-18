@@ -199,6 +199,7 @@ function TournamentRounds(props) {
 									component={Link}
 									to={`/tournament-standings/${tournamentId}`}
 									variant="text"
+									className="me-2"
 									style={{
 										borderRadius: 0,
 										border: 'none',
@@ -212,7 +213,6 @@ function TournamentRounds(props) {
 									component={Link}
 									to={`/tournament-join-requests/${tournamentId}`}
 									variant="text"
-									className="ms-2"
 									style={{
 										borderRadius: 0,
 										border: 'none',
@@ -221,6 +221,20 @@ function TournamentRounds(props) {
 									}}
 								>
 									Join Requests
+								</MuiButton>
+								<MuiButton
+									component={Link}
+									to={`/tournament-prizes/${tournamentId}`}
+									variant="text"
+									className="ms-2"
+									style={{
+										borderRadius: 0,
+										border: 'none',
+										backgroundColor: 'transparent',
+										color: 'white'
+									}}
+								>
+									Prizes
 								</MuiButton>
 							</ButtonGroup>
 						</div>
