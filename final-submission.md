@@ -78,3 +78,23 @@ Catering Integration: While not implemented yet, Chessout's plan to integrate ev
 Staking Mechanism: Chessout's future plan to implement a staking mechanism further differentiates it by promoting real-world chess community engagement and participation.
 
 Chessout is a disruptive force in the chess tournament market, offering a comprehensive solution to long-standing challenges and a roadmap for continuous improvement. It aims to revolutionize how chess tournaments are organized and enjoyed, making it an invaluable addition to the chess community.
+
+------
+
+# First draft presentation
+
+1. What is chessout
+Chessout is the real live social chess platform of your dreams
+
+2. Design to simplify all logistics of organizing a running a chess tournament outside
+
+3. I'm a parrent and chessout addresses the main painpoints of players, parents, oganizers and extended grups of supporters for all participants of the tournaments. 
+
+4. This was a side project and it has already overwelming intrest from the public. It is now used by major chess clubs in Belgium and also by official Belgium Chess Federation. 
+
+5. Now with the integration of multiversX chessout simplifies also the finantial aspects of organizing a tournament. 
+- Organizers can specify entry fees
+- Participants can pay using multivers x tranzactions and get automaticaly registered in tourhaments. 
+- Organazers can specify who are the wineers and all verious prizes and can distribute all the rewords and prizes with only one tranzaction. 
+
+
