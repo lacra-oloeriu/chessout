@@ -86,7 +86,7 @@ Chessout is a disruptive force in the chess tournament market, offering a compre
 1. What is chessout
 Chessout is the real live social chess platform of your dreams
 
-2. Design to simplify all logistics of organizing a running a chess tournament outside
+2. Designed to simplify all logistics of organizing a running a chess tournament outside
 
 3. I'm a parrent and chessout addresses the main painpoints of players, parents, oganizers and extended grups of supporters for all participants of the tournaments. 
 
@@ -104,7 +104,7 @@ Chessout is the real live social chess platform of your dreams
 - From this point anyone who wants to join they can just pay directly and sign players in the tournament. 
 - This way organizers they can keep doing what they do best and offer more attention to participangs and supporters present at the venue. 
 - At the end with only one transaction they can distribute prizes and rewords. 
-- This is it. Very simple and blocchain aspects are ingegratede elegantly in chessout. Web3 aspects of chessout are almost invisible and do not get in the way, they acutaly ecurage people to get get out and socialize and play more chess outside. 
+- This is it. Very simple and blocchain aspects are ingegratede elegantly in chessout. Web3 aspects of chessout are almost invisible and do not get in the way, they acutaly encurage people to get get out, socialize and play more chess outside. 
 
 7. Thank you for taking the time for viewing this untill the end. I hope you understend better now what Chessout is and how elegant is it's integration with multiversX
 
