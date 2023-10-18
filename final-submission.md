@@ -81,6 +81,7 @@ Chessout is a disruptive force in the chess tournament market, offering a compre
 
 ------
 tournaments_pages
+multiverx_tournaments
 
 # First draft presentation
 
