@@ -20,7 +20,15 @@ import {customConfig, networkId} from "../config/customConfig";
 import {networkConfig} from "../config/networks";
 import {ProxyNetworkProvider} from "@multiversx/sdk-network-providers/out";
 import {useGetAccountInfo, useGetActiveTransactionsStatus} from "@multiversx/sdk-dapp/hooks";
-import {AbiRegistry, Address, AddressValue, BigUIntValue, BytesValue, SmartContract} from "@multiversx/sdk-core/out";
+import {
+	AbiRegistry,
+	Address,
+	AddressValue,
+	BigUIntValue,
+	BytesValue,
+	SmartContract,
+	U64Value
+} from "@multiversx/sdk-core/out";
 import {BigNumber} from "bignumber.js";
 import {refreshAccount} from "@multiversx/sdk-dapp/__commonjs/utils";
 import {sendTransactions} from "@multiversx/sdk-dapp/services";
@@ -33,10 +41,12 @@ import TextField from "@mui/material/TextField/TextField";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 
-function TournamentPlayers(props) {
+function TournamentPrizes(props) {
 	const { tournamentId } = useParams();
 	const storage = getStorage(firebaseApp);
 	const [tournament, setTournament] = useState(null);
+	const [players, setPlayers] = useState(null);
+	const [winners, setWinners] = useState(null);
 	const [defaultClubInfo, setDefaultClubInfo] = useState([]);
 
 	//MultiversX config
@@ -59,7 +69,6 @@ function TournamentPlayers(props) {
 		// tournament players
 		const tournamentPlayers = await getTournamentPlayers(defaultClub?.clubKey, tournamentId);
 		const tournamentPlayersArray = tournamentPlayers ? Object.values(tournamentPlayers) : [];
-		const tournamentPlayersCount = tournamentPlayers ? Object.keys(tournamentPlayers).length : 0;
 		const tournamentPlayersDetails = await Promise.all(tournamentPlayersArray.map(async (player) => {
 			const imageData = player.profilePictureUri ? await getDownloadURL(ref(storage, player.profilePictureUri)) : null;
 			return {
@@ -68,10 +77,47 @@ function TournamentPlayers(props) {
 			};
 		}));
 
+		//get players that have multiversXAddress from tournament players
+		const eligiblePlayers = {};
+		for (const playerKey in tournamentPlayers) {
+			const player = tournamentPlayers[playerKey];
+			if (player.multiversXAddress) {
+				eligiblePlayers[playerKey] = player;
+			}
+		}
+		const eligiblePlayersArray = eligiblePlayers ? Object.values(eligiblePlayers) : [];
+		setPlayers(eligiblePlayersArray);
+
+		const scTournamentData = myTournamentData.multiversXTournamentId ?
+			await contractQuery(
+				networkProvider,
+				chessoutAbi,
+				scAddress,
+				scName,
+				"getTournamentData",
+				[new U64Value(myTournamentData.multiversXTournamentId)]
+			) : [];
+
+		console.log(JSON.stringify(scTournamentData, null, 2))
+		// get the winning list
+		const winnerList = [];
+		if(scTournamentData.winner_list && scTournamentData?.winner_list.length){
+			if(eligiblePlayers){
+				scTournamentData.winner_list.map((item) => {
+					eligiblePlayersArray.map((item2) => {
+						if(item.winner.bech32() === item2.multiversXAddress){
+							item2.prize = item.prize / multiplier;
+							winnerList.push(item2);
+						}
+					})
+				})
+			}
+		}
+		setWinners(winnerList);
+
 		//sort players based on elo
 		tournamentPlayersDetails.sort((a, b) => b.elo - a.elo);
 		myTournamentData.players = tournamentPlayersDetails ? tournamentPlayersDetails: null;
-		myTournamentData.playersCount = tournamentPlayersCount;
 
 		setTournament(myTournamentData);
 	};
@@ -88,14 +134,12 @@ function TournamentPlayers(props) {
 	const closeModal = () => {setOpen(false);	};
 
 	// convert tournament function
-	const [tournamentFee, setTournamentFee] = useState(0);
-	const handleChangeFee = (e) => {
-		setTournamentFee(e.target.value);
-		console.log(e.target.value);
+	const [tournamentPrize, setTournamentPrize] = useState(0);
+	const handleChangePrize = (e) => {
+		setTournamentPrize(e.target.value);
 	};
 
-	const createXTournament = async () => {
-		localStorage.setItem('entryFee', tournamentFee.toString());
+	const addTournamentWinner = async (multiversXAddress) => {
 		closeModal();
 		try {
 			let abiRegistry = AbiRegistry.create(chessoutAbi);
@@ -105,9 +149,10 @@ function TournamentPlayers(props) {
 			});
 
 			const transaction = contract.methodsExplicit
-				.createTournament([
-					BytesValue.fromUTF8(scToken),
-					new BigUIntValue(new BigNumber(tournamentFee * multiplier)),
+				.addTounamentWinner([
+					new U64Value(tournament.multiversXTournamentId),
+					new AddressValue(new Address(multiversXAddress)),
+					new BigUIntValue(new BigNumber(tournamentPrize * multiplier)),
 				])
 				.withChainID(chainID)
 				.buildTransaction();
@@ -122,9 +167,47 @@ function TournamentPlayers(props) {
 			const { sessionId } = await sendTransactions({
 				transactions: createTournamentTransaction,
 				transactionsDisplayInfo: {
-					processingMessage: 'Processing Convert Tournament transaction',
-					errorMessage: 'An error has occurred during Convert Tournament transaction',
-					successMessage: 'Convert Tournament transaction successful'
+					processingMessage: 'Processing Add Winner transaction',
+					errorMessage: 'An error has occurred during Add Winner transaction',
+					successMessage: 'Add Winner transaction successful'
+				},
+				redirectAfterSign: false
+			});
+
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const sendTournamentPrizes = async () => {
+		closeModal();
+		try {
+			let abiRegistry = AbiRegistry.create(chessoutAbi);
+			let contract = new SmartContract({
+				address: new Address(scAddress),
+				abi: abiRegistry
+			});
+
+			const transaction = contract.methodsExplicit
+				.distribureTournamentRewords([
+					new U64Value(tournament.multiversXTournamentId),
+				])
+				.withChainID(chainID)
+				.buildTransaction();
+			const createTournamentTransaction = {
+				value: 0,
+				data: Buffer.from(transaction.getData().valueOf()),
+				receiver: scAddress,
+				gasLimit: '15000000'
+			};
+			await refreshAccount();
+
+			const { sessionId } = await sendTransactions({
+				transactions: createTournamentTransaction,
+				transactionsDisplayInfo: {
+					processingMessage: 'Processing Distribute Prizes transaction',
+					errorMessage: 'An error has occurred during Distribute Prizes transaction',
+					successMessage: 'Distribute Prizes transaction successful'
 				},
 				redirectAfterSign: false
 			});
@@ -140,36 +223,7 @@ function TournamentPlayers(props) {
 
 	useEffect(() => {
 		if(transactionSuccess) {
-			const convertToXTournament = async () => {
-				const newConfiguration = await contractQuery(
-					networkProvider,
-					chessoutAbi,
-					scAddress,
-					scName,
-					"getMyLastCreatedId",
-					[new AddressValue(new Address(address))]
-				);
-				const lastTournamentId = newConfiguration?.valueOf();
-				const storedEntryFee = localStorage.getItem('entryFee');
-				const entryFee = parseInt(storedEntryFee);
-
-				const database = getDatabase(firebaseApp);
-				const updateData = {
-					[`tournaments/${defaultClubInfo.clubKey}/${tournament?.tournamentId}/entryFee`]: entryFee,
-					[`tournaments/${defaultClubInfo.clubKey}/${tournament?.tournamentId}/multiversXTournamentId`]: lastTournamentId
-				};
-
-				update(dbRef(database), updateData)
-					.then(() => {
-						console.log("Updated successfully.");
-					})
-					.catch((error) => {
-						console.error("Error updating tournament:", error);
-					});
-			};
-			convertToXTournament().then(()=>{
-				getMyTournament();
-			});
+			getMyTournament();
 		}
 	}, [transactionSuccess]);
 
@@ -210,14 +264,15 @@ function TournamentPlayers(props) {
 								className="mt-5"
 							>
 								<MuiButton
-									color={'success'}
+									component={Link}
+									to={`/tournament-players/${tournamentId}`}
 									variant="text"
 									className="me-2"
 									style={{
-										borderBottom: ' 1px solid #66bb6a',
 										borderRadius: 0,
-										borderRight: 'none',
-										backgroundColor: 'transparent'
+										border: 'none',
+										backgroundColor: 'transparent',
+										color: 'white'
 									}}
 								>
 									Players
@@ -240,7 +295,6 @@ function TournamentPlayers(props) {
 									component={Link}
 									to={`/tournament-standings/${tournamentId}`}
 									variant="text"
-									className="me-2"
 									style={{
 										borderRadius: 0,
 										border: 'none',
@@ -254,6 +308,7 @@ function TournamentPlayers(props) {
 									component={Link}
 									to={`/tournament-join-requests/${tournamentId}`}
 									variant="text"
+									className="ms-2"
 									style={{
 										borderRadius: 0,
 										border: 'none',
@@ -264,15 +319,13 @@ function TournamentPlayers(props) {
 									Join Requests
 								</MuiButton>
 								<MuiButton
-									component={Link}
-									to={`/tournament-prizes/${tournamentId}`}
 									variant="text"
+									color="success"
 									className="ms-2"
 									style={{
+										borderBottom: '1px solid #66bb6a',
 										borderRadius: 0,
-										border: 'none',
 										backgroundColor: 'transparent',
-										color: 'white'
 									}}
 								>
 									Prizes
@@ -281,18 +334,22 @@ function TournamentPlayers(props) {
 						</div>
 					</div>
 
-					{!tournament?.multiversXTournamentId &&
 					<Row>
-						<Col xs={12} lg={{offset: 8, span: 4}} className="mt-3">
+						<Col xs={12} lg={{offset: 6, span: 3}} className="mt-3">
+							<button className="btn btn-outline-success b-r-xs btn-block btn-sm" onClick={() => sendTournamentPrizes()}>
+								Send Tournament Prizes
+							</button>
+						</Col>
+						<Col xs={12} lg={3} className="mt-3">
 							<button className="btn btn-outline-success b-r-xs btn-block btn-sm" onClick={openModal}>
-								Convert Into MultiversX Tournament
+								Add Tournament Winner
 							</button>
 						</Col>
 					</Row>
-					}
-					<div className="p-3 b-r-sm mt-2" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
-						<Typography variant="h6" className="text-center">Tournament Players</Typography>
-						{tournament?.players && tournament?.players.length > 0 ? (
+
+					<div className="p-3 b-r-sm mt-4" style={{backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))"}}>
+						<Typography variant="h6" className="text-center">Tournament Winners</Typography>
+						{winners && winners.length > 0 ? (
 							<TableContainer>
 								<Table sx={{ minWidth: 650 }} aria-label="simple table">
 									<TableHead>
@@ -301,10 +358,11 @@ function TournamentPlayers(props) {
 											<TableCell style={{color: '#66bb6a'}}>Avatar</TableCell>
 											<TableCell style={{color: '#66bb6a'}}>Name</TableCell>
 											<TableCell style={{color: '#66bb6a'}}>Elo</TableCell>
+											<TableCell style={{color: '#66bb6a'}}>Prize</TableCell>
 										</TableRow>
 									</TableHead>
 									<TableBody>
-										{tournament.players.map((player, index) => (
+										{winners.map((player, index) => (
 											<TableRow
 												key={index}
 												sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -325,13 +383,14 @@ function TournamentPlayers(props) {
 													{player.name}
 												</TableCell>
 												<TableCell>{player.elo}</TableCell>
+												<TableCell>{player.prize}</TableCell>
 											</TableRow>
 										))}
 									</TableBody>
 								</Table>
 							</TableContainer>
 						) : (
-							<div className="text-center align-content-center b-r-sm mt-5" style={{backgroundColor: "#2f2f2f", paddingTop: '20px', paddingBottom: '5px'}}><p>No players.</p></div>
+							<div className="text-center align-content-center b-r-sm mt-5" style={{backgroundColor: "#2f2f2f", paddingTop: '20px', paddingBottom: '5px'}}><p>No winners</p></div>
 						)}
 					</div>
 				</Col>
@@ -343,7 +402,7 @@ function TournamentPlayers(props) {
 					<Box
 						sx={{
 							position: 'absolute',
-							width: 500,
+							width: '50%',
 							backgroundColor: '#121212',
 							top: '50%',
 							left: '50%',
@@ -354,23 +413,43 @@ function TournamentPlayers(props) {
 							textAlign: 'center'
 						}}
 					>
-						<h3 className="mb-4">Convert into XTournament</h3>
-						<div className="mt-3">
-							<div className="mt-3">
-								<TextField
-									name="entryFee"
-									label="Entry Fee"
-									type="number"
-									value={tournamentFee}
-									onChange={handleChangeFee}
-									size="small"
-									style={{minWidth: '85%'}}
-								/>
-							</div>
+						<h3 className="mb-3">Add winner</h3>
+						<div className="mt-3" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+							{players ? (
+								<React.Fragment>
+									<div className="mt-2 mb-3">
+										<TextField
+											name="prize"
+											label="Prize"
+											type="number"
+											value={tournamentPrize}
+											onChange={handleChangePrize}
+											size="small"
+											style={{width: '40%'}}
+										/>
+									</div>
+									{players.map((player, index) => (
+										<div className="d-flex justify-content-between align-items-center border-bottom py-2 px-2" key={index}>
+											<div className="d-flex align-items-center">
+												{player.playerImage ? (
+													<Avatar aria-label="player" src={player.playerImage} sx={{ width: 45, height: 45 }} />
+												) : (
+													<Avatar aria-label="player" sx={{ width: 45, height: 45, backgroundColor: 'transparent' }}>
+														<AccountCircleIcon sx={{ width: 60, height: 60, color: 'white' }} />
+													</Avatar>
+												)}
+												<p className="m-0 ms-3">{player.name} ({player.elo})</p>
+											</div>
+											<button className="btn btn-sm btn-outline-success b-r-xs" onClick={() => addTournamentWinner(player.multiversXAddress)}>Add Winner</button>
+										</div>
+									))}
+								</React.Fragment>
+							) : (
+								<div className="text-center align-content-center b-r-sm mt-5" style={{ backgroundColor: "#2f2f2f", paddingTop: '20px', paddingBottom: '5px' }}>
+									<p>No eligible players.</p>
+								</div>
+							)}
 						</div>
-						<Button variant="contained" color="primary" className="mt-4 text-center btn btn-success b-r-xs" onClick={() => createXTournament()}>
-								Convert Tournament
-						</Button>
 					</Box>
 				</Fade>
 			</Modal>
@@ -378,4 +457,4 @@ function TournamentPlayers(props) {
 	);
 }
 
-export default TournamentPlayers;
+export default TournamentPrizes;

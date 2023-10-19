@@ -100,9 +100,9 @@ function TournamentRounds(props) {
 					if (result) {
 						roundsGamesResults.push({
 							result: result.result,
-							whitePlayerName: result.whitePlayer.name,
+							whitePlayerName: result.whitePlayer?.name,
 							whitePlayerImage: result.whitePlayer?.profilePictureUri ? await getDownloadURL(ref(storage, result.whitePlayer.profilePictureUri)) : null,
-							blackPlayerName: result.blackPlayer.name,
+							blackPlayerName: result.blackPlayer?.name,
 							blackPlayerImage: result.blackPlayer?.profilePictureUri ? await getDownloadURL(ref(storage, result.blackPlayer.profilePictureUri)) : null,
 						})
 					}
@@ -185,6 +185,7 @@ function TournamentRounds(props) {
 								<MuiButton
 									variant="text"
 									color={'success'}
+									className="me-2"
 									style={{
 										borderBottom: ' 1px solid #66bb6a',
 										borderRadius: 0,
@@ -198,7 +199,7 @@ function TournamentRounds(props) {
 									component={Link}
 									to={`/tournament-standings/${tournamentId}`}
 									variant="text"
-									className="ms-2"
+									className="me-2"
 									style={{
 										borderRadius: 0,
 										border: 'none',
@@ -207,6 +208,33 @@ function TournamentRounds(props) {
 									}}
 								>
 									Standings
+								</MuiButton>
+								<MuiButton
+									component={Link}
+									to={`/tournament-join-requests/${tournamentId}`}
+									variant="text"
+									style={{
+										borderRadius: 0,
+										border: 'none',
+										backgroundColor: 'transparent',
+										color: 'white'
+									}}
+								>
+									Join Requests
+								</MuiButton>
+								<MuiButton
+									component={Link}
+									to={`/tournament-prizes/${tournamentId}`}
+									variant="text"
+									className="ms-2"
+									style={{
+										borderRadius: 0,
+										border: 'none',
+										backgroundColor: 'transparent',
+										color: 'white'
+									}}
+								>
+									Prizes
 								</MuiButton>
 							</ButtonGroup>
 						</div>
