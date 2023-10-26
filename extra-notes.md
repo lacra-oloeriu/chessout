@@ -9,3 +9,9 @@
 }
 
 ```
+
+# info for Lacra
+- You can find snipets of code here: https://github.com/bogdan-marian/chessout-lite
+
+- you need to initialize security module. 
+- you work on chessout-app folder
