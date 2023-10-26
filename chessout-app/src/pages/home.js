@@ -6,7 +6,7 @@ import TournamentPost from "components/tournamentPost";
 import {firebaseApp} from "config/firebase";
 import {getDownloadURL, getStorage, ref} from "@firebase/storage";
 import ClubImage from 'assets/images/default_chess_club.jpg';
-import MenuItem from "@mui/material/MenuItem";
+//import MenuItem from "@mui/material/MenuItem";
 
 function Home(props) {
 	const storage = getStorage(firebaseApp);
@@ -267,7 +267,7 @@ function Home(props) {
 							))}
 						</Row>
 					) : (
-						<div className="text-center align-content-center b-r-sm mt-5" style={{backgroundColor: "#2f2f2f", paddingTop: '25px', paddingBottom: '10px'}}><p>No posts available.</p></div>
+						<div className="text-center align-content-center b-r-sm mt-5" style={{backgroundColor: "#2f2f2f", paddingTop: '25px', paddingBottom: '10px'}}><p>Loading.</p></div>
 					)}
 				</Col>
 			</Row>
